@@ -234,6 +234,15 @@ function getStandings() {
     });
 }
 
+function getGoalStandings() {
+  return getStandings().sort((a, b) => {
+    if (b.gd !== a.gd) return b.gd - a.gd;
+    if (b.gf !== a.gf) return b.gf - a.gf;
+    if (a.ga !== b.ga) return a.ga - b.ga;
+    return a.teamName.localeCompare(b.teamName);
+  });
+}
+
 function getPlayerTotals() {
   return state.data.players.map((player) => {
     const pointTeams = player.pointsTeams.map((team) => aggregateTeam(team.name, player.name));
@@ -301,6 +310,39 @@ function renderStandings() {
           <td>${row.gd > 0 ? "+" : ""}${row.gd}</td>
           <td>${row.penaltyBonus}</td>
         </tr>
+      `,
+    )
+    .join("");
+
+  renderGoalStandings();
+}
+
+function renderGoalStandings() {
+  const rows = getGoalStandings().filter((row) => state.ownerFilter === "all" || row.owner === state.ownerFilter);
+  const container = document.querySelector("#goal-standings");
+
+  container.innerHTML = rows
+    .map(
+      (row, index) => `
+        <article class="goal-row">
+          <div class="goal-rank">${index + 1}</div>
+          <div>
+            <h3>${teamLabel(row.teamName)}</h3>
+            <p class="muted"><span class="owner-cell">${ownerAvatar(row.owner)} ${row.owner}</span></p>
+          </div>
+          <div class="goal-stats">
+            <strong>${row.gd > 0 ? "+" : ""}${row.gd}</strong>
+            <span>GD</span>
+          </div>
+          <div class="goal-stats">
+            <strong>${row.gf}</strong>
+            <span>GF</span>
+          </div>
+          <div class="goal-stats">
+            <strong>${row.ga}</strong>
+            <span>GA</span>
+          </div>
+        </article>
       `,
     )
     .join("");

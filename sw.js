@@ -1,4 +1,4 @@
-const CACHE_NAME = "wc-score-v3";
+const CACHE_NAME = "wc-score-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
