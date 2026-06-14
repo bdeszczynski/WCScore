@@ -292,7 +292,11 @@ function renderScoreStrip() {
               ${ownerAvatar(player.name)}
               <h2>${player.name}</h2>
             </div>
-            <span class="pill">${leader.total === player.total ? "Leader" : `${leader.total - player.total} behind`}</span>
+            ${
+              leader.total === player.total
+                ? `<span class="pill leader-pill"><span class="leader-medal" aria-hidden="true"></span>Leader</span>`
+                : `<span class="pill">${leader.total - player.total} behind</span>`
+            }
           </div>
           <div class="score-total">${player.total}</div>
           <div class="score-breakdown" aria-label="${player.name} score breakdown">
