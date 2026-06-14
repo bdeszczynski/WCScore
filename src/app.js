@@ -238,10 +238,12 @@ function getPlayerTotals() {
   return state.data.players.map((player) => {
     const pointTeams = player.pointsTeams.map((team) => aggregateTeam(team.name, player.name));
     const teamPoints = pointTeams.reduce((sum, team) => sum + team.points, 0);
+    const matchesPlayed = pointTeams.reduce((sum, team) => sum + team.played, 0);
     const winnerPoints = player.winnerPicks.reduce((sum, team) => sum + winnerPickStatus(team.name).points, 0);
     return {
       name: player.name,
       teamPoints,
+      matchesPlayed,
       winnerPoints,
       total: teamPoints + winnerPoints,
     };
@@ -251,9 +253,13 @@ function getPlayerTotals() {
 function renderScoreStrip() {
   const totals = getPlayerTotals();
   const leader = [...totals].sort((a, b) => b.total - a.total)[0];
+  const displayTotals = [...totals].sort((a, b) => {
+    if (b.total !== a.total) return b.total - a.total;
+    return a.name.localeCompare(b.name);
+  });
   const container = document.querySelector("#score-strip");
 
-  container.innerHTML = totals
+  container.innerHTML = displayTotals
     .map(
       (player) => `
         <article class="score-card ${player.name.toLowerCase()}">
@@ -267,6 +273,7 @@ function renderScoreStrip() {
           <div class="score-total">${player.total}</div>
           <div class="score-breakdown">
             <span class="pill">${player.teamPoints} team pts</span>
+            <span class="pill">from ${player.matchesPlayed} matches</span>
             <span class="pill">${player.winnerPoints} winner pts</span>
           </div>
         </article>
