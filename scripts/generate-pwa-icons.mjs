@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { deflateSync } from "node:zlib";
 
 const outDir = new URL("../public/icons/", import.meta.url);
+const iconVersion = "v26";
 
 function crc32(buffer) {
   let crc = 0xffffffff;
@@ -134,5 +135,10 @@ await writeFile(new URL("icon-512.png", outDir), makeIcon(512));
 await writeFile(new URL("maskable-512.png", outDir), makeIcon(512, true));
 await writeFile(new URL("apple-touch-icon.png", outDir), makeIcon(180));
 await writeFile(new URL("page-ball.png", outDir), makeIcon(256));
+await writeFile(new URL(`icon-192-${iconVersion}.png`, outDir), makeIcon(192));
+await writeFile(new URL(`icon-512-${iconVersion}.png`, outDir), makeIcon(512));
+await writeFile(new URL(`maskable-512-${iconVersion}.png`, outDir), makeIcon(512, true));
+await writeFile(new URL(`apple-touch-icon-${iconVersion}.png`, outDir), makeIcon(180));
+await writeFile(new URL(`page-ball-${iconVersion}.png`, outDir), makeIcon(256));
 
 console.log("Generated PWA icons");

@@ -1,15 +1,15 @@
-const CACHE_NAME = "wc-score-v25";
+const CACHE_NAME = "wc-score-v26";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./src/app.js",
   "./manifest.webmanifest",
-  "./public/icons/icon-192.png",
-  "./public/icons/icon-512.png",
-  "./public/icons/maskable-512.png",
-  "./public/icons/apple-touch-icon.png",
-  "./public/icons/page-ball.png",
+  "./public/icons/icon-192-v26.png",
+  "./public/icons/icon-512-v26.png",
+  "./public/icons/maskable-512-v26.png",
+  "./public/icons/apple-touch-icon-v26.png",
+  "./public/icons/page-ball-v26.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -35,7 +35,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.endsWith("/public/data/world-cup.json")) {
+  if (url.pathname.endsWith("/public/data/world-cup.json") || url.pathname.includes("/public/icons/")) {
     event.respondWith(networkFirst(event.request));
     return;
   }
