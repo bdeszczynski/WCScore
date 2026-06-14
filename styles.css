@@ -319,9 +319,43 @@ h3 {
 }
 
 .score-breakdown {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+}
+
+.stat-cell {
+  min-height: 68px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.stat-cell span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.stat-cell strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.stat-cell small {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.stat-cell.primary {
+  background: #fff;
 }
 
 .selected-team-row {
@@ -708,6 +742,10 @@ select {
   .winner-card,
   .match-card {
     padding: 13px;
+  }
+
+  .score-breakdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .match-card {

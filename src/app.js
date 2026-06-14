@@ -295,10 +295,31 @@ function renderScoreStrip() {
             <span class="pill">${leader.total === player.total ? "Leader" : `${leader.total - player.total} behind`}</span>
           </div>
           <div class="score-total">${player.total}</div>
-          <div class="score-breakdown">
-            <span class="pill">${player.teamPoints} team pts (Goals For: ${player.gf}, Goals Against: ${player.ga}, Goal Difference: ${player.gd > 0 ? "+" : ""}${player.gd})</span>
-            <span class="pill">from ${player.matchesPlayed} matches · ${player.groupMatchesRemaining} group matches to go</span>
-            <span class="pill">${player.winnerPoints} winner pts</span>
+          <div class="score-breakdown" aria-label="${player.name} score breakdown">
+            <div class="stat-cell primary">
+              <span>Team points</span>
+              <strong>${player.teamPoints} <small>(${player.gd > 0 ? "+" : ""}${player.gd})</small></strong>
+            </div>
+            <div class="stat-cell">
+              <span>Played</span>
+              <strong>${player.matchesPlayed}</strong>
+            </div>
+            <div class="stat-cell">
+              <span>Group left</span>
+              <strong>${player.groupMatchesRemaining}</strong>
+            </div>
+            <div class="stat-cell">
+              <span>Goals for</span>
+              <strong>${player.gf}</strong>
+            </div>
+            <div class="stat-cell">
+              <span>Goals against</span>
+              <strong>${player.ga}</strong>
+            </div>
+            <div class="stat-cell">
+              <span>Winner pts</span>
+              <strong>${player.winnerPoints}</strong>
+            </div>
           </div>
           <div class="selected-team-row" aria-label="${player.name} selected teams">
             ${player.pointsTeams.map((teamName) => `<span>${teamLabel(teamName)}</span>`).join("")}
