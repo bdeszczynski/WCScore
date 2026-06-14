@@ -3,6 +3,7 @@
 Static score tracker for Bruno vs Sara. It uses no database and no authentication:
 
 - `index.html`, `styles.css`, and `src/app.js` render the dashboard.
+- `manifest.webmanifest`, `sw.js`, and `public/icons/` make it installable as a PWA.
 - `public/data/world-cup.json` is the only state file.
 - `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 08:00 and 20:00 Dubai time.
 - GitHub Pages deploys the repo as a static site and redeploys when GitHub Actions commits refreshed data.
@@ -52,6 +53,7 @@ Optional GitHub variable:
 
 ```bash
 npm run check
+npm run icons
 npm run update:data
 npm run serve
 ```

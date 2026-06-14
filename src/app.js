@@ -4,9 +4,44 @@ const state = {
   data: null,
   ownerFilter: "all",
   matchFilter: "tracked",
+  activeView: "score",
 };
 
 const selectedTeamNames = new Set();
+const COUNTRY_CODES = {
+  Algeria: "DZ",
+  Argentina: "AR",
+  Australia: "AU",
+  Belgium: "BE",
+  "Bosnia and Herzegovina": "BA",
+  Brazil: "BR",
+  Canada: "CA",
+  Colombia: "CO",
+  Czechia: "CZ",
+  "DR Congo": "CD",
+  Ecuador: "EC",
+  Egypt: "EG",
+  France: "FR",
+  Haiti: "HT",
+  Iran: "IR",
+  Iraq: "IQ",
+  Japan: "JP",
+  Mexico: "MX",
+  Morocco: "MA",
+  Netherlands: "NL",
+  "New Zealand": "NZ",
+  Norway: "NO",
+  Portugal: "PT",
+  Qatar: "QA",
+  Scotland: "GB-SCT",
+  Senegal: "SN",
+  "South Africa": "ZA",
+  "South Korea": "KR",
+  Sweden: "SE",
+  Switzerland: "CH",
+  Tunisia: "TN",
+  Uzbekistan: "UZ",
+};
 
 const fmtDate = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -36,6 +71,49 @@ function normalizeTeam(name) {
 
 function isSameTeam(a, b) {
   return normalizeTeam(a) === normalizeTeam(b);
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[char];
+  });
+}
+
+function flagForTeam(teamName) {
+  const code = COUNTRY_CODES[teamName];
+  if (!code) return "";
+  if (code === "GB-SCT") return "🏴";
+  return code
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+}
+
+function teamLabel(teamName, tracked = false) {
+  const flag = flagForTeam(teamName);
+  return `
+    <span class="team-label">
+      ${tracked ? `<span class="tracked-star" aria-hidden="true">★</span>` : ""}
+      ${flag ? `<span class="flag-icon" aria-hidden="true">${flag}</span>` : ""}
+      <span>${escapeHtml(teamName)}</span>
+    </span>
+  `;
+}
+
+function ownerAvatar(owner) {
+  const kind = owner === "Sara" ? "sara" : "bruno";
+  const label = owner === "Sara" ? "Sara icon" : "Bruno icon";
+  return `
+    <span class="owner-icon ${kind}" role="img" aria-label="${label}">
+      <span class="hair"></span>
+      <span class="face"></span>
+    </span>
+  `;
 }
 
 function stageKind(stage = "") {
@@ -180,7 +258,10 @@ function renderScoreStrip() {
       (player) => `
         <article class="score-card ${player.name.toLowerCase()}">
           <div class="score-head">
-            <h2>${player.name}</h2>
+            <div class="owner-title">
+              ${ownerAvatar(player.name)}
+              <h2>${player.name}</h2>
+            </div>
             <span class="pill">${leader.total === player.total ? "Leader" : `${leader.total - player.total} behind`}</span>
           </div>
           <div class="score-total">${player.total}</div>
@@ -202,8 +283,8 @@ function renderStandings() {
     .map(
       (row) => `
         <tr>
-          <td><span class="team-name"><span class="owner-dot ${row.owner}"></span>${row.teamName}</span></td>
-          <td>${row.owner}</td>
+          <td>${teamLabel(row.teamName)}</td>
+          <td><span class="owner-cell">${ownerAvatar(row.owner)} ${row.owner}</span></td>
           <td>${row.points}</td>
           <td>${row.win}</td>
           <td>${row.draw}</td>
@@ -231,7 +312,7 @@ function renderOdds() {
       return `
         <article class="odds-row">
           <div>
-            <h3>${pick.name}</h3>
+            <h3>${teamLabel(pick.name)}</h3>
             <p class="muted">${pick.owner}${odds?.bookmaker ? ` · ${odds.bookmaker}` : ""}</p>
           </div>
           <div class="odds-price">
@@ -254,7 +335,10 @@ function renderWinnerPicks() {
       (pick) => `
         <article class="winner-card ${pick.owner}">
           <p class="eyebrow">${pick.owner}</p>
-          <h3>${pick.name}</h3>
+          <div class="owner-title compact">
+            ${ownerAvatar(pick.owner)}
+            <h3>${teamLabel(pick.name)}</h3>
+          </div>
           <div class="winner-points">
             <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
             <span class="pill">${pick.status.wonCup ? "Champion +7" : "Champion pending"}</span>
@@ -305,11 +389,11 @@ function renderMatches() {
         <article class="match-card">
           <div class="match-teams">
             <div class="match-team">
-              <strong>${homeTracked ? "★ " : ""}${match.homeTeam}</strong>
+              <strong>${teamLabel(match.homeTeam, homeTracked)}</strong>
               <span class="match-score">${isFinished(match) ? match.homeGoals : ""}</span>
             </div>
             <div class="match-team">
-              <strong>${awayTracked ? "★ " : ""}${match.awayTeam}</strong>
+              <strong>${teamLabel(match.awayTeam, awayTracked)}</strong>
               <span class="match-score">${isFinished(match) ? match.awayGoals : ""}</span>
             </div>
           </div>
@@ -331,6 +415,12 @@ function renderMeta() {
 }
 
 function bindEvents() {
+  document.querySelectorAll("[data-view-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      switchView(button.dataset.viewTab);
+    });
+  });
+
   document.querySelectorAll("[data-owner-filter]").forEach((button) => {
     button.addEventListener("click", () => {
       state.ownerFilter = button.dataset.ownerFilter;
@@ -342,6 +432,20 @@ function bindEvents() {
   document.querySelector("#match-filter").addEventListener("change", (event) => {
     state.matchFilter = event.target.value;
     renderMatches();
+  });
+}
+
+function switchView(view) {
+  state.activeView = view;
+  document.querySelectorAll("[data-view-tab]").forEach((button) => {
+    const active = button.dataset.viewTab === view;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  document.querySelectorAll("[data-view]").forEach((panel) => {
+    const active = panel.dataset.view === view;
+    panel.classList.toggle("active", active);
+    panel.hidden = !active;
   });
 }
 
@@ -358,7 +462,16 @@ loadData()
   .then(() => {
     bindEvents();
     render();
+    registerServiceWorker();
   })
   .catch((error) => {
     document.querySelector("#last-updated").textContent = error.message;
   });
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  const workerUrl = new URL("../sw.js", import.meta.url);
+  navigator.serviceWorker.register(workerUrl).catch((error) => {
+    console.warn("Service worker registration failed", error);
+  });
+}
