@@ -376,7 +376,7 @@
   ],
   "odds": {
     "source": "Oddschecker World Cup Winner odds",
-    "updatedAt": "2026-06-14T12:40:40.000Z",
+    "updatedAt": "2026-06-14T13:26:21.000Z",
     "teams": [
       {
         "rank": 1,
@@ -411,6 +411,41 @@
         "team": "Brazil",
         "decimal": 12.8,
         "fractional": "59/5",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 6,
+        "team": "Argentina",
+        "decimal": 12,
+        "fractional": "11",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 7,
+        "team": "Germany",
+        "decimal": 18.1,
+        "fractional": "171/10",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 8,
+        "team": "Netherlands",
+        "decimal": 21,
+        "fractional": "20",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 9,
+        "team": "Morocco",
+        "decimal": 43,
+        "fractional": "42",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 10,
+        "team": "Norway",
+        "decimal": 43,
+        "fractional": "42",
         "bookmaker": "Oddschecker best public price"
       }
     ]

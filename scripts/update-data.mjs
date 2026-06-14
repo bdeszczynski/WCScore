@@ -153,7 +153,7 @@ function parseOddscheckerToken(line) {
   return { token, decimal };
 }
 
-function extractOddscheckerRows(html, limit = 5) {
+function extractOddscheckerRows(html, limit = 10) {
   const lines = htmlToLines(html);
   const starts = lines.map((line, index) => (line === "QuickBet" ? index : -1)).filter((index) => index >= 0);
 
@@ -410,7 +410,7 @@ async function fetchOddscheckerOdds() {
     if (!response.ok) throw new Error(`Oddschecker request failed: ${response.status}`);
 
     const rows = extractOddscheckerRows(await response.text());
-    if (rows.length < 5) throw new Error(`Oddschecker scrape found ${rows.length} usable rows`);
+    if (rows.length < 10) throw new Error(`Oddschecker scrape found ${rows.length} usable rows`);
 
     return {
       source: "Oddschecker World Cup Winner odds",
@@ -473,7 +473,7 @@ async function main() {
   }
 
   let freshOdds = await fetchOddscheckerOdds();
-  if (!freshOdds && (current.odds?.teams || []).length < 5) {
+  if (!freshOdds && (current.odds?.teams || []).length < 10) {
     freshOdds = await fetchPublicArticleOdds();
   }
   const odds = freshOdds || current.odds;

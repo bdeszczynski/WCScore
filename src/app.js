@@ -235,8 +235,13 @@ function getTeamOdds(teamName) {
   return state.data.odds?.teams?.find((entry) => isSameTeam(entry.team, teamName));
 }
 
-function getWinnerPickOwner(teamName) {
-  return state.data.players.find((player) => player.winnerPicks.some((team) => isSameTeam(team.name, teamName)))?.name;
+function getSelectedTeamOwner(teamName) {
+  return state.data.players.find((player) => {
+    return (
+      player.pointsTeams.some((team) => isSameTeam(team.name, teamName)) ||
+      player.winnerPicks.some((team) => isSameTeam(team.name, teamName))
+    );
+  })?.name;
 }
 
 function getStandings() {
@@ -409,13 +414,13 @@ function renderOdds() {
       if (rankA !== rankB) return rankA - rankB;
       return Number(a.decimal) - Number(b.decimal);
     })
-    .slice(0, 5);
+    .slice(0, 10);
 
   document.querySelector("#odds-list").innerHTML = topOdds
     .map((odds, index) => {
       const decimal = odds?.decimal ? Number(odds.decimal) : null;
       const implied = decimal ? `${((1 / decimal) * 100).toFixed(1)}% implied` : "No live odds";
-      const owner = getWinnerPickOwner(odds.team);
+      const owner = getSelectedTeamOwner(odds.team);
       return `
         <article class="odds-row">
           <div class="odds-main">
@@ -425,7 +430,7 @@ function renderOdds() {
               <p class="muted">${odds?.bookmaker || state.data.odds?.source || "Public odds"}</p>
             </div>
           </div>
-          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner} pick</span></div>` : ""}
+          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner} selected</span></div>` : ""}
           <div class="odds-price">
             <strong>${decimal ? decimal.toFixed(2) : "—"}</strong>
             <span class="muted">${implied}</span>
