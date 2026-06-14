@@ -1,3 +1,14 @@
+import {
+  aggregateTeam as aggregateTeamForMatches,
+  bonusStatus as bonusStatusForMatches,
+  countRemainingGroupMatches as countRemainingGroupMatchesForMatches,
+  getPlayerBonusSelections,
+  isFinished,
+  isSameTeam,
+  normalizeTeam,
+  stageKind,
+} from "./scoring.js";
+
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
 
 const state = {
@@ -65,18 +76,6 @@ async function loadData() {
   }
 }
 
-function normalizeTeam(name) {
-  return String(name || "")
-    .trim()
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, " ");
-}
-
-function isSameTeam(a, b) {
-  return normalizeTeam(a) === normalizeTeam(b);
-}
-
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => {
     return {
@@ -121,131 +120,20 @@ function ownerAvatar(owner) {
   `;
 }
 
-function stageKind(stage = "") {
-  const value = stage.toLowerCase();
-  if (value.includes("group")) return "group";
-  if (value.includes("semi")) return "semi";
-  if (value.includes("final") && !value.includes("semi")) return "final";
-  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) {
-    return "knockout";
-  }
-  return "unknown";
-}
-
-function isFinished(match) {
-  return match.status === "finished" && Number.isFinite(match.homeGoals) && Number.isFinite(match.awayGoals);
-}
-
-function scoreMatchForTeam(match, teamName) {
-  if (!isFinished(match)) return null;
-  const isHome = isSameTeam(match.homeTeam, teamName);
-  const isAway = isSameTeam(match.awayTeam, teamName);
-  if (!isHome && !isAway) return null;
-
-  const gf = isHome ? match.homeGoals : match.awayGoals;
-  const ga = isHome ? match.awayGoals : match.homeGoals;
-  const penaltyLost =
-    stageKind(match.stage) !== "group" &&
-    match.winnerAfterPenalties &&
-    !isSameTeam(match.winnerAfterPenalties, teamName);
-
-  let points = 0;
-  let win = 0;
-  let draw = 0;
-  let loss = 0;
-  let penaltyBonus = 0;
-
-  if (gf > ga) {
-    points = 3;
-    win = 1;
-  } else if (gf === ga) {
-    points = 1;
-    draw = 1;
-  } else {
-    loss = 1;
-  }
-
-  if (penaltyLost) {
-    points += 1;
-    penaltyBonus = 1;
-  }
-
-  return { points, win, draw, loss, gf, ga, penaltyBonus };
+function ownerClass(owner) {
+  return owner === "Sara" ? "Sara" : "Bruno";
 }
 
 function aggregateTeam(teamName, owner) {
-  const totals = {
-    teamName,
-    owner,
-    points: 0,
-    win: 0,
-    draw: 0,
-    loss: 0,
-    gf: 0,
-    ga: 0,
-    penaltyBonus: 0,
-    played: 0,
-  };
-
-  for (const match of state.data.matches) {
-    const result = scoreMatchForTeam(match, teamName);
-    if (!result) continue;
-    totals.points += result.points;
-    totals.win += result.win;
-    totals.draw += result.draw;
-    totals.loss += result.loss;
-    totals.gf += result.gf;
-    totals.ga += result.ga;
-    totals.penaltyBonus += result.penaltyBonus;
-    totals.played += 1;
-  }
-
-  totals.gd = totals.gf - totals.ga;
-  return totals;
+  return aggregateTeamForMatches(state.data.matches, teamName, owner);
 }
 
 function countRemainingGroupMatches(teamName) {
-  return state.data.matches.filter((match) => {
-    if (isFinished(match) || stageKind(match.stage) !== "group") return false;
-    return isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName);
-  }).length;
+  return countRemainingGroupMatchesForMatches(state.data.matches, teamName);
 }
 
 function bonusStatus(teamName) {
-  const semiReached = state.data.matches.some((match) => {
-    const kind = stageKind(match.stage);
-    return (kind === "semi" || kind === "final") && (isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName));
-  });
-
-  const final = state.data.matches.find((match) => stageKind(match.stage) === "final" && isFinished(match));
-  const champion =
-    final &&
-    (final.winnerAfterPenalties ||
-      (final.homeGoals > final.awayGoals ? final.homeTeam : final.awayGoals > final.homeGoals ? final.awayTeam : ""));
-
-  const wonCup = champion && isSameTeam(champion, teamName);
-  return {
-    semiReached,
-    wonCup,
-    points: (semiReached ? 3 : 0) + (wonCup ? 7 : 0),
-  };
-}
-
-function getPlayerBonusSelections(player) {
-  const selections = new Map();
-  for (const team of player.pointsTeams) {
-    selections.set(normalizeTeam(team.name), { name: team.name, roles: ["points team"] });
-  }
-  for (const team of player.winnerPicks) {
-    const key = normalizeTeam(team.name);
-    const current = selections.get(key);
-    if (current) {
-      current.roles.push("winner pick");
-    } else {
-      selections.set(key, { name: team.name, roles: ["winner pick"] });
-    }
-  }
-  return [...selections.values()];
+  return bonusStatusForMatches(state.data.matches, teamName);
 }
 
 function getTeamOdds(teamName) {
@@ -317,11 +205,11 @@ function renderScoreStrip() {
   container.innerHTML = displayTotals
     .map(
       (player) => `
-        <article class="score-card ${player.name.toLowerCase()}">
+        <article class="score-card ${ownerClass(player.name).toLowerCase()}">
           <div class="score-head">
             <div class="owner-title">
               ${ownerAvatar(player.name)}
-              <h2>${player.name}</h2>
+              <h2>${escapeHtml(player.name)}</h2>
             </div>
             ${
               leader.total === player.total
@@ -330,7 +218,7 @@ function renderScoreStrip() {
             }
           </div>
           <div class="score-total">${player.total}</div>
-          <div class="score-breakdown" aria-label="${player.name} score breakdown">
+          <div class="score-breakdown" aria-label="${escapeHtml(player.name)} score breakdown">
             <div class="stat-cell primary">
               <span>Team points</span>
               <strong>${player.teamPoints} <small>(Goal diff: ${player.gd > 0 ? "+" : ""}${player.gd})</small></strong>
@@ -356,7 +244,7 @@ function renderScoreStrip() {
               <strong>${player.bonusPoints}</strong>
             </div>
           </div>
-          <div class="selected-team-row" aria-label="${player.name} selected teams">
+          <div class="selected-team-row" aria-label="${escapeHtml(player.name)} selected teams">
             ${player.pointsTeams.map((teamName) => `<span>${teamLabel(teamName)}</span>`).join("")}
           </div>
         </article>
@@ -374,7 +262,7 @@ function renderStandings() {
       (row) => `
         <tr>
           <td>${teamLabel(row.teamName)}</td>
-          <td><span class="owner-cell">${ownerAvatar(row.owner)} ${row.owner}</span></td>
+          <td><span class="owner-cell">${ownerAvatar(row.owner)} ${escapeHtml(row.owner)}</span></td>
           <td>${row.points}</td>
           <td>${row.win}</td>
           <td>${row.draw}</td>
@@ -402,7 +290,7 @@ function renderGoalStandings() {
           <div class="goal-rank">${index + 1}</div>
           <div>
             <h3>${teamLabel(row.teamName)}</h3>
-            <p class="muted"><span class="owner-cell">${ownerAvatar(row.owner)} ${row.owner}</span></p>
+            <p class="muted"><span class="owner-cell">${ownerAvatar(row.owner)} ${escapeHtml(row.owner)}</span></p>
           </div>
           <div class="goal-stats">
             <strong>${row.gd > 0 ? "+" : ""}${row.gd}</strong>
@@ -444,10 +332,10 @@ function renderOdds() {
             <div class="odds-rank">${index + 1}</div>
             <div>
               <h3>${teamLabel(odds.team)}</h3>
-              <p class="muted">${odds?.bookmaker || state.data.odds?.source || "Public odds"}</p>
+              <p class="muted">${escapeHtml(odds?.bookmaker || state.data.odds?.source || "Public odds")}</p>
             </div>
           </div>
-          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner} selected</span></div>` : ""}
+          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${escapeHtml(owner)} selected</span></div>` : ""}
           <div class="odds-price">
             <strong>${decimal ? decimal.toFixed(2) : "—"}</strong>
             <span class="muted">${implied}</span>
@@ -463,11 +351,11 @@ function renderWinnerPicks() {
     .map((player) => {
       const picks = getPlayerBonusSelections(player).map((team) => ({ ...team, status: bonusStatus(team.name) }));
       return `
-        <section class="bonus-column ${player.name}" aria-label="${player.name} bonus teams">
+        <section class="bonus-column ${ownerClass(player.name)}" aria-label="${escapeHtml(player.name)} bonus teams">
           <div class="bonus-column-head">
             <div class="owner-title compact">
               ${ownerAvatar(player.name)}
-              <h3>${player.name}</h3>
+              <h3>${escapeHtml(player.name)}</h3>
             </div>
             <span class="pill">${picks.reduce((sum, pick) => sum + pick.status.points, 0)} pts</span>
           </div>
@@ -475,10 +363,10 @@ function renderWinnerPicks() {
             ${picks
               .map(
                 (pick) => `
-                  <article class="winner-card ${player.name}">
+                  <article class="winner-card ${ownerClass(player.name)}">
                     <div>
                       <h3>${teamLabel(pick.name)}</h3>
-                      <p class="muted bonus-role">${pick.roles.join(" + ")}</p>
+                      <p class="muted bonus-role">${escapeHtml(pick.roles.join(" + "))}</p>
                     </div>
                     <div class="winner-points">
                       <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
@@ -514,7 +402,7 @@ function getVisibleMatches() {
 function formatKickoff(match) {
   if (!match.kickoff) return "Time TBC";
   const date = new Date(match.kickoff);
-  if (Number.isNaN(date.getTime())) return match.kickoff;
+  if (Number.isNaN(date.getTime())) return escapeHtml(match.kickoff);
   return fmtDate.format(date);
 }
 
@@ -544,9 +432,9 @@ function renderMatches() {
             </div>
           </div>
           <div class="match-meta">
-            <div>${match.stage || "Stage TBC"}</div>
+            <div>${escapeHtml(match.stage || "Stage TBC")}</div>
             <div>${isFinished(match) ? score : formatKickoff(match)}</div>
-            ${match.winnerAfterPenalties ? `<div>${match.winnerAfterPenalties} won pens</div>` : ""}
+            ${match.winnerAfterPenalties ? `<div>${escapeHtml(match.winnerAfterPenalties)} won pens</div>` : ""}
           </div>
         </article>
       `;

@@ -1,0 +1,138 @@
+export function normalizeTeam(name) {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ");
+}
+
+export function isSameTeam(a, b) {
+  return normalizeTeam(a) === normalizeTeam(b);
+}
+
+export function stageKind(stage = "") {
+  const value = String(stage).toLowerCase();
+  if (value.includes("group")) return "group";
+  if (value.includes("semi")) return "semi";
+  if (value.includes("final") && !value.includes("semi")) return "final";
+  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) {
+    return "knockout";
+  }
+  return "unknown";
+}
+
+export function isFinished(match) {
+  return match.status === "finished" && Number.isFinite(match.homeGoals) && Number.isFinite(match.awayGoals);
+}
+
+export function scoreMatchForTeam(match, teamName) {
+  if (!isFinished(match)) return null;
+  const isHome = isSameTeam(match.homeTeam, teamName);
+  const isAway = isSameTeam(match.awayTeam, teamName);
+  if (!isHome && !isAway) return null;
+
+  const gf = isHome ? match.homeGoals : match.awayGoals;
+  const ga = isHome ? match.awayGoals : match.homeGoals;
+  const penaltyLost =
+    stageKind(match.stage) !== "group" &&
+    match.winnerAfterPenalties &&
+    !isSameTeam(match.winnerAfterPenalties, teamName);
+
+  let points = 0;
+  let win = 0;
+  let draw = 0;
+  let loss = 0;
+  let penaltyBonus = 0;
+
+  if (gf > ga) {
+    points = 3;
+    win = 1;
+  } else if (gf === ga) {
+    points = 1;
+    draw = 1;
+  } else {
+    loss = 1;
+  }
+
+  if (penaltyLost) {
+    points += 1;
+    penaltyBonus = 1;
+  }
+
+  return { points, win, draw, loss, gf, ga, penaltyBonus };
+}
+
+export function aggregateTeam(matches, teamName, owner) {
+  const totals = {
+    teamName,
+    owner,
+    points: 0,
+    win: 0,
+    draw: 0,
+    loss: 0,
+    gf: 0,
+    ga: 0,
+    penaltyBonus: 0,
+    played: 0,
+  };
+
+  for (const match of matches) {
+    const result = scoreMatchForTeam(match, teamName);
+    if (!result) continue;
+    totals.points += result.points;
+    totals.win += result.win;
+    totals.draw += result.draw;
+    totals.loss += result.loss;
+    totals.gf += result.gf;
+    totals.ga += result.ga;
+    totals.penaltyBonus += result.penaltyBonus;
+    totals.played += 1;
+  }
+
+  totals.gd = totals.gf - totals.ga;
+  return totals;
+}
+
+export function countRemainingGroupMatches(matches, teamName) {
+  return matches.filter((match) => {
+    if (isFinished(match) || stageKind(match.stage) !== "group") return false;
+    return isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName);
+  }).length;
+}
+
+export function bonusStatus(matches, teamName) {
+  const semiReached = matches.some((match) => {
+    const kind = stageKind(match.stage);
+    return (kind === "semi" || kind === "final") && (isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName));
+  });
+
+  const final = matches.find((match) => stageKind(match.stage) === "final" && isFinished(match));
+  const champion =
+    final &&
+    (final.winnerAfterPenalties ||
+      (final.homeGoals > final.awayGoals ? final.homeTeam : final.awayGoals > final.homeGoals ? final.awayTeam : ""));
+
+  const wonCup = Boolean(champion && isSameTeam(champion, teamName));
+  return {
+    semiReached,
+    wonCup,
+    points: (semiReached ? 3 : 0) + (wonCup ? 7 : 0),
+  };
+}
+
+export function getPlayerBonusSelections(player) {
+  const selections = new Map();
+  for (const team of player.pointsTeams) {
+    selections.set(normalizeTeam(team.name), { name: team.name, roles: ["points team"] });
+  }
+  for (const team of player.winnerPicks) {
+    const key = normalizeTeam(team.name);
+    const current = selections.get(key);
+    if (current) {
+      current.roles.push("winner pick");
+    } else {
+      selections.set(key, { name: team.name, roles: ["winner pick"] });
+    }
+  }
+  return [...selections.values()];
+}
