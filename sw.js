@@ -1,4 +1,4 @@
-const CACHE_NAME = "wc-score-v22";
+const CACHE_NAME = "wc-score-v24";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const APP_SHELL = [
   "./public/icons/icon-512.png",
   "./public/icons/maskable-512.png",
   "./public/icons/apple-touch-icon.png",
+  "./public/icons/page-ball.png",
 ];
 
 self.addEventListener("install", (event) => {

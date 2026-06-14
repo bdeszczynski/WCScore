@@ -11,17 +11,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>World Cup Challenge Score</title>
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" href="public/icons/icon-192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="public/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=22" />
+    <link rel="icon" href="public/icons/icon-192.png?v=24" sizes="192x192" />
+    <link rel="apple-touch-icon" href="public/icons/apple-touch-icon.png?v=24" />
+    <link rel="stylesheet" href="styles.css?v=24" />
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
-        <section>
-          <p class="eyebrow">Bruno vs Sara</p>
-          <h1>World Cup challenge score</h1>
-          <p class="muted" id="last-updated">Loading tracker...</p>
+        <section class="brand-lockup">
+          <img class="app-mark" src="public/icons/page-ball.png?v=24" alt="" width="96" height="96" />
+          <div>
+            <p class="eyebrow">Bruno vs Sara</p>
+            <h1>World Cup challenge score</h1>
+            <p class="muted" id="last-updated">Loading tracker...</p>
+          </div>
         </section>
         <details class="rules-tab">
           <summary>Rules</summary>
@@ -132,6 +135,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=22"></script>
+    <script type="module" src="src/app.js?v=24"></script>
   </body>
 </html>

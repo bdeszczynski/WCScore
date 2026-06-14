@@ -459,28 +459,40 @@ function renderOdds() {
 }
 
 function renderWinnerPicks() {
-  const picks = state.data.players.flatMap((player) =>
-    getPlayerBonusSelections(player).map((team) => ({ ...team, owner: player.name, status: bonusStatus(team.name) })),
-  );
-
-  document.querySelector("#winner-picks").innerHTML = picks
-    .map(
-      (pick) => `
-        <article class="winner-card ${pick.owner}">
-          <p class="eyebrow">${pick.owner}</p>
-          <div class="owner-title compact">
-            ${ownerAvatar(pick.owner)}
-            <h3>${teamLabel(pick.name)}</h3>
+  document.querySelector("#winner-picks").innerHTML = state.data.players
+    .map((player) => {
+      const picks = getPlayerBonusSelections(player).map((team) => ({ ...team, status: bonusStatus(team.name) }));
+      return `
+        <section class="bonus-column ${player.name}" aria-label="${player.name} bonus teams">
+          <div class="bonus-column-head">
+            <div class="owner-title compact">
+              ${ownerAvatar(player.name)}
+              <h3>${player.name}</h3>
+            </div>
+            <span class="pill">${picks.reduce((sum, pick) => sum + pick.status.points, 0)} pts</span>
           </div>
-          <p class="muted bonus-role">${pick.roles.join(" + ")}</p>
-          <div class="winner-points">
-            <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
-            <span class="pill">${pick.status.wonCup ? "Champion +7" : "Champion pending"}</span>
-            <span class="pill">${pick.status.points} pts</span>
+          <div class="bonus-list">
+            ${picks
+              .map(
+                (pick) => `
+                  <article class="winner-card ${player.name}">
+                    <div>
+                      <h3>${teamLabel(pick.name)}</h3>
+                      <p class="muted bonus-role">${pick.roles.join(" + ")}</p>
+                    </div>
+                    <div class="winner-points">
+                      <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
+                      <span class="pill">${pick.status.wonCup ? "Champion +7" : "Champion pending"}</span>
+                      <span class="pill">${pick.status.points} pts</span>
+                    </div>
+                  </article>
+                `,
+              )
+              .join("")}
           </div>
-        </article>
-      `,
-    )
+        </section>
+      `;
+    })
     .join("");
 }
 

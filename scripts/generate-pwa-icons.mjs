@@ -58,79 +58,69 @@ function paint(pixels, size, x, y, color) {
   pixels[i + 3] = color[3] ?? 255;
 }
 
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function angleDiff(a, b) {
+  let diff = a - b;
+  while (diff > Math.PI) diff -= Math.PI * 2;
+  while (diff < -Math.PI) diff += Math.PI * 2;
+  return diff;
+}
+
+function inBlade(angle, radius, direction, width = 0.18) {
+  const curve = direction + (radius - 0.4) * 1.25;
+  return radius > 0.18 && radius < 0.92 && Math.abs(angleDiff(angle, curve)) < width + radius * 0.08;
+}
+
 function makeIcon(size, maskable = false) {
   const pixels = Buffer.alloc(size * size * 4);
   const center = size / 2;
-  const safe = maskable ? size * 0.2 : size * 0.08;
-  const gold = [219, 166, 54, 255];
-  const goldDark = [164, 108, 28, 255];
-  const goldLight = [252, 219, 120, 255];
-  const cream = [250, 247, 238, 255];
-  const ink = [20, 28, 24, 255];
+  const cy = size * 0.47;
+  const safe = maskable ? size * 0.22 : size * 0.1;
+  const radius = size * 0.5 - safe;
+  const red = [226, 35, 26, 255];
+  const green = [28, 218, 58, 255];
+  const gold = [222, 154, 44, 255];
+  const navy = [15, 28, 62, 255];
+  const black = [23, 30, 25, 255];
 
   for (let y = 0; y < size; y += 1) {
     for (let x = 0; x < size; x += 1) {
-      const i = (y * size + x) * 4;
-      const dist = Math.hypot(x - center, y - center) / center;
-      const shade = Math.min(1, dist * 0.62);
-      pixels[i] = blend(18, 9, shade);
-      pixels[i + 1] = blend(104, 65, shade);
-      pixels[i + 2] = blend(91, 80, shade);
-      pixels[i + 3] = 255;
+      paint(pixels, size, x, y, [255, 255, 255, 255]);
 
-      if (x > size * 0.62 && y < size * 0.4) {
-        pixels[i] = 176;
-        pixels[i + 1] = 60;
-        pixels[i + 2] = 43;
+      const shadow = ((x - center) / (radius * 0.72)) ** 2 + ((y - size * 0.84) / (radius * 0.14)) ** 2;
+      if (shadow < 1) {
+        const alpha = Math.round((1 - shadow) * 80);
+        paint(pixels, size, x, y, [150, 150, 150, alpha]);
       }
-    }
-  }
 
-  for (let y = 0; y < size; y += 1) {
-    for (let x = 0; x < size; x += 1) {
       const dx = x - center;
-      const bowlTop = size * 0.18;
-      const bowlBottom = size * 0.56;
-      const withinBowlY = y >= bowlTop && y <= bowlBottom;
-      if (withinBowlY) {
-        const t = (y - bowlTop) / (bowlBottom - bowlTop);
-        const halfWidth = size * (0.26 - t * 0.09);
-        if (Math.abs(dx) < halfWidth) {
-          const shine = Math.max(0, 1 - Math.abs(x - size * 0.42) / (size * 0.18)) * 0.38;
-          const shadow = Math.max(0, (x - center) / (size * 0.28)) * 0.32;
-          paint(pixels, size, x, y, [
-            blend(gold[0], goldLight[0], shine) - Math.round(shadow * 40),
-            blend(gold[1], goldLight[1], shine) - Math.round(shadow * 28),
-            blend(gold[2], goldLight[2], shine) - Math.round(shadow * 10),
-            255,
-          ]);
-        }
-      }
+      const dy = y - cy;
+      const dist = Math.hypot(dx, dy);
+      if (dist > radius) continue;
 
-      const leftHandle = ((x - size * 0.31) / (size * 0.16)) ** 2 + ((y - size * 0.35) / (size * 0.2)) ** 2;
-      const rightHandle = ((x - size * 0.69) / (size * 0.16)) ** 2 + ((y - size * 0.35) / (size * 0.2)) ** 2;
-      const handleCut = ((x - center) / (size * 0.22)) ** 2 + ((y - size * 0.36) / (size * 0.24)) ** 2;
-      if ((leftHandle < 1 && leftHandle > 0.58 && handleCut > 0.78) || (rightHandle < 1 && rightHandle > 0.58 && handleCut > 0.78)) {
-        paint(pixels, size, x, y, gold);
-      }
+      const r = dist / radius;
+      const angle = Math.atan2(dy, dx);
+      const shade = clamp(r * 0.3 + Math.max(0, (x - center) / radius) * 0.09 + Math.max(0, (y - cy) / radius) * 0.1, 0, 0.5);
+      let color = [blend(252, 210, shade), blend(252, 216, shade), blend(248, 224, shade), 255];
 
-      if (x > center - size * 0.055 && x < center + size * 0.055 && y > size * 0.54 && y < size * 0.72) {
-        paint(pixels, size, x, y, goldDark);
-      }
+      if (r > 0.96) color = [185, 188, 184, 255];
+      if (inBlade(angle, r, -2.25, 0.16) || inBlade(angle, r, -0.12, 0.17) || inBlade(angle, r, 2.02, 0.17)) color = black;
+      if (inBlade(angle, r, -2.78, 0.08) && r > 0.44) color = red;
+      if (inBlade(angle, r, 1.43, 0.08) && r > 0.58) color = green;
+      if (inBlade(angle, r, -0.65, 0.07) && r > 0.62) color = gold;
 
-      if (x > safe && x < size - safe && y > size * 0.7 && y < size * 0.8) {
-        const inset = Math.abs(x - center) / (size * 0.31);
-        if (inset < 1) paint(pixels, size, x, y, gold);
-      }
+      const upperNavy = ((x - size * 0.2) / (radius * 0.16)) ** 2 + ((y - size * 0.22) / (radius * 0.09)) ** 2;
+      const lowerNavy = ((x - size * 0.15) / (radius * 0.16)) ** 2 + ((y - size * 0.69) / (radius * 0.08)) ** 2;
+      const rightNavy = ((x - size * 0.86) / (radius * 0.11)) ** 2 + ((y - size * 0.32) / (radius * 0.12)) ** 2;
+      if (upperNavy < 1 || lowerNavy < 1 || rightNavy < 1) color = navy;
 
-      const ball = ((x - center) / (size * 0.18)) ** 2 + ((y - size * 0.8) / (size * 0.18)) ** 2;
-      if (ball < 1) {
-        paint(pixels, size, x, y, cream);
-        const seamVertical = Math.abs(x - center) < size * 0.011;
-        const seamLeft = Math.abs((x - center) + (y - size * 0.8) * 0.65) < size * 0.011;
-        const seamRight = Math.abs((x - center) - (y - size * 0.8) * 0.65) < size * 0.011;
-        if ((seamVertical || seamLeft || seamRight) && ball < 0.78) paint(pixels, size, x, y, ink);
-      }
+      const highlight = ((x - size * 0.36) / (radius * 0.32)) ** 2 + ((y - size * 0.29) / (radius * 0.24)) ** 2;
+      if (highlight < 1 && color[0] > 180) color = [blend(color[0], 255, 0.34), blend(color[1], 255, 0.34), blend(color[2], 255, 0.34), 255];
+
+      paint(pixels, size, x, y, color);
     }
   }
 
@@ -142,5 +132,6 @@ await writeFile(new URL("icon-192.png", outDir), makeIcon(192));
 await writeFile(new URL("icon-512.png", outDir), makeIcon(512));
 await writeFile(new URL("maskable-512.png", outDir), makeIcon(512, true));
 await writeFile(new URL("apple-touch-icon.png", outDir), makeIcon(180));
+await writeFile(new URL("page-ball.png", outDir), makeIcon(256));
 
 console.log("Generated PWA icons");

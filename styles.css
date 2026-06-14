@@ -52,6 +52,20 @@ select {
   margin-bottom: 22px;
 }
 
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.app-mark {
+  width: clamp(62px, 10vw, 96px);
+  height: clamp(62px, 10vw, 96px);
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
 .eyebrow {
   margin: 0 0 5px;
   color: var(--muted);
@@ -609,8 +623,9 @@ tr:last-child td {
 .winner-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
+  gap: 12px;
+  padding: 12px;
+  background: var(--surface-2);
 }
 
 .winner-card,
@@ -620,16 +635,44 @@ tr:last-child td {
 }
 
 .winner-card {
-  min-height: 132px;
-  padding: 16px;
+  display: grid;
+  gap: 10px;
+  min-height: 118px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .winner-card.Bruno {
-  border-left: 5px solid var(--bruno);
+  border-left: 4px solid var(--bruno);
 }
 
 .winner-card.Sara {
-  border-left: 5px solid var(--sara);
+  border-left: 4px solid var(--sara);
+}
+
+.bonus-column {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.bonus-column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.bonus-list {
+  display: grid;
+  gap: 8px;
 }
 
 .winner-points {
@@ -862,6 +905,10 @@ select {
     display: grid;
   }
 
+  .brand-lockup {
+    align-items: flex-start;
+  }
+
   .score-strip,
   .dashboard-grid,
   .dashboard-grid.secondary,
@@ -909,6 +956,10 @@ select {
   .winner-card,
   .match-card {
     padding: 13px;
+  }
+
+  .brand-lockup {
+    gap: 10px;
   }
 
   .score-breakdown {
