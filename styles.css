@@ -535,10 +535,66 @@ tr:last-child td {
 
 .odds-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
   gap: 12px;
   padding: 14px 16px;
   background: #17201b;
+}
+
+.odds-main {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.odds-rank {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.odds-owner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.odds-owner-badge .owner-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.odds-owner-badge .owner-icon .face {
+  left: 6px;
+  top: 7px;
+  width: 12px;
+  height: 13px;
+}
+
+.odds-owner-badge .owner-icon .hair {
+  inset: 3px 4px 10px;
+}
+
+.odds-owner-badge .owner-icon.sara .hair {
+  inset: 2px 3px 7px;
 }
 
 .odds-price {
@@ -855,6 +911,21 @@ select {
 
   .match-card {
     grid-template-columns: 1fr;
+  }
+
+  .odds-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .odds-owner-badge {
+    grid-column: 1;
+    width: max-content;
+  }
+
+  .odds-price {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
   }
 
   .match-meta {

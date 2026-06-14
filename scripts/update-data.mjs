@@ -6,8 +6,29 @@ const WIKIPEDIA_PAGES = [
   ...Array.from({ length: 12 }, (_, index) => `2026_FIFA_World_Cup_Group_${String.fromCharCode(65 + index)}`),
 ];
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
-const ODDS_API_SPORT_KEY = process.env.ODDS_API_SPORT_KEY || "soccer_fifa_world_cup_winner";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const ODDSCHECKER_WINNER_URL = "https://www.oddschecker.com/football/world-cup/winner";
+const ODDSCHECKER_TEAMS = [
+  "France",
+  "Spain",
+  "England",
+  "Portugal",
+  "Brazil",
+  "Argentina",
+  "Germany",
+  "Netherlands",
+  "Morocco",
+  "Belgium",
+  "Uruguay",
+  "Croatia",
+  "Colombia",
+  "Mexico",
+  "Japan",
+  "Norway",
+  "Switzerland",
+  "Egypt",
+  "South Korea",
+];
 const PUBLIC_ODDS_SOURCES = [
   "https://www.the-sun.com/sport/16467419/world-cup-2026-winner-odds/",
   "https://nypost.com/2026/05/18/betting/2026-world-cup-odds-france-spain-co-favorites-to-lift-the-trophy/",
@@ -67,9 +88,16 @@ function americanToDecimal(american) {
 }
 
 function fractionalToDecimal(fractional) {
-  const match = String(fractional).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
-  if (!match) return null;
-  return 1 + Number(match[1]) / Number(match[2]);
+  const value = String(fractional).trim();
+  const fraction = value.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+  if (fraction) {
+    const denominator = Number(fraction[2]);
+    if (!denominator) return null;
+    return 1 + Number(fraction[1]) / denominator;
+  }
+  const integer = value.match(/^\d+(?:\.\d+)?$/);
+  if (!integer) return null;
+  return 1 + Number(value);
 }
 
 function fallbackWinnerOdds() {
@@ -87,6 +115,76 @@ function extractPublicOdds(html, team) {
   const fractional = new RegExp(`${escaped}[\\s\\S]{0,90}?(\\d{1,2}\\s*/\\s*1)`, "i").exec(html);
   if (fractional) return fractionalToDecimal(fractional[1]);
   return null;
+}
+
+function decodeHtml(value) {
+  return String(value)
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function htmlToLines(html) {
+  return decodeHtml(
+    String(html)
+      .replace(/<script[\s\S]*?<\/script>/gi, "\n")
+      .replace(/<style[\s\S]*?<\/style>/gi, "\n")
+      .replace(/<[^>]+>/g, "\n"),
+  )
+    .split(/\n+/)
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+
+function isOddscheckerTeam(line) {
+  const normalized = normalizeTeam(line);
+  return ODDSCHECKER_TEAMS.find((team) => normalizeTeam(team) === normalized) || null;
+}
+
+function parseOddscheckerToken(line) {
+  const token = line.replace(/\s*\/\s*/g, "/");
+  if (!/^\d{1,3}(?:\/\d{1,3})?$/.test(token)) return null;
+  const decimal = fractionalToDecimal(token);
+  if (!decimal || decimal < 1.01 || decimal > 501) return null;
+  return { token, decimal };
+}
+
+function extractOddscheckerRows(html, limit = 5) {
+  const lines = htmlToLines(html);
+  const starts = lines.map((line, index) => (line === "QuickBet" ? index : -1)).filter((index) => index >= 0);
+
+  for (const start of starts) {
+    const rows = [];
+    for (let index = start + 1; index < lines.length && rows.length < limit; index += 1) {
+      const team = isOddscheckerTeam(lines[index]);
+      if (!team) continue;
+
+      const odds = [];
+      for (let cursor = index + 1; cursor < lines.length; cursor += 1) {
+        if (isOddscheckerTeam(lines[cursor]) || lines[cursor] === "Sort By") break;
+        const parsed = parseOddscheckerToken(lines[cursor]);
+        if (parsed) odds.push(parsed);
+      }
+
+      if (odds.length < 4) continue;
+      const best = odds.reduce((bestPrice, current) => (current.decimal > bestPrice.decimal ? current : bestPrice), odds[0]);
+      rows.push({
+        rank: rows.length + 1,
+        team,
+        decimal: Number(best.decimal.toFixed(2)),
+        fractional: best.token,
+        bookmaker: "Oddschecker best public price",
+      });
+    }
+
+    if (rows.length >= limit) return rows;
+  }
+
+  return [];
 }
 
 function cleanWikiText(value = "") {
@@ -304,44 +402,25 @@ async function fetchFootballDataMatches() {
   return json.matches.map(normalizeFootballDataMatch).filter(Boolean);
 }
 
-async function fetchOdds() {
-  if (!process.env.ODDS_API_KEY) return null;
-  const url = new URL(`https://api.the-odds-api.com/v4/sports/${ODDS_API_SPORT_KEY}/odds/`);
-  url.searchParams.set("apiKey", process.env.ODDS_API_KEY);
-  url.searchParams.set("regions", process.env.ODDS_API_REGIONS || "uk,eu");
-  url.searchParams.set("markets", "outrights");
-  url.searchParams.set("oddsFormat", "decimal");
+async function fetchOddscheckerOdds() {
+  try {
+    const response = await fetch(ODDSCHECKER_WINNER_URL, {
+      headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
+    });
+    if (!response.ok) throw new Error(`Oddschecker request failed: ${response.status}`);
 
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`The Odds API request failed: ${response.status}`);
-  const events = await response.json();
-  const outcomes = [];
-  for (const event of events) {
-    for (const bookmaker of event.bookmakers || []) {
-      for (const market of bookmaker.markets || []) {
-        for (const outcome of market.outcomes || []) {
-          outcomes.push({
-            team: outcome.name,
-            decimal: Number(outcome.price),
-            bookmaker: bookmaker.title,
-          });
-        }
-      }
-    }
+    const rows = extractOddscheckerRows(await response.text());
+    if (rows.length < 5) throw new Error(`Oddschecker scrape found ${rows.length} usable rows`);
+
+    return {
+      source: "Oddschecker World Cup Winner odds",
+      updatedAt: new Date().toISOString(),
+      teams: rows,
+    };
+  } catch (error) {
+    console.warn(`Oddschecker scrape failed: ${error.message}`);
+    return null;
   }
-
-  const bestByTeam = new Map();
-  for (const outcome of outcomes) {
-    const key = normalizeTeam(outcome.team);
-    const current = bestByTeam.get(key);
-    if (!current || outcome.decimal > current.decimal) bestByTeam.set(key, outcome);
-  }
-
-  return {
-    source: "The Odds API",
-    updatedAt: new Date().toISOString(),
-    teams: [...bestByTeam.values()].sort((a, b) => a.team.localeCompare(b.team)),
-  };
 }
 
 async function fetchPublicArticleOdds() {
@@ -393,7 +472,10 @@ async function main() {
     }
   }
 
-  const freshOdds = (await fetchOdds()) || (await fetchPublicArticleOdds());
+  let freshOdds = await fetchOddscheckerOdds();
+  if (!freshOdds && (current.odds?.teams || []).length < 5) {
+    freshOdds = await fetchPublicArticleOdds();
+  }
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 

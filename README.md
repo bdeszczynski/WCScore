@@ -38,16 +38,11 @@ The updater tries `football-data.org` first when `FOOTBALL_DATA_TOKEN` is presen
 
 If no token is configured, the updater tries a public Wikipedia fallback and preserves the existing JSON if no fresh matches are found. Wikipedia is useful as a backup, but it is not reliable enough to be the main live-score source.
 
-Winner odds are refreshed from `ODDS_API_KEY` when configured. Without that key, the updater falls back to public World Cup odds articles for the four winner-pick teams and keeps the latest values in `public/data/world-cup.json`.
+Winner odds are refreshed from the public Oddschecker World Cup Winner page with no API key. The updater keeps the first five listed contenders and marks any Bruno/Sara winner selections in the interface. If Oddschecker cannot be read, it falls back to public World Cup odds articles.
 
 Suggested GitHub secrets:
 
 - `FOOTBALL_DATA_TOKEN`
-- `ODDS_API_KEY`
-
-Optional GitHub variable:
-
-- `ODDS_API_SPORT_KEY`, defaults to `soccer_fifa_world_cup_winner`
 
 ## Local commands
 

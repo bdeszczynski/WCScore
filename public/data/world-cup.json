@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-14T11:17:32.000Z",
-  "source": "Results updates use football-data.org data",
+  "updatedAt": "2026-06-14T12:42:23.075Z",
+  "source": "Results updates use football-data.org data + Oddschecker World Cup Winner odds",
   "players": [
     {
       "name": "Bruno",
@@ -375,28 +375,43 @@
     }
   ],
   "odds": {
-    "source": "Public World Cup odds articles",
-    "updatedAt": "2026-06-14T12:10:00.000Z",
+    "source": "Oddschecker World Cup Winner odds",
+    "updatedAt": "2026-06-14T12:40:40.000Z",
     "teams": [
       {
-        "team": "Brazil",
-        "decimal": 10,
-        "bookmaker": "The Sun public odds article"
-      },
-      {
+        "rank": 1,
         "team": "France",
-        "decimal": 5.5,
-        "bookmaker": "The Sun public odds article"
+        "decimal": 6,
+        "fractional": "5",
+        "bookmaker": "Oddschecker best public price"
       },
       {
-        "team": "Portugal",
+        "rank": 2,
+        "team": "Spain",
+        "decimal": 6,
+        "fractional": "5",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 3,
+        "team": "England",
         "decimal": 9.5,
-        "bookmaker": "The Sun public odds article"
+        "fractional": "17/2",
+        "bookmaker": "Oddschecker best public price"
       },
       {
-        "team": "Netherlands",
-        "decimal": 21,
-        "bookmaker": "New York Post public odds article"
+        "rank": 4,
+        "team": "Portugal",
+        "decimal": 10,
+        "fractional": "9",
+        "bookmaker": "Oddschecker best public price"
+      },
+      {
+        "rank": 5,
+        "team": "Brazil",
+        "decimal": 12.8,
+        "fractional": "59/5",
+        "bookmaker": "Oddschecker best public price"
       }
     ]
   }

@@ -21,7 +21,9 @@ const COUNTRY_CODES = {
   "DR Congo": "CD",
   Ecuador: "EC",
   Egypt: "EG",
+  England: "GB-ENG",
   France: "FR",
+  Germany: "DE",
   Haiti: "HT",
   Iran: "IR",
   Iraq: "IQ",
@@ -37,9 +39,11 @@ const COUNTRY_CODES = {
   Senegal: "SN",
   "South Africa": "ZA",
   "South Korea": "KR",
+  Spain: "ES",
   Sweden: "SE",
   Switzerland: "CH",
   Tunisia: "TN",
+  Uruguay: "UY",
   Uzbekistan: "UZ",
 };
 
@@ -88,6 +92,7 @@ function escapeHtml(value) {
 function flagForTeam(teamName) {
   const code = COUNTRY_CODES[teamName];
   if (!code) return "";
+  if (code === "GB-ENG") return "🏴";
   if (code === "GB-SCT") return "🏴";
   return code
     .toUpperCase()
@@ -228,6 +233,10 @@ function winnerPickStatus(teamName) {
 
 function getTeamOdds(teamName) {
   return state.data.odds?.teams?.find((entry) => isSameTeam(entry.team, teamName));
+}
+
+function getWinnerPickOwner(teamName) {
+  return state.data.players.find((player) => player.winnerPicks.some((team) => isSameTeam(team.name, teamName)))?.name;
 }
 
 function getStandings() {
@@ -392,21 +401,31 @@ function renderGoalStandings() {
 }
 
 function renderOdds() {
-  const trackedWinnerTeams = state.data.players.flatMap((player) =>
-    player.winnerPicks.map((team) => ({ ...team, owner: player.name })),
-  );
+  const topOdds = [...(state.data.odds?.teams || [])]
+    .filter((entry) => Number.isFinite(Number(entry.decimal)))
+    .sort((a, b) => {
+      const rankA = Number.isFinite(Number(a.rank)) ? Number(a.rank) : Number.POSITIVE_INFINITY;
+      const rankB = Number.isFinite(Number(b.rank)) ? Number(b.rank) : Number.POSITIVE_INFINITY;
+      if (rankA !== rankB) return rankA - rankB;
+      return Number(a.decimal) - Number(b.decimal);
+    })
+    .slice(0, 5);
 
-  document.querySelector("#odds-list").innerHTML = trackedWinnerTeams
-    .map((pick) => {
-      const odds = getTeamOdds(pick.name);
+  document.querySelector("#odds-list").innerHTML = topOdds
+    .map((odds, index) => {
       const decimal = odds?.decimal ? Number(odds.decimal) : null;
       const implied = decimal ? `${((1 / decimal) * 100).toFixed(1)}% implied` : "No live odds";
+      const owner = getWinnerPickOwner(odds.team);
       return `
         <article class="odds-row">
-          <div>
-            <h3>${teamLabel(pick.name)}</h3>
-            <p class="muted">${pick.owner}${odds?.bookmaker ? ` · ${odds.bookmaker}` : ""}</p>
+          <div class="odds-main">
+            <div class="odds-rank">${index + 1}</div>
+            <div>
+              <h3>${teamLabel(odds.team)}</h3>
+              <p class="muted">${odds?.bookmaker || state.data.odds?.source || "Public odds"}</p>
+            </div>
           </div>
+          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner}</span></div>` : ""}
           <div class="odds-price">
             <strong>${decimal ? decimal.toFixed(2) : "—"}</strong>
             <span class="muted">${implied}</span>
@@ -414,7 +433,7 @@ function renderOdds() {
         </article>
       `;
     })
-    .join("");
+    .join("") || `<div class="empty-state">No winner odds loaded yet.</div>`;
 }
 
 function renderWinnerPicks() {
