@@ -5,7 +5,7 @@ Static score tracker for Bruno vs Sara. It uses no database and no authenticatio
 - `index.html`, `styles.css`, and `src/app.js` render the dashboard.
 - `public/data/world-cup.json` is the only state file.
 - `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 08:00 and 20:00 Dubai time.
-- GitHub Pages or Vercel can deploy the repo as a static site and will redeploy when GitHub Actions commits refreshed data.
+- GitHub Pages deploys the repo as a static site and redeploys when GitHub Actions commits refreshed data.
 
 ## Scoring
 
@@ -58,10 +58,6 @@ npm run serve
 
 Then open `http://localhost:4173`.
 
-## Vercel
-
-Import this GitHub repository in Vercel as a static project. No build command is required. The output directory is the repository root.
-
 ## GitHub Pages
 
-The `Deploy static site` workflow publishes the repository root to GitHub Pages on every push to `master`. The repository should use Pages source `GitHub Actions`.
+The `Deploy static site` workflow publishes the repository root to GitHub Pages on every push to `master`. The repository uses Pages source `GitHub Actions`.
