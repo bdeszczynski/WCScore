@@ -294,7 +294,7 @@ function renderScoreStrip() {
             </div>
             ${
               leader.total === player.total
-                ? `<span class="pill leader-pill"><span class="leader-medal" aria-hidden="true"></span>Leader</span>`
+                ? `<span class="pill leader-pill"><span class="leader-medal" role="img" aria-label="Trophy">🏆</span>Leader</span>`
                 : `<span class="pill">${leader.total - player.total} behind</span>`
             }
           </div>
@@ -500,6 +500,74 @@ function renderMatches() {
     .join("");
 }
 
+function getQuizTeams() {
+  const names = new Set();
+  for (const player of state.data.players) {
+    player.pointsTeams.forEach((team) => names.add(team.name));
+    player.winnerPicks.forEach((team) => names.add(team.name));
+  }
+  for (const match of state.data.matches) {
+    names.add(match.homeTeam);
+    names.add(match.awayTeam);
+  }
+  return [...names].filter((team) => flagForTeam(team)).sort((a, b) => a.localeCompare(b));
+}
+
+function shuffle(items) {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+function showFlagQuiz() {
+  const teams = getQuizTeams();
+  if (teams.length < 3) return;
+
+  const correct = teams[Math.floor(Math.random() * teams.length)];
+  const options = shuffle([correct, ...shuffle(teams.filter((team) => team !== correct)).slice(0, 2)]);
+  const modal = document.createElement("section");
+  modal.className = "quiz-overlay";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-labelledby", "quiz-title");
+  modal.innerHTML = `
+    <div class="quiz-dialog">
+      <div class="quiz-head">
+        <div>
+          <p class="eyebrow">Flag quiz</p>
+          <h2 id="quiz-title">Which country is this?</h2>
+        </div>
+        <button class="quiz-close" type="button" aria-label="Close quiz">×</button>
+      </div>
+      <div class="quiz-flag" aria-hidden="true">${flagForTeam(correct)}</div>
+      <div class="quiz-options">
+        ${options.map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`).join("")}
+      </div>
+      <p class="quiz-feedback" aria-live="polite"></p>
+    </div>
+  `;
+
+  const close = () => modal.remove();
+  modal.querySelector(".quiz-close").addEventListener("click", close);
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) close();
+  });
+  modal.querySelectorAll("[data-quiz-answer]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const picked = button.dataset.quizAnswer;
+      const right = isSameTeam(picked, correct);
+      modal.querySelectorAll("[data-quiz-answer]").forEach((item) => {
+        item.disabled = true;
+        item.classList.toggle("correct", isSameTeam(item.dataset.quizAnswer, correct));
+        item.classList.toggle("wrong", item === button && !right);
+      });
+      const feedback = modal.querySelector(".quiz-feedback");
+      feedback.textContent = right ? "Correct." : `It was ${correct}.`;
+      setTimeout(close, right ? 850 : 1400);
+    });
+  });
+
+  document.body.append(modal);
+}
+
 function renderMeta() {
   const updated = state.data.updatedAt ? fmtDate.format(new Date(state.data.updatedAt)) : "Never";
   const source = state.data.source ? ` · ${state.data.source}` : "";
@@ -554,6 +622,7 @@ loadData()
   .then(() => {
     bindEvents();
     render();
+    showFlagQuiz();
     registerServiceWorker();
   })
   .catch((error) => {
