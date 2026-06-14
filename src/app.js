@@ -425,7 +425,7 @@ function renderOdds() {
               <p class="muted">${odds?.bookmaker || state.data.odds?.source || "Public odds"}</p>
             </div>
           </div>
-          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner}</span></div>` : ""}
+          ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${owner} pick</span></div>` : ""}
           <div class="odds-price">
             <strong>${decimal ? decimal.toFixed(2) : "—"}</strong>
             <span class="muted">${implied}</span>
