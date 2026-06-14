@@ -639,6 +639,12 @@ tr:last-child td {
   margin-top: 12px;
 }
 
+.bonus-role {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .goal-list {
   display: grid;
   gap: 1px;

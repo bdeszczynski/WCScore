@@ -211,7 +211,7 @@ function countRemainingGroupMatches(teamName) {
   }).length;
 }
 
-function winnerPickStatus(teamName) {
+function bonusStatus(teamName) {
   const semiReached = state.data.matches.some((match) => {
     const kind = stageKind(match.stage);
     return (kind === "semi" || kind === "final") && (isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName));
@@ -229,6 +229,23 @@ function winnerPickStatus(teamName) {
     wonCup,
     points: (semiReached ? 3 : 0) + (wonCup ? 7 : 0),
   };
+}
+
+function getPlayerBonusSelections(player) {
+  const selections = new Map();
+  for (const team of player.pointsTeams) {
+    selections.set(normalizeTeam(team.name), { name: team.name, roles: ["points team"] });
+  }
+  for (const team of player.winnerPicks) {
+    const key = normalizeTeam(team.name);
+    const current = selections.get(key);
+    if (current) {
+      current.roles.push("winner pick");
+    } else {
+      selections.set(key, { name: team.name, roles: ["winner pick"] });
+    }
+  }
+  return [...selections.values()];
 }
 
 function getTeamOdds(teamName) {
@@ -272,7 +289,7 @@ function getPlayerTotals() {
     const groupMatchesRemaining = player.pointsTeams.reduce((sum, team) => sum + countRemainingGroupMatches(team.name), 0);
     const gf = pointTeams.reduce((sum, team) => sum + team.gf, 0);
     const ga = pointTeams.reduce((sum, team) => sum + team.ga, 0);
-    const winnerPoints = player.winnerPicks.reduce((sum, team) => sum + winnerPickStatus(team.name).points, 0);
+    const bonusPoints = getPlayerBonusSelections(player).reduce((sum, team) => sum + bonusStatus(team.name).points, 0);
     return {
       name: player.name,
       pointsTeams: player.pointsTeams.map((team) => team.name),
@@ -282,8 +299,8 @@ function getPlayerTotals() {
       gf,
       ga,
       gd: gf - ga,
-      winnerPoints,
-      total: teamPoints + winnerPoints,
+      bonusPoints,
+      total: teamPoints + bonusPoints,
     };
   });
 }
@@ -335,8 +352,8 @@ function renderScoreStrip() {
               <strong>${player.ga}</strong>
             </div>
             <div class="stat-cell">
-              <span>Winner pts</span>
-              <strong>${player.winnerPoints}</strong>
+              <span>Bonus pts</span>
+              <strong>${player.bonusPoints}</strong>
             </div>
           </div>
           <div class="selected-team-row" aria-label="${player.name} selected teams">
@@ -443,7 +460,7 @@ function renderOdds() {
 
 function renderWinnerPicks() {
   const picks = state.data.players.flatMap((player) =>
-    player.winnerPicks.map((team) => ({ ...team, owner: player.name, status: winnerPickStatus(team.name) })),
+    getPlayerBonusSelections(player).map((team) => ({ ...team, owner: player.name, status: bonusStatus(team.name) })),
   );
 
   document.querySelector("#winner-picks").innerHTML = picks
@@ -455,6 +472,7 @@ function renderWinnerPicks() {
             ${ownerAvatar(pick.owner)}
             <h3>${teamLabel(pick.name)}</h3>
           </div>
+          <p class="muted bonus-role">${pick.roles.join(" + ")}</p>
           <div class="winner-points">
             <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
             <span class="pill">${pick.status.wonCup ? "Champion +7" : "Champion pending"}</span>

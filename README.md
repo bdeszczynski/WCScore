@@ -19,8 +19,11 @@ Points teams:
 
 Winner selections:
 
-- Selected team reaches the semi-finals: 3 points
-- Selected team wins the World Cup: 7 points
+Bonus points:
+
+- Any selected team reaches the semi-finals: 3 points
+- Any selected team wins the World Cup: 7 points
+- Duplicate selections by the same player count once for bonus points
 
 ## Picks
 

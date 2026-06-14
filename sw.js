@@ -1,4 +1,4 @@
-const CACHE_NAME = "wc-score-v20";
+const CACHE_NAME = "wc-score-v22";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -28,6 +28,11 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== "GET" || url.origin !== self.location.origin) return;
+
+  if (event.request.mode === "navigate" || url.pathname.endsWith("/") || url.pathname.endsWith("/index.html")) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
 
   if (url.pathname.endsWith("/public/data/world-cup.json")) {
     event.respondWith(networkFirst(event.request));
