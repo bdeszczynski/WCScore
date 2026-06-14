@@ -453,6 +453,10 @@ h3 {
   grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
 }
 
+.dashboard-grid.score-detail {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .standings-stack {
   display: grid;
   gap: 14px;
