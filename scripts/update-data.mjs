@@ -8,6 +8,17 @@ const WIKIPEDIA_PAGES = [
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
 const ODDS_API_SPORT_KEY = process.env.ODDS_API_SPORT_KEY || "soccer_fifa_world_cup_winner";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const PUBLIC_ODDS_SOURCES = [
+  "https://www.the-sun.com/sport/16467419/world-cup-2026-winner-odds/",
+  "https://nypost.com/2026/05/18/betting/2026-world-cup-odds-france-spain-co-favorites-to-lift-the-trophy/",
+  "https://www.kiplinger.com/taxes/world-cup-betting-odds-and-gambling-tax",
+];
+const FALLBACK_WINNER_ODDS = [
+  { team: "Brazil", american: 900, source: "The Sun public odds article" },
+  { team: "France", american: 450, source: "The Sun public odds article" },
+  { team: "Netherlands", fractional: "20/1", source: "New York Post public odds article" },
+  { team: "Portugal", american: 850, source: "The Sun public odds article" },
+];
 
 const fifaCodeMap = new Map(
   Object.entries({
@@ -47,6 +58,35 @@ function normalizeTeam(name) {
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, " ");
+}
+
+function americanToDecimal(american) {
+  const value = Number(american);
+  if (!Number.isFinite(value)) return null;
+  return value > 0 ? 1 + value / 100 : 1 + 100 / Math.abs(value);
+}
+
+function fractionalToDecimal(fractional) {
+  const match = String(fractional).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+  if (!match) return null;
+  return 1 + Number(match[1]) / Number(match[2]);
+}
+
+function fallbackWinnerOdds() {
+  return FALLBACK_WINNER_ODDS.map((entry) => ({
+    team: entry.team,
+    decimal: entry.american ? americanToDecimal(entry.american) : fractionalToDecimal(entry.fractional),
+    bookmaker: entry.source,
+  }));
+}
+
+function extractPublicOdds(html, team) {
+  const escaped = team.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const american = new RegExp(`${escaped}[\\s\\S]{0,90}?\\+(\\d{3,4})`, "i").exec(html);
+  if (american) return americanToDecimal(american[1]);
+  const fractional = new RegExp(`${escaped}[\\s\\S]{0,90}?(\\d{1,2}\\s*/\\s*1)`, "i").exec(html);
+  if (fractional) return fractionalToDecimal(fractional[1]);
+  return null;
 }
 
 function cleanWikiText(value = "") {
@@ -304,6 +344,38 @@ async function fetchOdds() {
   };
 }
 
+async function fetchPublicArticleOdds() {
+  const odds = new Map(fallbackWinnerOdds().map((entry) => [normalizeTeam(entry.team), entry]));
+
+  for (const url of PUBLIC_ODDS_SOURCES) {
+    try {
+      const response = await fetch(url, {
+        headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
+      });
+      if (!response.ok) continue;
+      const html = await response.text();
+      for (const entry of FALLBACK_WINNER_ODDS) {
+        const decimal = extractPublicOdds(html, entry.team);
+        if (decimal) {
+          odds.set(normalizeTeam(entry.team), {
+            team: entry.team,
+            decimal,
+            bookmaker: "Public odds article",
+          });
+        }
+      }
+    } catch (error) {
+      console.warn(`Public odds scrape failed for ${url}: ${error.message}`);
+    }
+  }
+
+  return {
+    source: "Public World Cup odds articles",
+    updatedAt: new Date().toISOString(),
+    teams: [...odds.values()].sort((a, b) => a.team.localeCompare(b.team)),
+  };
+}
+
 async function main() {
   const current = JSON.parse(await readFile(DATA_FILE, "utf8"));
   const sources = [];
@@ -321,7 +393,7 @@ async function main() {
     }
   }
 
-  const freshOdds = await fetchOdds();
+  const freshOdds = (await fetchOdds()) || (await fetchPublicArticleOdds());
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 

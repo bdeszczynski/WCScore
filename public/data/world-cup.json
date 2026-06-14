@@ -375,28 +375,28 @@
     }
   ],
   "odds": {
-    "source": "Add ODDS_API_KEY to GitHub Actions or edit this file manually.",
-    "updatedAt": null,
+    "source": "Public World Cup odds articles",
+    "updatedAt": "2026-06-14T12:10:00.000Z",
     "teams": [
       {
         "team": "Brazil",
-        "decimal": null,
-        "bookmaker": null
+        "decimal": 10,
+        "bookmaker": "The Sun public odds article"
       },
       {
         "team": "France",
-        "decimal": null,
-        "bookmaker": null
+        "decimal": 5.5,
+        "bookmaker": "The Sun public odds article"
       },
       {
         "team": "Portugal",
-        "decimal": null,
-        "bookmaker": null
+        "decimal": 9.5,
+        "bookmaker": "The Sun public odds article"
       },
       {
         "team": "Netherlands",
-        "decimal": null,
-        "bookmaker": null
+        "decimal": 21,
+        "bookmaker": "New York Post public odds article"
       }
     ]
   }
