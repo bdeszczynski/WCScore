@@ -1,4 +1,4 @@
-const DATA_URL = "/public/data/world-cup.json";
+const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
 
 const state = {
   data: null,
