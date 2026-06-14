@@ -1,0 +1,38 @@
+name: Update World Cup data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 08:00 and 20:00 Asia/Dubai. Dubai is UTC+4 year-round.
+    - cron: "0 4,16 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Refresh static data
+        run: node scripts/update-data.mjs
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          ODDS_API_SPORT_KEY: ${{ vars.ODDS_API_SPORT_KEY }}
+
+      - name: Validate data
+        run: node scripts/check-data.mjs
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update World Cup challenge data"
+          file_pattern: public/data/world-cup.json

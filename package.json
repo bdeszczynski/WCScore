@@ -1,0 +1,11 @@
+{
+  "name": "wc-score",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-data.mjs",
+    "update:data": "node scripts/update-data.mjs",
+    "serve": "python3 -m http.server 4173"
+  }
+}

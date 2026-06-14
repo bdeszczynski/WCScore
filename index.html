@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bruno vs Sara World Cup challenge score tracker" />
+    <title>World Cup Challenge Score</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <section>
+          <p class="eyebrow">Bruno vs Sara</p>
+          <h1>World Cup challenge score</h1>
+          <p class="muted" id="last-updated">Loading tracker...</p>
+        </section>
+        <section class="rules">
+          <span>3 win</span>
+          <span>1 draw</span>
+          <span>+1 penalty loss</span>
+          <span>+3 semi pick</span>
+          <span>+7 champion pick</span>
+        </section>
+      </header>
+
+      <section class="score-strip" id="score-strip" aria-live="polite"></section>
+
+      <section class="dashboard-grid">
+        <section class="panel standings-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Points teams</p>
+              <h2>Standings</h2>
+            </div>
+            <div class="segmented" role="tablist" aria-label="Team owner filter">
+              <button class="active" data-owner-filter="all" type="button">All</button>
+              <button data-owner-filter="Bruno" type="button">Bruno</button>
+              <button data-owner-filter="Sara" type="button">Sara</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th>Owner</th>
+                  <th>Pts</th>
+                  <th>W</th>
+                  <th>D</th>
+                  <th>L</th>
+                  <th>GF</th>
+                  <th>GA</th>
+                  <th>GD</th>
+                  <th>Pen</th>
+                </tr>
+              </thead>
+              <tbody id="standings-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="panel odds-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Winner selections</p>
+              <h2>Odds watch</h2>
+            </div>
+          </div>
+          <div id="odds-list" class="odds-list"></div>
+        </aside>
+      </section>
+
+      <section class="dashboard-grid secondary">
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Bonus picks</p>
+              <h2>Semis and champion</h2>
+            </div>
+          </div>
+          <div class="winner-grid" id="winner-picks"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Tracked fixtures</p>
+              <h2>Matches</h2>
+            </div>
+            <select id="match-filter" aria-label="Match filter">
+              <option value="tracked">Tracked teams</option>
+              <option value="all">All loaded</option>
+              <option value="finished">Finished</option>
+              <option value="upcoming">Upcoming</option>
+            </select>
+          </div>
+          <div class="match-list" id="match-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,343 @@
+import { readFile, writeFile } from "node:fs/promises";
+
+const DATA_FILE = new URL("../public/data/world-cup.json", import.meta.url);
+const WIKIPEDIA_PAGES = [
+  "2026_FIFA_World_Cup",
+  ...Array.from({ length: 12 }, (_, index) => `2026_FIFA_World_Cup_Group_${String.fromCharCode(65 + index)}`),
+];
+const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
+const ODDS_API_SPORT_KEY = process.env.ODDS_API_SPORT_KEY || "soccer_fifa_world_cup_winner";
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const fifaCodeMap = new Map(
+  Object.entries({
+    ARG: "Argentina",
+    AUS: "Australia",
+    BEL: "Belgium",
+    BRA: "Brazil",
+    CAN: "Canada",
+    COL: "Colombia",
+    CRO: "Croatia",
+    DEN: "Denmark",
+    ECU: "Ecuador",
+    EGY: "Egypt",
+    ENG: "England",
+    ESP: "Spain",
+    FRA: "France",
+    GER: "Germany",
+    IRN: "Iran",
+    ITA: "Italy",
+    JPN: "Japan",
+    KOR: "South Korea",
+    MAR: "Morocco",
+    MEX: "Mexico",
+    NED: "Netherlands",
+    NOR: "Norway",
+    POR: "Portugal",
+    QAT: "Qatar",
+    SUI: "Switzerland",
+    URU: "Uruguay",
+    USA: "United States",
+  }),
+);
+
+function normalizeTeam(name) {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ");
+}
+
+function cleanWikiText(value = "") {
+  let text = String(value)
+    .replace(/<ref[\s\S]*?<\/ref>/gi, "")
+    .replace(/<ref[^>]*\/>/gi, "")
+    .replace(/'''?/g, "")
+    .trim();
+
+  text = text.replace(/\{\{\s*(?:fb|flagicon|flag|country data)\s*\|\s*([A-Z]{2,3})[^}]*\}\}/gi, (_, code) => {
+    return fifaCodeMap.get(code.toUpperCase()) || code.toUpperCase();
+  });
+
+  text = text.replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g, "$1").replace(/\[\[([^\]]+)\]\]/g, "$1");
+  text = text.replace(/\{\{[^}]+\}\}/g, "");
+  return text.replace(/\s+/g, " ").trim();
+}
+
+function parseTemplateFields(block) {
+  const fields = new Map();
+  for (const rawLine of block.split("\n")) {
+    const line = rawLine.trim();
+    if (!line.startsWith("|")) continue;
+    const eq = line.indexOf("=");
+    if (eq === -1) continue;
+    const key = line.slice(1, eq).trim().toLowerCase();
+    const value = line.slice(eq + 1).trim();
+    fields.set(key, value);
+  }
+  return fields;
+}
+
+function findFootballBoxes(wikitext) {
+  const boxes = [];
+  const marker = "{{football box";
+  let index = 0;
+
+  while (index < wikitext.length) {
+    const start = wikitext.toLowerCase().indexOf(marker, index);
+    if (start === -1) break;
+
+    let cursor = start;
+    let depth = 0;
+    while (cursor < wikitext.length) {
+      if (wikitext.startsWith("{{", cursor)) {
+        depth += 1;
+        cursor += 2;
+        continue;
+      }
+      if (wikitext.startsWith("}}", cursor)) {
+        depth -= 1;
+        cursor += 2;
+        if (depth === 0) break;
+        continue;
+      }
+      cursor += 1;
+    }
+
+    boxes.push(wikitext.slice(start, cursor));
+    index = cursor;
+  }
+
+  return boxes;
+}
+
+function parseScore(scoreText) {
+  const cleaned = cleanWikiText(scoreText).replace(/[–—]/g, "-");
+  const score = cleaned.match(/(\d+)\s*-\s*(\d+)/);
+  if (!score) return { status: "scheduled", homeGoals: null, awayGoals: null };
+  return {
+    status: "finished",
+    homeGoals: Number(score[1]),
+    awayGoals: Number(score[2]),
+  };
+}
+
+function parsePenaltyWinner(fields, homeTeam, awayTeam) {
+  const penaltyScore = cleanWikiText(fields.get("penaltyscore") || "").replace(/[–—]/g, "-");
+  const match = penaltyScore.match(/(\d+)\s*-\s*(\d+)/);
+  if (!match) return null;
+  const homePens = Number(match[1]);
+  const awayPens = Number(match[2]);
+  if (homePens === awayPens) return null;
+  return homePens > awayPens ? homeTeam : awayTeam;
+}
+
+function parseKickoff(fields) {
+  const date = cleanWikiText(fields.get("date") || "");
+  const time = cleanWikiText(fields.get("time") || "");
+  const startDate = `${fields.get("date") || ""} ${fields.get("time") || ""}`.match(
+    /\{\{\s*start date\s*\|\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})(?:\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2}))?/i,
+  );
+  if (startDate) {
+    const [, year, month, day, hour = "00", minute = "00"] = startDate;
+    return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute))).toISOString();
+  }
+
+  const textual = `${date} ${time}`.trim();
+  const parsed = Date.parse(textual);
+  return Number.isNaN(parsed) ? null : new Date(parsed).toISOString();
+}
+
+function inferStage(fields, kickoff) {
+  const round = cleanWikiText(fields.get("round") || fields.get("stage") || "");
+  if (round) return round;
+  if (!kickoff) return "Group stage";
+  const date = new Date(kickoff);
+  if (date < new Date("2026-06-28T00:00:00Z")) return "Group stage";
+  if (date < new Date("2026-07-04T00:00:00Z")) return "Round of 32";
+  if (date < new Date("2026-07-10T00:00:00Z")) return "Quarter-finals";
+  if (date < new Date("2026-07-15T00:00:00Z")) return "Semi-finals";
+  return "Final";
+}
+
+async function fetchWikipediaWikitext(page) {
+  const url = new URL("https://en.wikipedia.org/w/api.php");
+  url.searchParams.set("action", "parse");
+  url.searchParams.set("page", page);
+  url.searchParams.set("prop", "wikitext");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("origin", "*");
+
+  let response;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    response = await fetch(url, {
+      headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
+    });
+    if (response.ok) break;
+    if (response.status !== 429 || attempt === 3) break;
+    await sleep(2000 * attempt);
+  }
+  if (!response.ok) throw new Error(`Wikipedia request failed for ${page}: ${response.status}`);
+  const json = await response.json();
+  const wikitext = json?.parse?.wikitext?.["*"];
+  if (!wikitext) throw new Error(`Wikipedia response did not contain wikitext for ${page}`);
+  return wikitext;
+}
+
+async function fetchWikipediaMatches() {
+  const matches = [];
+
+  for (const page of WIKIPEDIA_PAGES) {
+    let wikitext;
+    try {
+      wikitext = await fetchWikipediaWikitext(page);
+    } catch (error) {
+      console.warn(error.message);
+      continue;
+    }
+    const pageMatches = findFootballBoxes(wikitext)
+      .map((block, index) => {
+        const fields = parseTemplateFields(block);
+        const homeTeam = cleanWikiText(fields.get("team1") || fields.get("home") || "");
+        const awayTeam = cleanWikiText(fields.get("team2") || fields.get("away") || "");
+        if (!homeTeam || !awayTeam) return null;
+
+        const kickoff = parseKickoff(fields);
+        const score = parseScore(fields.get("score") || "");
+        const stage = inferStage(fields, kickoff);
+        const winnerAfterPenalties = parsePenaltyWinner(fields, homeTeam, awayTeam);
+
+        return {
+          id: `wiki-${page.toLowerCase().replaceAll("_", "-")}-${index + 1}-${normalizeTeam(homeTeam).replaceAll(" ", "-")}-${normalizeTeam(awayTeam).replaceAll(" ", "-")}`,
+          stage,
+          kickoff,
+          homeTeam,
+          awayTeam,
+          ...score,
+          winnerAfterPenalties,
+        };
+      })
+      .filter(Boolean);
+
+    matches.push(...pageMatches);
+    await sleep(900);
+  }
+
+  return matches;
+}
+
+function normalizeFootballDataMatch(match) {
+  const homeTeam = match.homeTeam?.name;
+  const awayTeam = match.awayTeam?.name;
+  if (!homeTeam || !awayTeam) return null;
+  const fullTime = match.score?.fullTime || {};
+  const penalties = match.score?.penalties || {};
+  const finished = match.status === "FINISHED" && Number.isFinite(fullTime.home) && Number.isFinite(fullTime.away);
+  const winnerAfterPenalties =
+    Number.isFinite(penalties.home) && Number.isFinite(penalties.away) && penalties.home !== penalties.away
+      ? penalties.home > penalties.away
+        ? homeTeam
+        : awayTeam
+      : null;
+
+  return {
+    id: String(match.id || `${match.utcDate}-${homeTeam}-${awayTeam}`),
+    stage: match.stage || match.group || "World Cup",
+    kickoff: match.utcDate || null,
+    homeTeam,
+    awayTeam,
+    status: finished ? "finished" : "scheduled",
+    homeGoals: finished ? fullTime.home : null,
+    awayGoals: finished ? fullTime.away : null,
+    winnerAfterPenalties,
+  };
+}
+
+async function fetchFootballDataMatches() {
+  if (!process.env.FOOTBALL_DATA_TOKEN) return null;
+  const response = await fetch(FOOTBALL_DATA_URL, {
+    headers: { "X-Auth-Token": process.env.FOOTBALL_DATA_TOKEN },
+  });
+  if (!response.ok) throw new Error(`football-data.org request failed: ${response.status}`);
+  const json = await response.json();
+  return json.matches.map(normalizeFootballDataMatch).filter(Boolean);
+}
+
+async function fetchOdds() {
+  if (!process.env.ODDS_API_KEY) return null;
+  const url = new URL(`https://api.the-odds-api.com/v4/sports/${ODDS_API_SPORT_KEY}/odds/`);
+  url.searchParams.set("apiKey", process.env.ODDS_API_KEY);
+  url.searchParams.set("regions", process.env.ODDS_API_REGIONS || "uk,eu");
+  url.searchParams.set("markets", "outrights");
+  url.searchParams.set("oddsFormat", "decimal");
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`The Odds API request failed: ${response.status}`);
+  const events = await response.json();
+  const outcomes = [];
+  for (const event of events) {
+    for (const bookmaker of event.bookmakers || []) {
+      for (const market of bookmaker.markets || []) {
+        for (const outcome of market.outcomes || []) {
+          outcomes.push({
+            team: outcome.name,
+            decimal: Number(outcome.price),
+            bookmaker: bookmaker.title,
+          });
+        }
+      }
+    }
+  }
+
+  const bestByTeam = new Map();
+  for (const outcome of outcomes) {
+    const key = normalizeTeam(outcome.team);
+    const current = bestByTeam.get(key);
+    if (!current || outcome.decimal > current.decimal) bestByTeam.set(key, outcome);
+  }
+
+  return {
+    source: "The Odds API",
+    updatedAt: new Date().toISOString(),
+    teams: [...bestByTeam.values()].sort((a, b) => a.team.localeCompare(b.team)),
+  };
+}
+
+async function main() {
+  const current = JSON.parse(await readFile(DATA_FILE, "utf8"));
+  const sources = [];
+
+  let matches = await fetchFootballDataMatches();
+  if (matches?.length) {
+    sources.push("football-data.org");
+  } else {
+    matches = await fetchWikipediaMatches();
+    if (matches.length) {
+      sources.push("Wikipedia");
+    } else {
+      matches = current.matches;
+      sources.push("Existing fixtures; no fresh matches found");
+    }
+  }
+
+  const freshOdds = await fetchOdds();
+  const odds = freshOdds || current.odds;
+  if (freshOdds?.source) sources.push(freshOdds.source);
+
+  const next = {
+    ...current,
+    updatedAt: new Date().toISOString(),
+    source: sources.join(" + "),
+    matches,
+    odds,
+  };
+
+  await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);
+  console.log(`Updated ${matches.length} matches from ${next.source}`);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
