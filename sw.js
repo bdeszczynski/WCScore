@@ -1,15 +1,15 @@
-const CACHE_NAME = "wc-score-v26";
+const CACHE_NAME = "wc-score-v27";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./src/app.js",
   "./manifest.webmanifest",
-  "./public/icons/icon-192-v26.png",
-  "./public/icons/icon-512-v26.png",
-  "./public/icons/maskable-512-v26.png",
-  "./public/icons/apple-touch-icon-v26.png",
-  "./public/icons/page-ball-v26.png",
+  "./public/icons/icon-192-v27.png",
+  "./public/icons/icon-512-v27.png",
+  "./public/icons/maskable-512-v27.png",
+  "./public/icons/apple-touch-icon-v27.png",
+  "./public/icons/page-ball-v27.png",
 ];
 
 self.addEventListener("install", (event) => {

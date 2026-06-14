@@ -25,8 +25,6 @@ jobs:
         run: node scripts/update-data.mjs
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          ODDS_API_SPORT_KEY: ${{ vars.ODDS_API_SPORT_KEY }}
 
       - name: Validate data
         run: node scripts/check-data.mjs
