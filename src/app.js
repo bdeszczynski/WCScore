@@ -298,7 +298,7 @@ function renderScoreStrip() {
           <div class="score-breakdown" aria-label="${player.name} score breakdown">
             <div class="stat-cell primary">
               <span>Team points</span>
-              <strong>${player.teamPoints} <small>(${player.gd > 0 ? "+" : ""}${player.gd})</small></strong>
+              <strong>${player.teamPoints} <small>(Goal diff: ${player.gd > 0 ? "+" : ""}${player.gd})</small></strong>
             </div>
             <div class="stat-cell">
               <span>Played</span>
