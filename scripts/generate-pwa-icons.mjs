@@ -80,6 +80,7 @@ function makeIcon(size, maskable = false) {
   const cy = size * 0.47;
   const safe = maskable ? size * 0.22 : size * 0.1;
   const radius = size * 0.5 - safe;
+  const appBg = [246, 243, 237, 255];
   const red = [226, 35, 26, 255];
   const green = [28, 218, 58, 255];
   const gold = [222, 154, 44, 255];
@@ -88,7 +89,7 @@ function makeIcon(size, maskable = false) {
 
   for (let y = 0; y < size; y += 1) {
     for (let x = 0; x < size; x += 1) {
-      paint(pixels, size, x, y, [255, 255, 255, 255]);
+      paint(pixels, size, x, y, appBg);
 
       const shadow = ((x - center) / (radius * 0.72)) ** 2 + ((y - size * 0.84) / (radius * 0.14)) ** 2;
       if (shadow < 1) {
