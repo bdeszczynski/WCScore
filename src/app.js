@@ -199,6 +199,13 @@ function aggregateTeam(teamName, owner) {
   return totals;
 }
 
+function countRemainingMatches(teamName) {
+  return state.data.matches.filter((match) => {
+    if (isFinished(match)) return false;
+    return isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName);
+  }).length;
+}
+
 function winnerPickStatus(teamName) {
   const semiReached = state.data.matches.some((match) => {
     const kind = stageKind(match.stage);
@@ -248,6 +255,7 @@ function getPlayerTotals() {
     const pointTeams = player.pointsTeams.map((team) => aggregateTeam(team.name, player.name));
     const teamPoints = pointTeams.reduce((sum, team) => sum + team.points, 0);
     const matchesPlayed = pointTeams.reduce((sum, team) => sum + team.played, 0);
+    const matchesRemaining = player.pointsTeams.reduce((sum, team) => sum + countRemainingMatches(team.name), 0);
     const gf = pointTeams.reduce((sum, team) => sum + team.gf, 0);
     const ga = pointTeams.reduce((sum, team) => sum + team.ga, 0);
     const winnerPoints = player.winnerPicks.reduce((sum, team) => sum + winnerPickStatus(team.name).points, 0);
@@ -255,6 +263,7 @@ function getPlayerTotals() {
       name: player.name,
       teamPoints,
       matchesPlayed,
+      matchesRemaining,
       gf,
       ga,
       gd: gf - ga,
@@ -287,7 +296,7 @@ function renderScoreStrip() {
           <div class="score-total">${player.total}</div>
           <div class="score-breakdown">
             <span class="pill">${player.teamPoints} team pts</span>
-            <span class="pill">from ${player.matchesPlayed} matches</span>
+            <span class="pill">from ${player.matchesPlayed} matches · ${player.matchesRemaining} games to go</span>
             <span class="pill">${player.gd > 0 ? "+" : ""}${player.gd} GD</span>
             <span class="pill">${player.gf} GF</span>
             <span class="pill">${player.ga} GA</span>
