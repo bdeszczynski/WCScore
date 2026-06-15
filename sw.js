@@ -1,4 +1,4 @@
-const CACHE_NAME = "wc-score-v29";
+const CACHE_NAME = "wc-score-v30";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -37,6 +37,11 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (url.pathname.endsWith("/public/data/world-cup.json") || url.pathname.includes("/public/icons/")) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  if (url.pathname.endsWith(".js") || url.pathname.endsWith(".css")) {
     event.respondWith(networkFirst(event.request));
     return;
   }

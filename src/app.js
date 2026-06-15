@@ -8,7 +8,7 @@ import {
   isSameTeam,
   normalizeTeam,
   stageKind,
-} from "./scoring.js";
+} from "./scoring.js?v=30";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
 
@@ -213,7 +213,7 @@ function renderScoreStrip() {
             ${
               comparePlayerTotals(player, leader) === 0
                 ? `<span class="pill leader-pill"><span class="leader-medal" role="img" aria-label="Trophy">🏆</span>${leadIsTied ? "Tied" : "Leader"}</span>`
-                : `<span class="pill">${leader.total === player.total ? (leader.gd === player.gd ? "Behind on goals for" : "Behind on goal diff") : `${leader.total - player.total} behind`}</span>`
+                : `<span class="pill">${leaderStatusText(player, leader)}</span>`
             }
           </div>
           <div class="score-total">${player.total}</div>
@@ -250,6 +250,12 @@ function renderScoreStrip() {
       `,
     )
     .join("");
+}
+
+function leaderStatusText(player, leader) {
+  if (leader.total !== player.total) return `${leader.total - player.total} behind`;
+  if (leader.gd !== player.gd) return "Behind on goal diff";
+  return "Behind on goals for";
 }
 
 function renderStandings() {
