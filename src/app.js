@@ -17,8 +17,52 @@ const state = {
   data: null,
   ownerFilter: "all",
   matchFilter: "tracked",
+  ladderRound: "round32",
   activeView: "score",
 };
+
+const GROUP_TEAMS = [
+  { group: "A", teams: ["Mexico", "South Africa", "South Korea", "Czechia"] },
+  { group: "B", teams: ["Canada", "Bosnia-Herzegovina", "Qatar", "Switzerland"] },
+  { group: "C", teams: ["Brazil", "Morocco", "Haiti", "Scotland"] },
+  { group: "D", teams: ["United States", "Paraguay", "Australia", "Turkey"] },
+  { group: "E", teams: ["Germany", "Curaçao", "Ivory Coast", "Ecuador"] },
+  { group: "F", teams: ["Netherlands", "Japan", "Sweden", "Tunisia"] },
+  { group: "G", teams: ["Belgium", "Egypt", "Iran", "New Zealand"] },
+  { group: "H", teams: ["Spain", "Cape Verde Islands", "Saudi Arabia", "Uruguay"] },
+  { group: "I", teams: ["France", "Senegal", "Iraq", "Norway"] },
+  { group: "J", teams: ["Argentina", "Algeria", "Austria", "Jordan"] },
+  { group: "K", teams: ["Portugal", "Congo DR", "Uzbekistan", "Colombia"] },
+  { group: "L", teams: ["England", "Croatia", "Ghana", "Panama"] },
+];
+const ROUND_OF_32 = [
+  { match: 73, slots: [{ group: "A", position: 2 }, { group: "B", position: 2 }] },
+  { match: 74, slots: [{ group: "E", position: 1 }, { third: ["A", "B", "C", "D", "F"] }] },
+  { match: 75, slots: [{ group: "F", position: 1 }, { group: "C", position: 2 }] },
+  { match: 76, slots: [{ group: "C", position: 1 }, { group: "F", position: 2 }] },
+  { match: 77, slots: [{ group: "I", position: 1 }, { third: ["C", "D", "F", "G", "H"] }] },
+  { match: 78, slots: [{ group: "E", position: 2 }, { group: "I", position: 2 }] },
+  { match: 79, slots: [{ group: "A", position: 1 }, { third: ["C", "E", "F", "H", "I"] }] },
+  { match: 80, slots: [{ group: "L", position: 1 }, { third: ["E", "H", "I", "J", "K"] }] },
+  { match: 81, slots: [{ group: "D", position: 1 }, { third: ["B", "E", "F", "I", "J"] }] },
+  { match: 82, slots: [{ group: "G", position: 1 }, { third: ["A", "E", "H", "I", "J"] }] },
+  { match: 83, slots: [{ group: "K", position: 2 }, { group: "L", position: 2 }] },
+  { match: 84, slots: [{ group: "H", position: 1 }, { group: "J", position: 2 }] },
+  { match: 85, slots: [{ group: "B", position: 1 }, { third: ["E", "F", "G", "I", "J"] }] },
+  { match: 86, slots: [{ group: "J", position: 1 }, { group: "H", position: 2 }] },
+  { match: 87, slots: [{ group: "K", position: 1 }, { third: ["D", "E", "I", "J", "L"] }] },
+  { match: 88, slots: [{ group: "D", position: 2 }, { group: "G", position: 2 }] },
+];
+const ROUND_OF_16 = [
+  { match: 89, from: [73, 75] },
+  { match: 90, from: [74, 77] },
+  { match: 91, from: [76, 78] },
+  { match: 92, from: [79, 80] },
+  { match: 93, from: [83, 84] },
+  { match: 94, from: [81, 82] },
+  { match: 95, from: [86, 88] },
+  { match: 96, from: [85, 87] },
+];
 
 const selectedTeamNames = new Set();
 let leaderConfettiShown = false;
@@ -169,6 +213,168 @@ function getGoalStandings() {
     if (a.ga !== b.ga) return a.ga - b.ga;
     return a.teamName.localeCompare(b.teamName);
   });
+}
+
+function groupMatches() {
+  return state.data.matches.filter((match) => stageKind(match.stage) === "group");
+}
+
+function groupStandings() {
+  return GROUP_TEAMS.map((component) => {
+    const { group, teams } = component;
+    const matches = groupMatches().filter((match) => teams.some((team) => isSameTeam(team, match.homeTeam) || isSameTeam(team, match.awayTeam)));
+    const rows = teams
+      .map((team) => ({ ...aggregateTeamForMatches(matches, team, ""), group }))
+      .sort((a, b) => {
+        if (b.points !== a.points) return b.points - a.points;
+        if (b.gd !== a.gd) return b.gd - a.gd;
+        if (b.gf !== a.gf) return b.gf - a.gf;
+        return a.teamName.localeCompare(b.teamName);
+      })
+      .map((row, rowIndex) => ({ ...row, position: rowIndex + 1 }));
+    return { group, rows };
+  });
+}
+
+function thirdPlaceRows(groups = groupStandings()) {
+  return groups
+    .map((entry) => entry.rows[2])
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.gd !== a.gd) return b.gd - a.gd;
+      if (b.gf !== a.gf) return b.gf - a.gf;
+      return a.teamName.localeCompare(b.teamName);
+    })
+    .map((row, index) => ({ ...row, thirdRank: index + 1 }));
+}
+
+function slotTeams(slot, groups, thirds) {
+  if (slot.group) {
+    const team = groups.find((entry) => entry.group === slot.group)?.rows[slot.position - 1];
+    return team ? [{ ...team, slotLabel: `${slot.group}${slot.position}` }] : [];
+  }
+  return slot.third
+    .map((group) => thirds.find((row) => row.group === group))
+    .filter(Boolean)
+    .map((team) => ({ ...team, slotLabel: `${team.group}3`, inThirdEight: team.thirdRank <= 8 }));
+}
+
+function matchNumber(match) {
+  for (const value of [match.matchNumber, match.matchday, match.number]) {
+    const number = Number(value);
+    if (Number.isFinite(number)) return number;
+  }
+  return null;
+}
+
+function knockoutMatchesByNumber() {
+  const byNumber = new Map();
+  for (const match of state.data.matches || []) {
+    if (stageKind(match.stage) === "group") continue;
+    const number = matchNumber(match);
+    if (number) byNumber.set(number, match);
+  }
+  return byNumber;
+}
+
+function knockoutWinner(match) {
+  if (!isFinished(match)) return null;
+  if (match.winnerAfterPenalties) return match.winnerAfterPenalties;
+  if (match.homeGoals > match.awayGoals) return match.homeTeam;
+  if (match.awayGoals > match.homeGoals) return match.awayTeam;
+  return null;
+}
+
+function actualMatchTeams(match) {
+  if (!match) return null;
+  const winner = knockoutWinner(match);
+  return [
+    [{ teamName: match.homeTeam, slotLabel: "Home", actual: true, winner: winner && isSameTeam(winner, match.homeTeam) }],
+    [{ teamName: match.awayTeam, slotLabel: "Away", actual: true, winner: winner && isSameTeam(winner, match.awayTeam) }],
+  ];
+}
+
+function r32Cards() {
+  const groups = groupStandings();
+  const thirds = thirdPlaceRows(groups);
+  const actualMatches = knockoutMatchesByNumber();
+  return ROUND_OF_32.map((match) => ({
+    ...match,
+    actualMatch: actualMatches.get(match.match) || null,
+    teams: actualMatchTeams(actualMatches.get(match.match)) || match.slots.map((slot) => slotTeams(slot, groups, thirds)),
+  }));
+}
+
+function uniqueTeams(rows) {
+  const teams = new Map();
+  for (const row of rows.flat()) {
+    teams.set(normalizeTeam(row.teamName), row);
+  }
+  return [...teams.values()];
+}
+
+function flagChip(row, extraClass = "") {
+  const flag = flagUrlForTeam(row.teamName, 80);
+  const tracked = selectedTeamNames.has(row.teamName);
+  const classes = [tracked ? "tracked" : "", row.winner ? "winner" : "", row.actual ? "actual" : "", extraClass].filter(Boolean).join(" ");
+  return flag
+    ? `<span class="ladder-flag ${classes}" title="${escapeHtml(`${row.teamName} · ${row.slotLabel || `${row.group}${row.position}`}`)}" aria-label="${escapeHtml(row.teamName)}"><img src="${flag}" alt="" loading="lazy" decoding="async" /></span>`
+    : "";
+}
+
+function renderR32Ladder(cards = r32Cards()) {
+  return cards
+    .map(
+      (card) => `
+        <article class="ladder-card ${card.actualMatch ? "actual" : ""} ${isFinished(card.actualMatch || {}) ? "finished" : ""}">
+          <div class="ladder-match-no">${card.match}</div>
+          <div class="ladder-versus">
+            <div class="ladder-slot">${card.teams[0].map((team) => flagChip(team, team.inThirdEight === false ? "out" : "")).join("")}</div>
+            <span class="versus-dot"></span>
+            <div class="ladder-slot">${card.teams[1].map((team) => flagChip(team, team.inThirdEight === false ? "out" : "")).join("")}</div>
+          </div>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+function renderR16Ladder(cards = r32Cards()) {
+  const byMatch = new Map(cards.map((card) => [card.match, card]));
+  const actualMatches = knockoutMatchesByNumber();
+  return ROUND_OF_16.map((match) => {
+    const actual = actualMatches.get(match.match) || null;
+    const pools = actualMatchTeams(actual) || match.from.map((matchNo) => {
+      const source = byMatch.get(matchNo);
+      const winner = knockoutWinner(source?.actualMatch);
+      return winner ? [{ teamName: winner, slotLabel: `Winner ${matchNo}`, actual: true, winner: true }] : uniqueTeams(source?.teams || []);
+    });
+    return `
+      <article class="ladder-card round16-card ${actual ? "actual" : ""} ${isFinished(actual || {}) ? "finished" : ""}">
+        <div class="ladder-match-no">${match.match}</div>
+        <div class="ladder-versus">
+          <div class="ladder-slot">${pools[0].map((team) => flagChip(team)).join("")}</div>
+          <span class="versus-dot"></span>
+          <div class="ladder-slot">${pools[1].map((team) => flagChip(team)).join("")}</div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderThirdPlaceLadder() {
+  return thirdPlaceRows()
+    .map(
+      (row) => `
+        <article class="third-card ${row.thirdRank <= 8 ? "in" : "out"}">
+          <span class="third-rank">${row.thirdRank}</span>
+          ${flagChip({ ...row, slotLabel: `${row.group}3` })}
+          <span class="third-stats">${row.points}pt · GD ${row.gd > 0 ? "+" : ""}${row.gd} · GF ${row.gf}</span>
+        </article>
+      `,
+    )
+    .join("");
 }
 
 function getPlayerTotals() {
@@ -655,6 +861,19 @@ function renderMatches() {
     .join("");
 }
 
+function renderLadder() {
+  const container = document.querySelector("#knockout-ladder");
+  if (!container) return;
+  const content =
+    state.ladderRound === "round16"
+      ? renderR16Ladder()
+      : state.ladderRound === "third"
+        ? renderThirdPlaceLadder()
+        : renderR32Ladder();
+  container.className = `ladder-board ${state.ladderRound === "third" ? "third-board" : ""}`;
+  container.innerHTML = content || `<div class="empty-state">No ladder data loaded yet.</div>`;
+}
+
 function getQuizTeams() {
   const names = new Set();
   for (const player of state.data.players) {
@@ -748,6 +967,14 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll("[data-ladder-round]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.ladderRound = button.dataset.ladderRound;
+      document.querySelectorAll("[data-ladder-round]").forEach((item) => item.classList.toggle("active", item === button));
+      renderLadder();
+    });
+  });
+
   document.querySelector("#match-filter").addEventListener("change", (event) => {
     state.matchFilter = event.target.value;
     renderMatches();
@@ -775,6 +1002,7 @@ function render() {
   renderOdds();
   renderOddsMeta();
   renderWinnerPicks();
+  renderLadder();
   renderMatches();
 }
 

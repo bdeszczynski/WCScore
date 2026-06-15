@@ -44,6 +44,7 @@ function createFakeDocument() {
       "#odds-source",
       "#odds-updated",
       "#winner-picks",
+      "#knockout-ladder",
       "#match-list",
       "#match-filter",
     ].map((selector) => [selector, new FakeElement()]),
@@ -96,6 +97,8 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#winner-picks").innerHTML, /Market/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Start/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Selected team probability divided by total loaded Polymarket probability/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-card/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-flag/);
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);

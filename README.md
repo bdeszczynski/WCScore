@@ -103,6 +103,7 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 - Loads the real `public/data/world-cup.json` into a fake DOM.
 - Imports the real app entrypoint.
 - Confirms the Score, Standings, and Matches sections render content.
+- Confirms the Matches tab renders the knockout ladder cards and flag chips.
 - Confirms Matches render venue links and host-country flags.
 - Confirms match stages display `GROUP STAGE` instead of raw `GROUP_STAGE`.
 

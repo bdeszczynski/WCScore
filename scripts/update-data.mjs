@@ -498,6 +498,8 @@ function normalizeFootballDataMatch(match) {
   return {
     id: String(match.id || `${match.utcDate}-${homeTeam}-${awayTeam}`),
     stage: match.stage || match.group || "World Cup",
+    group: match.group || null,
+    matchNumber: Number.isFinite(match.matchday) ? match.matchday : null,
     kickoff: match.utcDate || null,
     homeTeam,
     awayTeam,

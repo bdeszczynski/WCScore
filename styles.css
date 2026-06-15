@@ -509,6 +509,12 @@ h3 {
   color: #fff;
 }
 
+.segmented.compact button {
+  min-height: 30px;
+  padding: 0 9px;
+  font-size: 0.78rem;
+}
+
 .table-wrap {
   overflow-x: auto;
 }
@@ -955,6 +961,132 @@ select {
   background: var(--surface);
   color: var(--ink);
   font-weight: 750;
+}
+
+.ladder-panel {
+  margin-bottom: 14px;
+}
+
+.ladder-heading {
+  align-items: center;
+}
+
+.ladder-board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(116px, 1fr);
+  gap: 1px;
+  overflow-x: auto;
+  background: var(--line);
+}
+
+.ladder-card,
+.third-card {
+  min-height: 104px;
+  padding: 10px;
+  background: var(--surface);
+}
+
+.ladder-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.ladder-card.actual {
+  background: #fff;
+}
+
+.ladder-card.finished {
+  box-shadow: inset 0 0 0 2px rgba(20, 107, 98, 0.22);
+}
+
+.ladder-match-no,
+.third-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.ladder-versus {
+  display: grid;
+  align-items: center;
+  gap: 8px;
+}
+
+.ladder-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-height: 26px;
+}
+
+.versus-dot {
+  width: 18px;
+  height: 1px;
+  background: var(--line);
+}
+
+.ladder-flag {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 20px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ladder-flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ladder-flag.tracked {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.ladder-flag.winner {
+  box-shadow: 0 0 0 2px #146b62;
+}
+
+.ladder-flag.out {
+  opacity: 0.45;
+}
+
+.round16-card {
+  min-width: 150px;
+}
+
+.third-board {
+  grid-auto-columns: minmax(94px, 1fr);
+}
+
+.third-card {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 8px;
+  min-height: 92px;
+}
+
+.third-card.out {
+  opacity: 0.48;
+}
+
+.third-stats {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
 }
 
 .match-list {
