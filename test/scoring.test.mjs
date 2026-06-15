@@ -6,8 +6,16 @@ import {
   comparePlayerTotals,
   countRemainingGroupMatches,
   getPlayerBonusSelections,
+  isFinished,
   scoreMatchForTeam,
 } from "../src/scoring.js";
+
+describe("isFinished", () => {
+  it("treats missing future knockout slots as unfinished", () => {
+    assert.equal(isFinished(null), false);
+    assert.equal(scoreMatchForTeam(null, "Brazil"), null);
+  });
+});
 
 describe("scoreMatchForTeam", () => {
   it("scores group wins, draws, and losses", () => {

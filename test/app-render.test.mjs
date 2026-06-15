@@ -3,23 +3,48 @@ import { readFile } from "node:fs/promises";
 import { describe, it } from "node:test";
 
 class FakeClassList {
-  toggle() {}
+  constructor() {
+    this.values = new Set();
+  }
+
+  toggle(name, force) {
+    const shouldAdd = force ?? !this.values.has(name);
+    if (shouldAdd) this.values.add(name);
+    else this.values.delete(name);
+  }
+
+  contains(name) {
+    return this.values.has(name);
+  }
 }
 
 class FakeElement {
-  constructor() {
+  constructor(dataset = {}) {
     this.innerHTML = "";
     this.textContent = "";
     this.hidden = false;
-    this.dataset = {};
+    this.dataset = dataset;
     this.classList = new FakeClassList();
+    this.listeners = new Map();
     this.style = {
       setProperty() {},
     };
   }
 
-  addEventListener() {}
+  addEventListener(eventName, handler) {
+    this.listeners.set(eventName, handler);
+  }
+
   append() {}
+
+  closest(selector) {
+    return selector === "[data-ladder-round]" && this.dataset.ladderRound ? this : null;
+  }
+
+  dispatch(eventName, target = this) {
+    this.listeners.get(eventName)?.({ target });
+  }
+
   remove() {}
   setAttribute() {}
 
@@ -34,6 +59,11 @@ class FakeElement {
 }
 
 function createFakeDocument() {
+  const ladderButtons = ["round32", "round16", "third", "qf", "sf", "thirdMatch", "final"].map(
+    (round) => new FakeElement({ ladderRound: round }),
+  );
+  ladderButtons[0].classList.toggle("active", true);
+
   const elements = new Map(
     [
       "#last-updated",
@@ -47,6 +77,7 @@ function createFakeDocument() {
       "#knockout-ladder",
       "#match-list",
       "#match-filter",
+      ".ladder-heading",
     ].map((selector) => [selector, new FakeElement()]),
   );
 
@@ -54,8 +85,9 @@ function createFakeDocument() {
     body: new FakeElement(),
     createElement: () => new FakeElement(),
     querySelector: (selector) => elements.get(selector) || null,
-    querySelectorAll: (selector) => (selector === "[data-ladder-round]" ? Array.from({ length: 7 }, () => new FakeElement()) : []),
+    querySelectorAll: (selector) => (selector === "[data-ladder-round]" ? ladderButtons : []),
     elements,
+    ladderButtons,
   };
 }
 
@@ -100,6 +132,10 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-card/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-flag/);
       assert.ok(document.querySelectorAll("[data-ladder-round]").length >= 7);
+      document.querySelector(".ladder-heading").dispatch("click", document.ladderButtons[1]);
+      assert.equal(document.querySelector("#knockout-ladder").dataset.round, "round16");
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /round16-card/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, />89</);
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);

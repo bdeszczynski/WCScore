@@ -8,10 +8,11 @@ import {
   isSameTeam,
   normalizeTeam,
   stageKind,
-} from "./scoring.js?v=30";
+} from "./scoring.js?v=31";
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
+const APP_VERSION = "v54-ladder-picker";
 
 const state = {
   data: null,
@@ -354,8 +355,10 @@ function renderR16Ladder(cards = r32Cards()) {
       <article class="ladder-card round16-card ${actual ? "actual" : ""} ${isFinished(actual || {}) ? "finished" : ""}">
         <div class="ladder-match-no">${match.match}</div>
         <div class="ladder-versus">
+          <div class="ladder-source">W${match.from[0]}</div>
           <div class="ladder-slot">${pools[0].map((team) => flagChip(team)).join("")}</div>
           <span class="versus-dot"></span>
+          <div class="ladder-source">W${match.from[1]}</div>
           <div class="ladder-slot">${pools[1].map((team) => flagChip(team)).join("")}</div>
         </div>
       </article>
@@ -861,18 +864,20 @@ function renderMatches() {
     .join("");
 }
 
-function renderLadder() {
+function renderLadder(round = state.ladderRound) {
   const container = document.querySelector("#knockout-ladder");
   if (!container) return;
+  const activeRound = round;
   const content =
-    state.ladderRound === "round16"
+    activeRound === "round16"
       ? renderR16Ladder()
-      : state.ladderRound === "third"
+      : activeRound === "third"
         ? renderThirdPlaceLadder()
-        : state.ladderRound === "round32"
+        : activeRound === "round32"
           ? renderR32Ladder()
           : `<div class="ladder-coming-soon">Coming soon</div>`;
-  container.className = `ladder-board ${state.ladderRound === "third" ? "third-board" : ""} ${!['round32', 'round16', 'third'].includes(state.ladderRound) ? "soon-board" : ""}`;
+  container.className = `ladder-board ${activeRound === "third" ? "third-board" : ""} ${!["round32", "round16", "third"].includes(activeRound) ? "soon-board" : ""}`;
+  container.dataset.round = activeRound;
   container.innerHTML = content || `<div class="empty-state">No ladder data loaded yet.</div>`;
 }
 
@@ -955,6 +960,12 @@ function renderMeta() {
 }
 
 function bindEvents() {
+  const selectLadderRound = (selected) => {
+    state.ladderRound = selected.dataset.ladderRound;
+    document.querySelectorAll("[data-ladder-round]").forEach((item) => item.classList.toggle("active", item === selected));
+    renderLadder(state.ladderRound);
+  };
+
   document.querySelectorAll("[data-view-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       switchView(button.dataset.viewTab);
@@ -969,12 +980,10 @@ function bindEvents() {
     });
   });
 
-  document.querySelectorAll("[data-ladder-round]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.ladderRound = button.dataset.ladderRound;
-      document.querySelectorAll("[data-ladder-round]").forEach((item) => item.classList.toggle("active", item === button));
-      renderLadder();
-    });
+  document.querySelector(".ladder-heading")?.addEventListener("click", (event) => {
+    const selected = event.target.closest("[data-ladder-round]");
+    if (!selected) return;
+    selectLadderRound(selected);
   });
 
   document.querySelector("#match-filter").addEventListener("change", (event) => {
@@ -998,6 +1007,7 @@ function switchView(view) {
 }
 
 function render() {
+  document.body.dataset.appVersion = APP_VERSION;
   renderMeta();
   renderScoreStrip();
   renderStandings();

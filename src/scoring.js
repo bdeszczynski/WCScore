@@ -22,7 +22,7 @@ export function stageKind(stage = "") {
 }
 
 export function isFinished(match) {
-  return match.status === "finished" && Number.isFinite(match.homeGoals) && Number.isFinite(match.awayGoals);
+  return Boolean(match && match.status === "finished" && Number.isFinite(match.homeGoals) && Number.isFinite(match.awayGoals));
 }
 
 export function scoreMatchForTeam(match, teamName) {

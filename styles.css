@@ -1041,6 +1041,12 @@ select {
   min-height: 26px;
 }
 
+.ladder-source {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
 .versus-dot {
   width: 18px;
   height: 1px;
@@ -1077,7 +1083,7 @@ select {
 }
 
 .round16-card {
-  min-width: 150px;
+  min-width: 168px;
 }
 
 .third-board {
