@@ -25,6 +25,7 @@ jobs:
         run: node scripts/update-data.mjs
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          REQUIRE_FOOTBALL_DATA_TOKEN: "1"
 
       - name: Validate data
         run: node scripts/check-data.mjs

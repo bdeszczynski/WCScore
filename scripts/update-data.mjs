@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 
 const DATA_FILE = new URL("../public/data/world-cup.json", import.meta.url);
 const WIKIPEDIA_PAGES = [
@@ -392,10 +393,20 @@ function normalizeFootballDataMatch(match) {
   };
 }
 
+export function getFootballDataToken(env = process.env) {
+  const token = env.FOOTBALL_DATA_TOKEN?.trim();
+  if (token) return token;
+  if (env.REQUIRE_FOOTBALL_DATA_TOKEN === "1") {
+    throw new Error("FOOTBALL_DATA_TOKEN is required for this data update.");
+  }
+  return null;
+}
+
 async function fetchFootballDataMatches() {
-  if (!process.env.FOOTBALL_DATA_TOKEN) return null;
+  const token = getFootballDataToken();
+  if (!token) return null;
   const response = await fetch(FOOTBALL_DATA_URL, {
-    headers: { "X-Auth-Token": process.env.FOOTBALL_DATA_TOKEN },
+    headers: { "X-Auth-Token": token },
   });
   if (!response.ok) throw new Error(`football-data.org request failed: ${response.status}`);
   const json = await response.json();
@@ -491,7 +502,9 @@ async function main() {
   console.log(`Updated ${matches.length} matches from ${next.source}`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
