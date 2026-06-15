@@ -53,6 +53,36 @@ Suggested GitHub secrets:
 
 - `FOOTBALL_DATA_TOKEN`
 
+## Tests
+
+Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra test framework is required.
+
+`test/scoring.test.mjs` covers the challenge rules:
+
+- Group wins score 3 points and draws score 1 point.
+- Unfinished matches and unrelated teams are ignored.
+- Knockout penalty losers receive the draw point plus 1 extra penalty-loss point.
+- Team totals aggregate points, played matches, goals for, goals against, goal difference, and penalty bonuses.
+- Remaining group matches count only unfinished group-stage games for selected teams.
+- Semi-final qualification gives 3 bonus points.
+- Winning the World Cup gives 7 bonus points in addition to the semi-final bonus.
+- Duplicate point-team and winner-pick selections count once for bonus scoring.
+- Overall leader ties break by total score, then goal difference, then goals for.
+- Players remain tied when total score, goal difference, and goals for are all equal.
+
+`test/update-data.test.mjs` covers the data updater token handling:
+
+- Scheduled/manual workflow updates fail if `FOOTBALL_DATA_TOKEN` is required but blank.
+- Configured tokens are trimmed and used.
+- Local fallback updates are allowed when the token is not required.
+
+`test/app-render.test.mjs` is a render smoke test:
+
+- Loads the real `public/data/world-cup.json` into a fake DOM.
+- Imports the real app entrypoint.
+- Confirms the Score, Standings, and Matches sections render content.
+- Confirms match stages display `GROUP STAGE` instead of raw `GROUP_STAGE`.
+
 ## Local commands
 
 ```bash
