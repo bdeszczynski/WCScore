@@ -43,7 +43,7 @@ Sara winner selections: Brazil, Netherlands
 
 ## Data updates
 
-The updater tries `football-data.org` first when `FOOTBALL_DATA_TOKEN` is present. That should be the primary result source for the scheduled 08:00 and 20:00 Dubai refreshes.
+The scheduled updater makes an API call to `football-data.org` when `FOOTBALL_DATA_TOKEN` is present. GitHub Actions passes that token from the `FOOTBALL_DATA_TOKEN` repository secret, and the API response is the primary result source for the 08:00 and 20:00 Dubai refreshes.
 
 If no token is configured, the updater tries a public Wikipedia fallback and preserves the existing JSON if no fresh matches are found. Wikipedia is useful as a backup, but it is not reliable enough to be the main live-score source.
 
