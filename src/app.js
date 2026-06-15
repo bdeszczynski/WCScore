@@ -411,6 +411,10 @@ function formatKickoff(match) {
   return fmtDate.format(date);
 }
 
+function formatStageLabel(stage) {
+  return String(stage || "Stage TBC").replace(/_/g, " ");
+}
+
 function renderMatches() {
   const matches = getVisibleMatches();
   const container = document.querySelector("#match-list");
@@ -437,7 +441,7 @@ function renderMatches() {
             </div>
           </div>
           <div class="match-meta">
-            <div>${escapeHtml(match.stage || "Stage TBC")}</div>
+            <div>${escapeHtml(formatStageLabel(match.stage))}</div>
             <div>${isFinished(match) ? score : formatKickoff(match)}</div>
             ${match.winnerAfterPenalties ? `<div>${escapeHtml(match.winnerAfterPenalties)} won pens</div>` : ""}
           </div>
