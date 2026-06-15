@@ -503,6 +503,27 @@ h3 {
   gap: 14px;
 }
 
+.standings-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -4px;
+}
+
+.quiet-action {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+  opacity: 0.58;
+}
+
+.quiet-action:hover,
+.quiet-action:focus-visible {
+  color: var(--ink);
+  opacity: 1;
+  text-decoration: underline;
+}
+
 .segmented {
   display: inline-flex;
   flex-wrap: wrap;
