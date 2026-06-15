@@ -49,7 +49,7 @@ class FakeElement {
   setAttribute() {}
 
   querySelector(selector) {
-    if (selector === ".quiz-close" || selector === ".quiz-feedback") return new FakeElement();
+    if ([".quiz-feedback", ".quiz-flag", ".quiz-options"].includes(selector)) return new FakeElement();
     return null;
   }
 

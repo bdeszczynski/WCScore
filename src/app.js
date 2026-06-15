@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v54-ladder-picker";
+const APP_VERSION = "v55-flag-quiz-gate";
 
 const state = {
   data: null,
@@ -902,8 +902,6 @@ function showFlagQuiz() {
   const teams = getQuizTeams();
   if (teams.length < 3) return false;
 
-  const correct = teams[Math.floor(Math.random() * teams.length)];
-  const options = shuffle([correct, ...shuffle(teams.filter((team) => team !== correct)).slice(0, 2)]);
   const modal = document.createElement("section");
   modal.className = "quiz-overlay";
   modal.setAttribute("role", "dialog");
@@ -916,39 +914,56 @@ function showFlagQuiz() {
           <p class="eyebrow">Flag quiz</p>
           <h2 id="quiz-title">Which country is this?</h2>
         </div>
-        <button class="quiz-close" type="button" aria-label="Close quiz">×</button>
       </div>
-      <img class="quiz-flag" src="${flagUrlForTeam(correct, 320)}" alt="" width="160" height="120" />
-      <div class="quiz-options">
-        ${options.map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`).join("")}
-      </div>
+      <img class="quiz-flag" alt="" width="160" height="120" />
+      <div class="quiz-options"></div>
       <p class="quiz-feedback" aria-live="polite"></p>
     </div>
   `;
+
+  let correct = "";
+  let attempts = 0;
+  const feedback = modal.querySelector(".quiz-feedback");
+  const flag = modal.querySelector(".quiz-flag");
+  const optionsContainer = modal.querySelector(".quiz-options");
+
+  const renderQuestion = () => {
+    correct = teams[Math.floor(Math.random() * teams.length)];
+    const options = shuffle([correct, ...shuffle(teams.filter((team) => team !== correct)).slice(0, 2)]);
+    flag.src = flagUrlForTeam(correct, 320);
+    optionsContainer.innerHTML = options
+      .map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`)
+      .join("");
+    feedback.textContent =
+      attempts > 0 ? "To use the app efficiently, you need to be able to recognize countries by their flags. Try again." : "";
+  };
 
   const close = () => {
     modal.remove();
     showLeaderConfettiOnce();
   };
-  modal.querySelector(".quiz-close").addEventListener("click", close);
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) close();
-  });
-  modal.querySelectorAll("[data-quiz-answer]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const picked = button.dataset.quizAnswer;
-      const right = isSameTeam(picked, correct);
-      modal.querySelectorAll("[data-quiz-answer]").forEach((item) => {
-        item.disabled = true;
-        item.classList.toggle("correct", isSameTeam(item.dataset.quizAnswer, correct));
-        item.classList.toggle("wrong", item === button && !right);
-      });
-      const feedback = modal.querySelector(".quiz-feedback");
-      feedback.textContent = right ? "Correct." : `It was ${correct}.`;
-      setTimeout(close, right ? 850 : 1400);
+
+  optionsContainer.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-quiz-answer]");
+    if (!button) return;
+    const picked = button.dataset.quizAnswer;
+    const right = isSameTeam(picked, correct);
+    optionsContainer.querySelectorAll("[data-quiz-answer]").forEach((item) => {
+      item.disabled = true;
+      item.classList.toggle("correct", isSameTeam(item.dataset.quizAnswer, correct));
+      item.classList.toggle("wrong", item === button && !right);
     });
+    if (right) {
+      feedback.textContent = "Correct.";
+      setTimeout(close, 850);
+      return;
+    }
+    attempts += 1;
+    feedback.textContent = "Not quite. Try another flag.";
+    setTimeout(renderQuestion, 900);
   });
 
+  renderQuestion();
   document.body.append(modal);
   return true;
 }
