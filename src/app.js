@@ -12,12 +12,12 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v55-flag-quiz-gate";
+const APP_VERSION = "v56-upcoming-matches";
 
 const state = {
   data: null,
   ownerFilter: "all",
-  matchFilter: "tracked",
+  matchFilter: "upcoming",
   ladderRound: "round32",
   activeView: "score",
 };
