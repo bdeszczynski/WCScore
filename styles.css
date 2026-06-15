@@ -245,6 +245,7 @@ h3 {
   background: var(--surface);
   box-shadow: var(--shadow);
   padding: 20px;
+  transition: box-shadow 180ms ease, transform 180ms ease;
 }
 
 .score-card.bruno {
@@ -253,6 +254,11 @@ h3 {
 
 .score-card.sara {
   border-top: 5px solid var(--sara);
+}
+
+.score-card.leader-celebrating {
+  box-shadow: 0 0 0 3px rgba(244, 185, 66, 0.42), 0 20px 44px rgba(26, 38, 33, 0.18);
+  transform: translateY(-2px);
 }
 
 .score-card .score-head {
@@ -921,6 +927,56 @@ select {
   color: var(--muted);
   font-weight: 800;
   text-align: center;
+}
+
+.confetti-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti-overlay span {
+  position: absolute;
+  top: var(--origin-y);
+  left: var(--origin-x);
+  width: 9px;
+  height: 15px;
+  border-radius: 2px;
+  opacity: 0.95;
+  transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  animation: confetti-burst var(--duration) cubic-bezier(0.1, 0.72, 0.26, 1) var(--delay) forwards;
+}
+
+.confetti-overlay span:nth-child(3n) {
+  width: 12px;
+  height: 8px;
+}
+
+.confetti-overlay span:nth-child(4n) {
+  border-radius: 999px;
+}
+
+@keyframes confetti-burst {
+  55% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(calc(var(--drift-x) - 50%), calc(var(--drift-y) - 50%), 0) rotate(var(--spin));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-overlay {
+    display: none;
+  }
+
+  .score-card {
+    transition: none;
+  }
 }
 
 @media (max-width: 880px) {

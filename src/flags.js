@@ -51,8 +51,8 @@ export const COUNTRY_CODES = {
   Uzbekistan: "UZ",
 };
 
-export function flagUrlForTeam(teamName) {
+export function flagUrlForTeam(teamName, width = 40) {
   const code = COUNTRY_CODES[teamName];
   if (!code) return "";
-  return `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
+  return `https://flagcdn.com/w${width}/${code.toLowerCase()}.png`;
 }

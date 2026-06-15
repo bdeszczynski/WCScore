@@ -9,7 +9,7 @@ import {
   normalizeTeam,
   stageKind,
 } from "./scoring.js?v=30";
-import { flagUrlForTeam } from "./flags.js?v=32";
+import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
 
@@ -21,6 +21,7 @@ const state = {
 };
 
 const selectedTeamNames = new Set();
+let leaderConfettiShown = false;
 
 const fmtDate = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -156,15 +157,17 @@ function renderScoreStrip() {
 
   container.innerHTML = displayTotals
     .map(
-      (player) => `
-        <article class="score-card ${ownerClass(player.name).toLowerCase()}">
+      (player) => {
+        const isLeader = comparePlayerTotals(player, leader) === 0;
+        return `
+        <article class="score-card ${ownerClass(player.name).toLowerCase()} ${isLeader ? "current-leader" : ""}" data-player-card="${escapeHtml(player.name)}" ${isLeader ? 'data-leader="true"' : ""}>
           <div class="score-head">
             <div class="owner-title">
               ${ownerAvatar(player.name)}
               <h2>${escapeHtml(player.name)}</h2>
             </div>
             ${
-              comparePlayerTotals(player, leader) === 0
+              isLeader
                 ? `<span class="pill leader-pill"><span class="leader-medal" role="img" aria-label="Trophy">🏆</span>${leadIsTied ? "Tied" : "Leader"}</span>`
                 : `<span class="pill">${leaderStatusText(player, leader)}</span>`
             }
@@ -200,9 +203,156 @@ function renderScoreStrip() {
             ${player.pointsTeams.map((teamName) => `<span>${teamLabel(teamName)}</span>`).join("")}
           </div>
         </article>
-      `,
+      `;
+      },
     )
     .join("");
+}
+
+function currentLeaders() {
+  const totals = getPlayerTotals();
+  const displayTotals = [...totals].sort((a, b) => comparePlayerTotals(a, b) || a.name.localeCompare(b.name));
+  const leader = displayTotals[0];
+  return displayTotals.filter((player) => comparePlayerTotals(player, leader) === 0).map((player) => player.name);
+}
+
+function playCrowdCheer() {
+  const AudioContext = globalThis.window?.AudioContext || globalThis.window?.webkitAudioContext;
+  if (!AudioContext) return;
+
+  try {
+    const audio = new AudioContext();
+    const duration = 1.1;
+    const sampleRate = audio.sampleRate;
+    const buffer = audio.createBuffer(1, sampleRate * duration, sampleRate);
+    const samples = buffer.getChannelData(0);
+
+    for (let index = 0; index < samples.length; index += 1) {
+      const progress = index / samples.length;
+      const attack = Math.min(progress / 0.12, 1);
+      const release = Math.max(1 - progress, 0);
+      samples[index] = (Math.random() * 2 - 1) * attack * release * 0.28;
+    }
+
+    const noise = audio.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = audio.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(1450, audio.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(2100, audio.currentTime + 0.22);
+    filter.Q.value = 1.4;
+
+    const crowdGain = audio.createGain();
+    crowdGain.gain.setValueAtTime(0.001, audio.currentTime);
+    crowdGain.gain.exponentialRampToValueAtTime(0.08, audio.currentTime + 0.06);
+    crowdGain.gain.exponentialRampToValueAtTime(0.018, audio.currentTime + duration);
+
+    noise.connect(filter);
+    filter.connect(crowdGain);
+    crowdGain.connect(audio.destination);
+    noise.start();
+    noise.stop(audio.currentTime + duration);
+
+    const voiceCount = 9;
+    for (let index = 0; index < voiceCount; index += 1) {
+      const start = audio.currentTime + Math.random() * 0.055;
+      const voiceDuration = 0.52 + Math.random() * 0.2;
+      const baseFrequency = 170 + Math.random() * 260;
+      const voiceGain = audio.createGain();
+      const formantA = audio.createBiquadFilter();
+      const formantB = audio.createBiquadFilter();
+
+      formantA.type = "bandpass";
+      formantA.frequency.setValueAtTime(720 + Math.random() * 140, start);
+      formantA.frequency.exponentialRampToValueAtTime(1020 + Math.random() * 180, start + 0.18);
+      formantA.Q.value = 7;
+
+      formantB.type = "bandpass";
+      formantB.frequency.setValueAtTime(2100 + Math.random() * 280, start);
+      formantB.frequency.exponentialRampToValueAtTime(1450 + Math.random() * 180, start + 0.38);
+      formantB.Q.value = 5;
+
+      voiceGain.gain.setValueAtTime(0.001, start);
+      voiceGain.gain.exponentialRampToValueAtTime(0.045, start + 0.045);
+      voiceGain.gain.exponentialRampToValueAtTime(0.018, start + 0.2);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, start + voiceDuration);
+
+      for (const detune of [-8, 0, 9]) {
+        const voice = audio.createOscillator();
+        voice.type = "sawtooth";
+        voice.frequency.setValueAtTime(baseFrequency + detune, start);
+        voice.frequency.exponentialRampToValueAtTime((baseFrequency + detune) * 1.75, start + 0.13);
+        voice.frequency.exponentialRampToValueAtTime((baseFrequency + detune) * 1.18, start + voiceDuration);
+        voice.connect(formantA);
+        voice.start(start);
+        voice.stop(start + voiceDuration);
+      }
+
+      formantA.connect(formantB);
+      formantB.connect(voiceGain);
+      voiceGain.connect(audio.destination);
+    }
+
+    setTimeout(() => audio.close(), 1500);
+  } catch {
+    // Some browsers only allow audio from a direct user gesture; confetti can continue silently.
+  }
+}
+
+function showLeaderConfetti() {
+  const leaders = currentLeaders();
+  if (!leaders.length || globalThis.window?.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
+
+  const leaderCards = [...document.querySelectorAll('[data-leader="true"]')];
+  if (!leaderCards.length) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "confetti-overlay";
+  overlay.setAttribute("aria-hidden", "true");
+  playCrowdCheer();
+
+  const colors = leaders.includes("Sara") && leaders.includes("Bruno")
+    ? ["#d94f70", "#1f2937", "#f4b942", "#146b62"]
+    : leaders[0] === "Sara"
+      ? ["#d94f70", "#f4b942", "#f7d9e2", "#146b62"]
+      : ["#1f2937", "#f4b942", "#6b7c72", "#146b62"];
+
+  leaderCards.forEach((card, cardIndex) => {
+    const rect = card.getBoundingClientRect();
+    const originX = rect.left + rect.width / 2;
+    const originY = rect.top + Math.min(rect.height * 0.42, 110);
+
+    card.classList.add("leader-celebrating");
+    setTimeout(() => card.classList.remove("leader-celebrating"), 2600);
+
+    for (let index = 0; index < 44; index += 1) {
+      const piece = document.createElement("span");
+      const angle = -150 + Math.random() * 120;
+      const distance = 140 + Math.random() * 180;
+      const driftX = Math.cos((angle * Math.PI) / 180) * distance;
+      const driftY = Math.sin((angle * Math.PI) / 180) * distance + 90;
+
+      piece.style.setProperty("--origin-x", `${originX}px`);
+      piece.style.setProperty("--origin-y", `${originY}px`);
+      piece.style.setProperty("--drift-x", `${driftX}px`);
+      piece.style.setProperty("--drift-y", `${driftY}px`);
+      piece.style.setProperty("--delay", `${Math.random() * 0.16}s`);
+      piece.style.setProperty("--duration", `${1.4 + Math.random() * 0.8}s`);
+      piece.style.setProperty("--spin", `${180 + Math.random() * 540}deg`);
+      piece.style.background = colors[(index + cardIndex * 7) % colors.length];
+      overlay.append(piece);
+    }
+  });
+
+  document.body.append(overlay);
+  setTimeout(() => overlay.remove(), 3200);
+}
+
+function showLeaderConfettiOnce() {
+  if (leaderConfettiShown) return;
+  leaderConfettiShown = true;
+  showLeaderConfetti();
 }
 
 function leaderStatusText(player, leader) {
@@ -445,7 +595,7 @@ function shuffle(items) {
 
 function showFlagQuiz() {
   const teams = getQuizTeams();
-  if (teams.length < 3) return;
+  if (teams.length < 3) return false;
 
   const correct = teams[Math.floor(Math.random() * teams.length)];
   const options = shuffle([correct, ...shuffle(teams.filter((team) => team !== correct)).slice(0, 2)]);
@@ -463,7 +613,7 @@ function showFlagQuiz() {
         </div>
         <button class="quiz-close" type="button" aria-label="Close quiz">×</button>
       </div>
-      <img class="quiz-flag" src="${flagUrlForTeam(correct)}" alt="" width="80" height="60" />
+      <img class="quiz-flag" src="${flagUrlForTeam(correct, 320)}" alt="" width="160" height="120" />
       <div class="quiz-options">
         ${options.map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`).join("")}
       </div>
@@ -471,7 +621,10 @@ function showFlagQuiz() {
     </div>
   `;
 
-  const close = () => modal.remove();
+  const close = () => {
+    modal.remove();
+    showLeaderConfettiOnce();
+  };
   modal.querySelector(".quiz-close").addEventListener("click", close);
   modal.addEventListener("click", (event) => {
     if (event.target === modal) close();
@@ -492,6 +645,7 @@ function showFlagQuiz() {
   });
 
   document.body.append(modal);
+  return true;
 }
 
 function renderMeta() {
@@ -548,7 +702,7 @@ loadData()
   .then(() => {
     bindEvents();
     render();
-    showFlagQuiz();
+    if (!showFlagQuiz()) showLeaderConfettiOnce();
     registerServiceWorker();
   })
   .catch((error) => {

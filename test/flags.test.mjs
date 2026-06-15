@@ -23,4 +23,9 @@ describe("country flags", () => {
     assert.equal(flagUrlForTeam("Saudi Arabia"), "https://flagcdn.com/w40/sa.png");
     assert.equal(flagUrlForTeam("England"), "https://flagcdn.com/w40/gb-eng.png");
   });
+
+  it("can request higher-resolution quiz flags without changing inline defaults", () => {
+    assert.equal(flagUrlForTeam("Scotland"), "https://flagcdn.com/w40/gb-sct.png");
+    assert.equal(flagUrlForTeam("Scotland", 320), "https://flagcdn.com/w320/gb-sct.png");
+  });
 });

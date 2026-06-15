@@ -13,10 +13,14 @@ class FakeElement {
     this.hidden = false;
     this.dataset = {};
     this.classList = new FakeClassList();
+    this.style = {
+      setProperty() {},
+    };
   }
 
   addEventListener() {}
   append() {}
+  remove() {}
   setAttribute() {}
 
   querySelector(selector) {
