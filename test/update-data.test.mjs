@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   getFootballDataToken,
   parseFootballDataMatchOdds,
+  parseNativeStatsMatchOdds,
   parsePolymarketMatchMarket,
   parsePolymarketWinnerEvent,
   parseSunWinnerOdds,
@@ -244,5 +245,43 @@ describe("parseFootballDataMatchOdds", () => {
 
   it("returns null when football-data has no odds values", () => {
     assert.equal(parseFootballDataMatchOdds({ odds: { homeWin: null, draw: null, awayWin: null } }, match), null);
+  });
+});
+
+describe("parseNativeStatsMatchOdds", () => {
+  it("parses Native Stats upcoming H/D/A odds and maps by match id", () => {
+    const rows = parseNativeStatsMatchOdds(
+      `
+        <tbody id="next_matches" phx-update="stream">
+          <tr id="next-375307">
+            <th>2026/06/15, 18h00</th>
+            <td>
+              <span class="hidden text-gray-200 align-middle md:inline-block">Spain</span>
+              <span class="hidden text-gray-200 align-middle sm:inline-block max-w-4 md:hidden">Spain</span>
+              <span class="inline-block sm:hidden text-gray-200 ">ESP</span>
+              <span class="hidden text-gray-200 align-middle md:inline-block">Cape Verde Islands</span>
+              <span class="hidden text-gray-200 align-middle sm:inline-block max-w-4 md:hidden">Cape Verde Islands</span>
+              <span class="inline-block sm:hidden text-gray-200 ">CPV</span>
+            </td>
+            <td class="whitespace-nowrap"><span phx-click="[[&quot;navigate&quot;,{&quot;href&quot;:&quot;/match/537369&quot;}]]"></span></td>
+            <td class="whitespace-nowrap">1.08 / 9.87 / 26.22</td>
+          </tr>
+        </tbody>
+      `,
+      [{ id: "537369", homeTeam: "Spain", awayTeam: "Cape Verde Islands" }],
+    );
+
+    assert.equal(rows.length, 1);
+    assert.deepEqual(rows[0], {
+      matchId: "537369",
+      homeTeam: "Spain",
+      awayTeam: "Cape Verde Islands",
+      homeProbability: 0.8691,
+      drawProbability: 0.0951,
+      awayProbability: 0.0358,
+      question: "Spain vs Cape Verde Islands",
+      url: "https://native-stats.org/competition/WC/",
+      volume: null,
+    });
   });
 });

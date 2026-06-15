@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v58-football-data-match-odds";
+const APP_VERSION = "v59-native-stats-match-odds";
 
 const state = {
   data: null,
@@ -198,7 +198,7 @@ function matchTeamMarketBadge(match, side) {
   const odds = getMatchOdds(match);
   const probability = side === "home" ? Number(odds?.homeProbability) : Number(odds?.awayProbability);
   if (!Number.isFinite(probability) || probability <= 0) return "";
-  return `<span class="match-market-chance" title="Polymarket match win chance">${escapeHtml(formatChance(probability))}</span>`;
+  return `<span class="match-market-chance" title="Match win chance from loaded H/D/A odds">${escapeHtml(formatChance(probability))}</span>`;
 }
 
 function getSelectedTeamOwner(teamName) {

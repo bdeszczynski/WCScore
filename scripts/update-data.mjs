@@ -7,6 +7,7 @@ const WIKIPEDIA_PAGES = [
   ...Array.from({ length: 12 }, (_, index) => `2026_FIFA_World_Cup_Group_${String.fromCharCode(65 + index)}`),
 ];
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
+const NATIVE_STATS_WC_URL = "https://native-stats.org/competition/WC/";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const POLYMARKET_WINNER_URL = "https://gamma-api.polymarket.com/events/slug/world-cup-winner";
 const POLYMARKET_MARKETS_URL = "https://gamma-api.polymarket.com/markets";
@@ -207,6 +208,19 @@ function parseJsonArray(value) {
   } catch {
     return [];
   }
+}
+
+function decodeHtml(value = "") {
+  return String(value)
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function stripHtml(value = "") {
+  return decodeHtml(String(value).replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
 function teamFromWinnerQuestion(question = "") {
@@ -654,6 +668,70 @@ async function fetchFootballDataMatches() {
   };
 }
 
+function nativeStatsTeamNames(rowHtml) {
+  return [...rowHtml.matchAll(/<span class="hidden text-gray-200 align-middle md:inline-block">\s*([\s\S]*?)\s*<\/span>/g)]
+    .map((match) => stripHtml(match[1]))
+    .filter(Boolean)
+    .slice(0, 2);
+}
+
+export function parseNativeStatsMatchOdds(html, matches = []) {
+  const body = /<tbody id="next_matches"[\s\S]*?>([\s\S]*?)<\/tbody>/i.exec(html)?.[1] || "";
+  const matchesById = new Map(matches.map((match) => [String(match.id), match]));
+  return [...body.matchAll(/<tr id="next-[^"]+">([\s\S]*?)(?=<\/tr>)/g)]
+    .map((rowMatch) => {
+      const rowHtml = rowMatch[1];
+      const matchId = /\/match\/(\d+)/.exec(rowHtml)?.[1];
+      const oddsMatch = /<td class="whitespace-nowrap">\s*([0-9.]+)\s*\/\s*([0-9.]+)\s*\/\s*([0-9.]+)\s*<\/td>/i.exec(rowHtml);
+      if (!matchId || !oddsMatch) return null;
+
+      const sourceMatch = matchesById.get(matchId);
+      const [homeFromHtml, awayFromHtml] = nativeStatsTeamNames(rowHtml);
+      const homeTeam = sourceMatch?.homeTeam || homeFromHtml;
+      const awayTeam = sourceMatch?.awayTeam || awayFromHtml;
+      if (!homeTeam || !awayTeam) return null;
+
+      const probabilities = normalizeProbabilities([oddsMatch[1], oddsMatch[2], oddsMatch[3]]);
+      if (!probabilities) return null;
+
+      return {
+        matchId,
+        homeTeam,
+        awayTeam,
+        homeProbability: probabilities[0],
+        drawProbability: probabilities[1],
+        awayProbability: probabilities[2],
+        question: `${homeTeam} vs ${awayTeam}`,
+        url: "https://native-stats.org/competition/WC/",
+        volume: null,
+      };
+    })
+    .filter(Boolean);
+}
+
+export async function fetchNativeStatsMatchOdds(matches = []) {
+  try {
+    const response = await fetch(NATIVE_STATS_WC_URL, {
+      headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
+    });
+    if (!response.ok) throw new Error(`Native Stats request failed: ${response.status}`);
+    return {
+      source: "Native Stats match odds",
+      updatedAt: new Date().toISOString(),
+      type: "bookmaker_match",
+      matches: parseNativeStatsMatchOdds(await response.text(), unfinishedMatches(matches)),
+    };
+  } catch (error) {
+    console.warn(`Native Stats match odds update failed: ${error.message}`);
+    return {
+      source: "Native Stats match odds",
+      updatedAt: new Date().toISOString(),
+      type: "bookmaker_match",
+      matches: [],
+    };
+  }
+}
+
 export async function fetchPolymarketOdds(currentData = {}) {
   try {
     const response = await fetch(POLYMARKET_WINNER_URL, {
@@ -799,7 +877,9 @@ async function main() {
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 
-  const freshPolymarketMatchOdds = await fetchPolymarketMatchOdds(matches);
+  const freshNativeStatsMatchOdds = footballDataMatchOdds.length ? null : await fetchNativeStatsMatchOdds(matches);
+  const freshPolymarketMatchOdds =
+    footballDataMatchOdds.length || freshNativeStatsMatchOdds?.matches.length ? null : await fetchPolymarketMatchOdds(matches);
   const freshMatchOdds = footballDataMatchOdds.length
     ? {
         source: "football-data.org match odds",
@@ -807,10 +887,21 @@ async function main() {
         type: "bookmaker_match",
         matches: footballDataMatchOdds,
       }
-    : freshPolymarketMatchOdds.matches.length
-      ? freshPolymarketMatchOdds
-      : null;
-  const matchOdds = freshMatchOdds || current.matchOdds || freshPolymarketMatchOdds;
+    : freshNativeStatsMatchOdds?.matches.length
+      ? freshNativeStatsMatchOdds
+      : freshPolymarketMatchOdds.matches.length
+        ? freshPolymarketMatchOdds
+        : null;
+  const matchOdds =
+    freshMatchOdds ||
+    current.matchOdds ||
+    freshNativeStatsMatchOdds ||
+    freshPolymarketMatchOdds || {
+      source: "No match odds source",
+      updatedAt: new Date().toISOString(),
+      type: "bookmaker_match",
+      matches: [],
+    };
   if (freshMatchOdds?.source) sources.push(freshMatchOdds.source);
 
   const next = {

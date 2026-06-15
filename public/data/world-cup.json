@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-15T09:51:02.543Z",
-  "source": "football-data.org + Polymarket World Cup Winner market",
+  "updatedAt": "2026-06-15T13:08:41.195Z",
+  "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
       "name": "Bruno",
@@ -1403,6 +1403,123 @@
         "bookmaker": "Polymarket market probability",
         "rank": 33,
         "startingProbability": 0.008
+      }
+    ]
+  },
+  "matchOdds": {
+    "source": "Native Stats match odds",
+    "updatedAt": "2026-06-15T13:08:41.190Z",
+    "type": "bookmaker_match",
+    "matches": [
+      {
+        "matchId": "537369",
+        "homeTeam": "Spain",
+        "awayTeam": "Cape Verde Islands",
+        "homeProbability": 0.8691,
+        "drawProbability": 0.0951,
+        "awayProbability": 0.0358,
+        "question": "Spain vs Cape Verde Islands",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537363",
+        "homeTeam": "Belgium",
+        "awayTeam": "Egypt",
+        "homeProbability": 0.5661,
+        "drawProbability": 0.2401,
+        "awayProbability": 0.1938,
+        "question": "Belgium vs Egypt",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537370",
+        "homeTeam": "Saudi Arabia",
+        "awayTeam": "Uruguay",
+        "homeProbability": 0.1508,
+        "drawProbability": 0.2271,
+        "awayProbability": 0.6222,
+        "question": "Saudi Arabia vs Uruguay",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537364",
+        "homeTeam": "Iran",
+        "awayTeam": "New Zealand",
+        "homeProbability": 0.522,
+        "drawProbability": 0.2662,
+        "awayProbability": 0.2119,
+        "question": "Iran vs New Zealand",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537391",
+        "homeTeam": "France",
+        "awayTeam": "Senegal",
+        "homeProbability": 0.6519,
+        "drawProbability": 0.2114,
+        "awayProbability": 0.1367,
+        "question": "France vs Senegal",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537392",
+        "homeTeam": "Iraq",
+        "awayTeam": "Norway",
+        "homeProbability": 0.0881,
+        "drawProbability": 0.1647,
+        "awayProbability": 0.7472,
+        "question": "Iraq vs Norway",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537397",
+        "homeTeam": "Argentina",
+        "awayTeam": "Algeria",
+        "homeProbability": 0.6715,
+        "drawProbability": 0.2131,
+        "awayProbability": 0.1154,
+        "question": "Argentina vs Algeria",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537398",
+        "homeTeam": "Austria",
+        "awayTeam": "Jordan",
+        "homeProbability": 0.7094,
+        "drawProbability": 0.1815,
+        "awayProbability": 0.1091,
+        "question": "Austria vs Jordan",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537403",
+        "homeTeam": "Portugal",
+        "awayTeam": "Congo DR",
+        "homeProbability": 0.7364,
+        "drawProbability": 0.1694,
+        "awayProbability": 0.0942,
+        "question": "Portugal vs Congo DR",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537409",
+        "homeTeam": "England",
+        "awayTeam": "Croatia",
+        "homeProbability": 0.5503,
+        "drawProbability": 0.2535,
+        "awayProbability": 0.1961,
+        "question": "England vs Croatia",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
       }
     ]
   }
