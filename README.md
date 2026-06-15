@@ -41,17 +41,41 @@ Bruno winner selections: France, Portugal
 
 Sara winner selections: Brazil, Netherlands
 
-## Data updates
+## Data pipeline
 
-The scheduled updater makes an API call to `football-data.org` when `FOOTBALL_DATA_TOKEN` is present. GitHub Actions passes that token from the `FOOTBALL_DATA_TOKEN` repository secret, and the API response is the primary result source for the 08:00 and 20:00 Dubai refreshes.
+All runtime data lives in `public/data/world-cup.json`. The site is static, so visitors only read that file; no browser-side API tokens, database, or server are involved.
 
-If no token is configured, the updater tries a public Wikipedia fallback and preserves the existing JSON if no fresh matches are found. Wikipedia is useful as a backup, but it is not reliable enough to be the main live-score source.
+The scheduled updater runs in GitHub Actions at 08:00 and 20:00 Dubai time. It writes a refreshed `world-cup.json`, validates it, and auto-commits the file when anything changed. GitHub Pages then redeploys the static site.
 
-Venue metadata is stored directly on each match in `public/data/world-cup.json` as `venue`, `venueCity`, `venueCountry`, and `venueWikiUrl`. The one-time `npm run venues` command enriches those fields from Wikipedia fixture tables, with a small manual override table for fixed schedule rows that Wikipedia exposes differently. Scheduled football-data.org updates preserve existing venue metadata when refreshing results.
+Match schedule and results:
 
-Winner odds are refreshed without an odds API token. The updater tries the public Polymarket `world-cup-winner` event first, then falls back to The Sun public World Cup winner odds article. The interface shows the top 10 favorites, marks any Bruno/Sara selected team in that top 10, and stores selected teams outside the top 10 so their current chance can still appear on the semi-final/champion cards.
+- Primary source: `football-data.org`, using the `FOOTBALL_DATA_TOKEN` repository secret.
+- Usage: fixture IDs, teams, kickoff times, match status, scores, groups, and match numbers.
+- Fallback: public Wikipedia fixture tables if the football-data token is unavailable locally.
+- The app is not live-second scoring. Results update only after the source updates, the scheduled workflow runs, and Pages deploys.
 
-Polymarket rows are prediction-market chances, not bookmaker odds. The app shows both the market chance and the decimal equivalent. Starting chances are manual: add `startingProbability` to the relevant `public/data/world-cup.json` odds rows as a decimal probability, for example `0.1` for 10% or `0.15` for 15%. The updater preserves those manual baselines and does not create or overwrite them automatically.
+Venue metadata:
+
+- Source: Wikipedia fixture/stadium data plus a small manual override table for rows that are awkward to parse.
+- Usage: match stadium name, city, host country, and Wikipedia stadium link.
+- Stored on each match as `venue`, `venueCity`, `venueCountry`, and `venueWikiUrl`.
+- Scheduled result updates preserve this metadata when refreshing football-data match rows.
+
+World Cup winner odds:
+
+- Primary source: Polymarket public `world-cup-winner` event.
+- Fallback: public World Cup winner odds articles from The Sun.
+- Usage: Top 10 favorites panel, selected-team market chances on bonus cards, and market-share calculations.
+- These are outright tournament chances, not per-match chances.
+- Starting chances are manual baselines in `public/data/starting-chances.json`; the updater preserves them.
+
+Upcoming match odds:
+
+- First source: football-data.org match odds, if the token/account returns `homeWin`, `draw`, and `awayWin`.
+- Current practical source: Native Stats public World Cup page at `https://native-stats.org/competition/WC/`.
+- Fallback: fixture-specific Polymarket match markets, only when a market contains both teams as outcomes.
+- Usage: small win-chance badges next to teams in the upcoming Matches tab.
+- Native Stats and football-data H/D/A decimal odds are converted into normalized implied probabilities. Draw probability is stored in `matchOdds`, while the UI shows only the home and away team win chances next to team names.
 
 Suggested GitHub secrets:
 
@@ -89,6 +113,9 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 - Closed, inactive, and placeholder Polymarket markets are ignored.
 - Manual `startingProbability` values are preserved but not auto-created.
 - The Sun article odds parser works as the fallback source.
+- Fixture-specific Polymarket match markets parse only when both teams are real outcomes.
+- football-data.org H/D/A odds convert to normalized match probabilities.
+- Native Stats upcoming match odds parse from the public World Cup table and map by football-data match ID.
 
 `test/check-data-diff.test.mjs` covers suspicious `world-cup.json` changes:
 
