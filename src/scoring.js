@@ -136,3 +136,10 @@ export function getPlayerBonusSelections(player) {
   }
   return [...selections.values()];
 }
+
+export function comparePlayerTotals(a, b) {
+  if (b.total !== a.total) return b.total - a.total;
+  if (b.gd !== a.gd) return b.gd - a.gd;
+  if (b.gf !== a.gf) return b.gf - a.gf;
+  return 0;
+}

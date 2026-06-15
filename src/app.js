@@ -2,6 +2,7 @@ import {
   aggregateTeam as aggregateTeamForMatches,
   bonusStatus as bonusStatusForMatches,
   countRemainingGroupMatches as countRemainingGroupMatchesForMatches,
+  comparePlayerTotals,
   getPlayerBonusSelections,
   isFinished,
   isSameTeam,
@@ -195,11 +196,9 @@ function getPlayerTotals() {
 
 function renderScoreStrip() {
   const totals = getPlayerTotals();
-  const leader = [...totals].sort((a, b) => b.total - a.total)[0];
-  const displayTotals = [...totals].sort((a, b) => {
-    if (b.total !== a.total) return b.total - a.total;
-    return a.name.localeCompare(b.name);
-  });
+  const displayTotals = [...totals].sort((a, b) => comparePlayerTotals(a, b) || a.name.localeCompare(b.name));
+  const leader = displayTotals[0];
+  const leadIsTied = displayTotals.filter((player) => comparePlayerTotals(player, leader) === 0).length > 1;
   const container = document.querySelector("#score-strip");
 
   container.innerHTML = displayTotals
@@ -212,9 +211,9 @@ function renderScoreStrip() {
               <h2>${escapeHtml(player.name)}</h2>
             </div>
             ${
-              leader.total === player.total
-                ? `<span class="pill leader-pill"><span class="leader-medal" role="img" aria-label="Trophy">🏆</span>Leader</span>`
-                : `<span class="pill">${leader.total - player.total} behind</span>`
+              comparePlayerTotals(player, leader) === 0
+                ? `<span class="pill leader-pill"><span class="leader-medal" role="img" aria-label="Trophy">🏆</span>${leadIsTied ? "Tied" : "Leader"}</span>`
+                : `<span class="pill">${leader.total === player.total ? (leader.gd === player.gd ? "Behind on goals for" : "Behind on goal diff") : `${leader.total - player.total} behind`}</span>`
             }
           </div>
           <div class="score-total">${player.total}</div>

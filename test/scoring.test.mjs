@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   aggregateTeam,
   bonusStatus,
+  comparePlayerTotals,
   countRemainingGroupMatches,
   getPlayerBonusSelections,
   scoreMatchForTeam,
@@ -184,5 +185,29 @@ describe("getPlayerBonusSelections", () => {
       { name: "South Korea", roles: ["points team"] },
       { name: "Netherlands", roles: ["winner pick"] },
     ]);
+  });
+});
+
+describe("comparePlayerTotals", () => {
+  it("uses goal difference as the leader tie-breaker when total points are equal", () => {
+    const bruno = { name: "Bruno", total: 12, gd: 3, gf: 8 };
+    const sara = { name: "Sara", total: 12, gd: 1, gf: 10 };
+
+    assert.deepEqual([sara, bruno].sort(comparePlayerTotals), [bruno, sara]);
+  });
+
+  it("uses goals for as the leader tie-breaker when total points and goal difference are equal", () => {
+    const bruno = { name: "Bruno", total: 12, gd: 3, gf: 8 };
+    const sara = { name: "Sara", total: 12, gd: 3, gf: 10 };
+
+    assert.deepEqual([bruno, sara].sort(comparePlayerTotals), [sara, bruno]);
+  });
+
+  it("leaves players tied when total points, goal difference, and goals for are equal", () => {
+    const bruno = { name: "Bruno", total: 12, gd: 3, gf: 8 };
+    const sara = { name: "Sara", total: 12, gd: 3, gf: 8 };
+
+    assert.equal(comparePlayerTotals(bruno, sara), 0);
+    assert.equal(comparePlayerTotals(sara, bruno), 0);
   });
 });
