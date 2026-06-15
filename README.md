@@ -27,6 +27,12 @@ Bonus points:
 
 ## Picks
 
+Pick rules:
+
+- The four points teams had to be outside the top 8 teams by World Cup winner odds.
+- Sara had one exemption from that rule: Brazil.
+- The two winner selections were bonus picks and could be any teams.
+
 Bruno points teams: Morocco, Japan, Norway, Mexico
 
 Sara points teams: Switzerland, Brazil, Egypt, South Korea
