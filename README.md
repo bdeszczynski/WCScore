@@ -41,6 +41,8 @@ Bruno winner selections: France, Portugal
 
 Sara winner selections: Brazil, Netherlands
 
+Balance update: in the running app, Sara keeps Brazil as a points team and Spain replaces Brazil as a winner/bonus pick. This gives Sara two separate bonus teams, matching Bruno.
+
 ## Data pipeline
 
 All runtime data lives in `public/data/world-cup.json`. The site is static, so visitors only read that file; no browser-side API tokens, database, or server are involved.

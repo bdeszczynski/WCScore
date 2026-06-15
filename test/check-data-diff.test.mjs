@@ -11,7 +11,7 @@ const basePlayers = [
   {
     name: "Sara",
     pointsTeams: [{ name: "Switzerland" }, { name: "Brazil" }, { name: "Egypt" }, { name: "South Korea" }],
-    winnerPicks: [{ name: "Brazil" }, { name: "Netherlands" }],
+    winnerPicks: [{ name: "Spain" }, { name: "Netherlands" }],
   },
 ];
 
@@ -37,7 +37,7 @@ const baseMatches = [
   { id: "pick-1", stage: "GROUP_STAGE", homeTeam: "France", awayTeam: "Portugal", status: "scheduled" },
   { id: "pick-2", stage: "GROUP_STAGE", homeTeam: "Switzerland", awayTeam: "Brazil", status: "scheduled" },
   { id: "pick-3", stage: "GROUP_STAGE", homeTeam: "Egypt", awayTeam: "South Korea", status: "scheduled" },
-  { id: "pick-4", stage: "GROUP_STAGE", homeTeam: "Brazil", awayTeam: "Netherlands", status: "scheduled" },
+  { id: "pick-4", stage: "GROUP_STAGE", homeTeam: "Spain", awayTeam: "Netherlands", status: "scheduled" },
 ];
 
 function data(overrides = {}) {
