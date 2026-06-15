@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=36" />
+    <link rel="stylesheet" href="styles.css?v=41" />
   </head>
   <body>
     <main class="app-shell">
@@ -63,13 +63,14 @@
 
           <aside class="panel odds-panel">
             <div class="panel-heading">
-              <div>
-                <p class="eyebrow">World Cup winner odds</p>
+              <div class="odds-title-line">
                 <h2>Top 10 favorites</h2>
+                <span>World Cup winner odds</span>
               </div>
               <div class="odds-meta" aria-label="Winner odds metadata">
-                <span>Source <strong id="odds-source">Loading</strong></span>
-                <span>Updated <strong id="odds-updated">Loading</strong></span>
+                <span><strong id="odds-source">Loading</strong></span>
+                <span id="odds-updated">Loading</span>
+                <a href="public/data/starting-chances.json" target="_blank" rel="noopener noreferrer">Starting chances</a>
               </div>
             </div>
             <div id="odds-list" class="odds-list"></div>
@@ -143,6 +144,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=36"></script>
+    <script type="module" src="src/app.js?v=41"></script>
   </body>
 </html>

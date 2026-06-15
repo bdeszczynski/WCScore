@@ -93,6 +93,9 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
       assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
+      assert.match(document.querySelector("#winner-picks").innerHTML, /Market/);
+      assert.match(document.querySelector("#winner-picks").innerHTML, /Start/);
+      assert.match(document.querySelector("#winner-picks").innerHTML, /Selected team probability divided by total loaded Polymarket probability/);
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);

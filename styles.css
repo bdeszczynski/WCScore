@@ -355,6 +355,65 @@ h3 {
   letter-spacing: 0;
 }
 
+.metric-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.info-dot {
+  position: relative;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  border: 1px solid var(--muted);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  cursor: help;
+}
+
+.info-dot::after {
+  content: attr(title);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  width: min(230px, 70vw);
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #17201b;
+  color: #fff;
+  box-shadow: var(--shadow);
+  font-size: 0.72rem;
+  font-weight: 750;
+  line-height: 1.25;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+  text-transform: none;
+  transform: translateY(4px);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.info-dot:hover::after,
+.info-dot:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .score-breakdown {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -562,40 +621,79 @@ tr:last-child td {
 }
 
 .odds-panel .panel-heading {
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 10px 14px;
   border-color: rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.06);
+}
+
+.odds-title-line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+}
+
+.odds-title-line h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.odds-title-line span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .odds-meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 6px;
-  max-width: 320px;
+  gap: 0;
+  max-width: none;
   color: rgba(255, 255, 255, 0.68);
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
+  font-size: 0.66rem;
+  font-weight: 750;
 }
 
-.odds-meta span {
+.odds-meta span,
+.odds-meta a {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  min-height: 26px;
-  padding: 4px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  gap: 4px;
+  min-height: 18px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+}
+
+.odds-meta span + span::before,
+.odds-meta span + a::before {
+  content: "·";
+  margin: 0 7px;
+  color: rgba(255, 255, 255, 0.42);
 }
 
 .odds-meta strong {
-  max-width: 150px;
+  max-width: 104px;
   overflow: hidden;
   color: #fff;
   text-overflow: ellipsis;
   text-transform: none;
   white-space: nowrap;
+}
+
+.odds-meta a {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.38);
+  text-underline-offset: 3px;
 }
 
 .odds-panel .eyebrow,
@@ -673,8 +771,21 @@ tr:last-child td {
   inset: 2px 3px 7px;
 }
 
+.odds-owner-badge.icon-only {
+  justify-content: center;
+  width: 32px;
+  min-height: 32px;
+  padding: 3px;
+}
+
 .odds-price {
+  min-width: 112px;
   text-align: right;
+}
+
+.odds-price .muted {
+  display: block;
+  white-space: nowrap;
 }
 
 .odds-price strong {
@@ -730,6 +841,34 @@ tr:last-child td {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+}
+
+.bonus-column-metrics {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.market-share-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.market-share-pill .info-dot {
+  width: 15px;
+  height: 15px;
+  font-size: 0.64rem;
 }
 
 .bonus-list {

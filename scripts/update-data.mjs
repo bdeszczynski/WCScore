@@ -34,6 +34,59 @@ const PUBLIC_ODDS_SOURCES = [
   "https://www.the-sun.com/sport/16467419/world-cup-2026-winner-odds/",
   "https://www.thesun.co.uk/betting/36354428/world-cup-2026-odds-tips/",
 ];
+const MANUAL_STARTING_WINNER_PROBABILITIES = [
+  ["Spain", 0.182],
+  ["France", 0.174],
+  ["England", 0.118],
+  ["Portugal", 0.105],
+  ["Brazil", 0.105],
+  ["Argentina", 0.1],
+  ["Germany", 0.067],
+  ["Netherlands", 0.058],
+  ["Norway", 0.024],
+  ["Belgium", 0.024],
+  ["Colombia", 0.024],
+  ["Morocco", 0.018],
+  ["Japan", 0.016],
+  ["United States", 0.016],
+  ["Uruguay", 0.015],
+  ["Switzerland", 0.015],
+  ["Mexico", 0.012],
+  ["Ecuador", 0.012],
+  ["Croatia", 0.011],
+  ["Turkey", 0.011],
+  ["Sweden", 0.01],
+  ["Senegal", 0.009],
+  ["Egypt", 0.008],
+  ["Paraguay", 0.007],
+  ["Austria", 0.007],
+  ["Scotland", 0.005],
+  ["Canada", 0.005],
+  ["Bosnia-Herzegovina", 0.004],
+  ["Czechia", 0.004],
+  ["Ivory Coast", 0.004],
+  ["Ghana", 0.003],
+  ["Algeria", 0.003],
+  ["South Korea", 0.002],
+  ["Tunisia", 0.002],
+  ["Australia", 0.002],
+  ["Iran", 0.002],
+  ["Congo DR", 0.0014],
+  ["South Africa", 0.0012],
+  ["Uzbekistan", 0.001],
+  ["Cape Verde Islands", 0.001],
+  ["Saudi Arabia", 0.001],
+  ["Qatar", 0.001],
+  ["Panama", 0.001],
+  ["New Zealand", 0.001],
+  ["Iraq", 0.001],
+  ["Curaçao", 0.0005],
+  ["Jordan", 0.0005],
+  ["Haiti", 0.0004],
+];
+const manualStartingProbabilityByTeam = new Map(
+  MANUAL_STARTING_WINNER_PROBABILITIES.map(([team, probability]) => [normalizeTeam(team), probability]),
+);
 
 const fifaCodeMap = new Map(
   Object.entries({
@@ -161,8 +214,9 @@ function selectedTeamNamesFromData(data) {
 function applyStartingProbabilities(rows, currentRows = []) {
   const currentByTeam = new Map((currentRows || []).map((entry) => [normalizeTeam(entry.team), entry]));
   return rows.map((row) => {
-    const existing = currentByTeam.get(normalizeTeam(row.team));
-    const startingProbability = Number(existing?.startingProbability);
+    const teamKey = normalizeTeam(row.team);
+    const existing = currentByTeam.get(teamKey);
+    const startingProbability = Number(existing?.startingProbability ?? manualStartingProbabilityByTeam.get(teamKey));
     return Number.isFinite(startingProbability) && startingProbability > 0
       ? { ...row, startingProbability: roundDecimal(startingProbability, 4) }
       : row;

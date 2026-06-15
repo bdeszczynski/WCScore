@@ -1,7 +1,16 @@
 import { readFile } from "node:fs/promises";
 
 const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
+const startingChances = JSON.parse(await readFile(new URL("../public/data/starting-chances.json", import.meta.url), "utf8"));
 const requiredPlayers = ["Bruno", "Sara"];
+
+function normalizeTeam(name) {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ");
+}
 
 for (const playerName of requiredPlayers) {
   const player = data.players.find((entry) => entry.name === playerName);
@@ -31,6 +40,24 @@ if (!data.odds?.source || !data.odds?.updatedAt || !Array.isArray(data.odds?.tea
   throw new Error("Missing odds source, update time, or team rows");
 }
 
+if (!Array.isArray(startingChances.teams) || !startingChances.teams.length) {
+  throw new Error("Missing starting chances rows");
+}
+
+let previousStartingProbability = Number.POSITIVE_INFINITY;
+const startingProbabilityByTeam = new Map();
+for (const entry of startingChances.teams) {
+  const probability = Number(entry.startingProbability);
+  if (!entry.team || !Number.isFinite(probability) || probability <= 0 || probability >= 1) {
+    throw new Error(`Invalid starting chances entry: ${JSON.stringify(entry)}`);
+  }
+  if (probability > previousStartingProbability) {
+    throw new Error(`Starting chances are not sorted descending at ${entry.team}`);
+  }
+  previousStartingProbability = probability;
+  startingProbabilityByTeam.set(normalizeTeam(entry.team), probability);
+}
+
 if (data.odds.teams.filter((entry) => Number(entry.rank) <= 10).length < 10) {
   throw new Error("Odds data must include at least 10 ranked favorites");
 }
@@ -50,6 +77,10 @@ for (const entry of data.odds.teams) {
     const startingProbability = Number(entry.startingProbability);
     if (!Number.isFinite(startingProbability) || startingProbability <= 0 || startingProbability >= 1) {
       throw new Error(`Invalid starting odds probability: ${JSON.stringify(entry)}`);
+    }
+    const expectedStartingProbability = startingProbabilityByTeam.get(normalizeTeam(entry.team));
+    if (expectedStartingProbability && startingProbability !== expectedStartingProbability) {
+      throw new Error(`Starting odds probability does not match manual baseline: ${JSON.stringify(entry)}`);
     }
   }
 }

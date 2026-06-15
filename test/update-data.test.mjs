@@ -86,14 +86,14 @@ describe("parsePolymarketWinnerEvent", () => {
     assert.ok(rows.some((row) => row.team === "Norway" && row.rank === 12));
   });
 
-  it("preserves manual starting chances but does not create new baselines", () => {
+  it("preserves existing starting chances and applies the manual baseline table", () => {
     const rows = parsePolymarketWinnerEvent(
       { markets: [market("France", 0.15), market("Spain", 0.16)] },
       { currentRows: [{ team: "France", startingProbability: 0.12 }] },
     );
 
     assert.equal(rows.find((row) => row.team === "France").startingProbability, 0.12);
-    assert.equal(rows.find((row) => row.team === "Spain").startingProbability, undefined);
+    assert.equal(rows.find((row) => row.team === "Spain").startingProbability, 0.182);
   });
 
   it("ignores closed markets, inactive markets, and placeholder teams", () => {
