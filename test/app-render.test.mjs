@@ -54,7 +54,7 @@ function createFakeDocument() {
     body: new FakeElement(),
     createElement: () => new FakeElement(),
     querySelector: (selector) => elements.get(selector) || null,
-    querySelectorAll: () => [],
+    querySelectorAll: (selector) => (selector === "[data-ladder-round]" ? Array.from({ length: 7 }, () => new FakeElement()) : []),
     elements,
   };
 }
@@ -99,6 +99,7 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#winner-picks").innerHTML, /Selected team probability divided by total loaded Polymarket probability/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-card/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-flag/);
+      assert.ok(document.querySelectorAll("[data-ladder-round]").length >= 7);
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);

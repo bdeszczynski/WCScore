@@ -484,8 +484,8 @@ h3 {
 }
 
 .segmented {
-  display: inline-grid;
-  grid-auto-flow: column;
+  display: inline-flex;
+  flex-wrap: wrap;
   gap: 2px;
   padding: 3px;
   border: 1px solid var(--line);
@@ -978,6 +978,19 @@ select {
   gap: 1px;
   overflow-x: auto;
   background: var(--line);
+}
+
+.soon-board {
+  display: block;
+}
+
+.ladder-coming-soon {
+  min-height: 96px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 900;
 }
 
 .ladder-card,

@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=44" />
+    <link rel="stylesheet" href="styles.css?v=45" />
   </head>
   <body>
     <main class="app-shell">
@@ -135,7 +135,11 @@
             <div class="segmented compact" role="tablist" aria-label="Ladder round">
               <button class="active" data-ladder-round="round32" type="button">Round of 32</button>
               <button data-ladder-round="round16" type="button">Round of 16</button>
-              <button data-ladder-round="third" type="button">3rd place</button>
+              <button data-ladder-round="third" type="button">3rd group</button>
+              <button data-ladder-round="qf" type="button">QF</button>
+              <button data-ladder-round="sf" type="button">SF</button>
+              <button data-ladder-round="thirdMatch" type="button">3rd</button>
+              <button data-ladder-round="final" type="button">F</button>
             </div>
           </div>
           <div class="ladder-board" id="knockout-ladder"></div>
@@ -159,6 +163,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=44"></script>
+    <script type="module" src="src/app.js?v=45"></script>
   </body>
 </html>

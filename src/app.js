@@ -370,7 +370,7 @@ function renderThirdPlaceLadder() {
         <article class="third-card ${row.thirdRank <= 8 ? "in" : "out"}">
           <span class="third-rank">${row.thirdRank}</span>
           ${flagChip({ ...row, slotLabel: `${row.group}3` })}
-          <span class="third-stats">${row.points}pt · GD ${row.gd > 0 ? "+" : ""}${row.gd} · GF ${row.gf}</span>
+          <span class="third-stats">${row.points}-${row.gd > 0 ? "+" : ""}${row.gd}-${row.gf}</span>
         </article>
       `,
     )
@@ -869,8 +869,10 @@ function renderLadder() {
       ? renderR16Ladder()
       : state.ladderRound === "third"
         ? renderThirdPlaceLadder()
-        : renderR32Ladder();
-  container.className = `ladder-board ${state.ladderRound === "third" ? "third-board" : ""}`;
+        : state.ladderRound === "round32"
+          ? renderR32Ladder()
+          : `<div class="ladder-coming-soon">Coming soon</div>`;
+  container.className = `ladder-board ${state.ladderRound === "third" ? "third-board" : ""} ${!['round32', 'round16', 'third'].includes(state.ladderRound) ? "soon-board" : ""}`;
   container.innerHTML = content || `<div class="empty-state">No ladder data loaded yet.</div>`;
 }
 
