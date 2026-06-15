@@ -259,6 +259,7 @@ h3 {
 .score-card.leader-celebrating {
   box-shadow: 0 0 0 3px rgba(244, 185, 66, 0.42), 0 20px 44px rgba(26, 38, 33, 0.18);
   transform: translateY(-2px);
+  animation: leader-vibrate 520ms ease-in-out 2;
 }
 
 .score-card .score-head {
@@ -969,6 +970,29 @@ select {
   }
 }
 
+@keyframes leader-vibrate {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+
+  18% {
+    transform: translate(-2px, -2px) rotate(-0.35deg);
+  }
+
+  36% {
+    transform: translate(2px, -1px) rotate(0.35deg);
+  }
+
+  54% {
+    transform: translate(-1px, -3px) rotate(-0.25deg);
+  }
+
+  72% {
+    transform: translate(1px, -2px) rotate(0.25deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .confetti-overlay {
     display: none;
@@ -976,6 +1000,10 @@ select {
 
   .score-card {
     transition: none;
+  }
+
+  .score-card.leader-celebrating {
+    animation: none;
   }
 }
 
