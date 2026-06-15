@@ -187,6 +187,18 @@ function roundDecimal(value, digits = 2) {
   return Number(number.toFixed(digits));
 }
 
+function normalizeProbabilities(values) {
+  const probabilities = values.map((value) => {
+    const number = Number(value);
+    if (!Number.isFinite(number) || number <= 0) return null;
+    return number > 1 ? 1 / number : number;
+  });
+  if (probabilities.some((value) => value === null)) return null;
+  const total = probabilities.reduce((sum, value) => sum + value, 0);
+  if (!Number.isFinite(total) || total <= 0) return null;
+  return probabilities.map((value) => roundDecimal(value / total, 4));
+}
+
 function parseJsonArray(value) {
   if (Array.isArray(value)) return value;
   try {
@@ -303,6 +315,26 @@ export function parsePolymarketMatchMarket(market, match) {
     question: String(market.question || "").trim(),
     url: polymarketMarketUrl(market),
     volume: roundDecimal(marketVolume(market), 2),
+  };
+}
+
+export function parseFootballDataMatchOdds(apiMatch, normalizedMatch) {
+  const odds = apiMatch?.odds || {};
+  const home = odds.homeWin ?? odds.home ?? odds.homeTeam;
+  const draw = odds.draw;
+  const away = odds.awayWin ?? odds.away ?? odds.awayTeam;
+  const probabilities = normalizeProbabilities([home, draw, away]);
+  if (!probabilities) return null;
+  return {
+    matchId: normalizedMatch.id,
+    homeTeam: normalizedMatch.homeTeam,
+    awayTeam: normalizedMatch.awayTeam,
+    homeProbability: probabilities[0],
+    drawProbability: probabilities[1],
+    awayProbability: probabilities[2],
+    question: `${normalizedMatch.homeTeam} vs ${normalizedMatch.awayTeam}`,
+    url: null,
+    volume: null,
   };
 }
 
@@ -610,7 +642,16 @@ async function fetchFootballDataMatches() {
   });
   if (!response.ok) throw new Error(`football-data.org request failed: ${response.status}`);
   const json = await response.json();
-  return json.matches.map(normalizeFootballDataMatch).filter(Boolean);
+  const rows = json.matches
+    .map((apiMatch) => {
+      const match = normalizeFootballDataMatch(apiMatch);
+      return match ? { match, matchOdds: parseFootballDataMatchOdds(apiMatch, match) } : null;
+    })
+    .filter(Boolean);
+  return {
+    matches: rows.map((row) => row.match),
+    matchOdds: rows.map((row) => row.matchOdds).filter(Boolean),
+  };
 }
 
 export async function fetchPolymarketOdds(currentData = {}) {
@@ -736,11 +777,14 @@ async function main() {
   const current = JSON.parse(await readFile(DATA_FILE, "utf8"));
   const sources = [];
 
-  let matches = await fetchFootballDataMatches();
+  const footballData = await fetchFootballDataMatches();
+  let matches = footballData?.matches || null;
+  let footballDataMatchOdds = footballData?.matchOdds || [];
   if (matches?.length) {
     sources.push("football-data.org");
     matches = mergeMatchMetadata(matches, current.matches || []);
   } else {
+    footballDataMatchOdds = [];
     matches = await fetchWikipediaMatches();
     if (matches.length) {
       sources.push("Wikipedia");
@@ -755,9 +799,19 @@ async function main() {
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 
-  const freshMatchOdds = await fetchPolymarketMatchOdds(matches);
-  const matchOdds = freshMatchOdds.matches.length ? freshMatchOdds : current.matchOdds || freshMatchOdds;
-  if (freshMatchOdds.matches.length) sources.push(freshMatchOdds.source);
+  const freshPolymarketMatchOdds = await fetchPolymarketMatchOdds(matches);
+  const freshMatchOdds = footballDataMatchOdds.length
+    ? {
+        source: "football-data.org match odds",
+        updatedAt: new Date().toISOString(),
+        type: "bookmaker_match",
+        matches: footballDataMatchOdds,
+      }
+    : freshPolymarketMatchOdds.matches.length
+      ? freshPolymarketMatchOdds
+      : null;
+  const matchOdds = freshMatchOdds || current.matchOdds || freshPolymarketMatchOdds;
+  if (freshMatchOdds?.source) sources.push(freshMatchOdds.source);
 
   const next = {
     ...current,

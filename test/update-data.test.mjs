@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   getFootballDataToken,
+  parseFootballDataMatchOdds,
   parsePolymarketMatchMarket,
   parsePolymarketWinnerEvent,
   parseSunWinnerOdds,
@@ -206,5 +207,42 @@ describe("parsePolymarketMatchMarket", () => {
       ),
       null,
     );
+  });
+});
+
+describe("parseFootballDataMatchOdds", () => {
+  const match = {
+    id: "537333",
+    homeTeam: "France",
+    awayTeam: "Senegal",
+  };
+
+  it("converts decimal home/draw/away odds into normalized match probabilities", () => {
+    const row = parseFootballDataMatchOdds(
+      {
+        odds: {
+          homeWin: 1.8,
+          draw: 3.5,
+          awayWin: 5,
+        },
+      },
+      match,
+    );
+
+    assert.deepEqual(row, {
+      matchId: "537333",
+      homeTeam: "France",
+      awayTeam: "Senegal",
+      homeProbability: 0.5335,
+      drawProbability: 0.2744,
+      awayProbability: 0.1921,
+      question: "France vs Senegal",
+      url: null,
+      volume: null,
+    });
+  });
+
+  it("returns null when football-data has no odds values", () => {
+    assert.equal(parseFootballDataMatchOdds({ odds: { homeWin: null, draw: null, awayWin: null } }, match), null);
   });
 });
