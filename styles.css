@@ -566,6 +566,38 @@ tr:last-child td {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.odds-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 320px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.odds-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 26px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.odds-meta strong {
+  max-width: 150px;
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .odds-panel .eyebrow,
 .odds-panel .muted {
   color: rgba(255, 255, 255, 0.68);
@@ -716,6 +748,22 @@ tr:last-child td {
   margin: 8px 0 0;
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+.chance-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.chance-line span {
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
 }
 
 .goal-list {

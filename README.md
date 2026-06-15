@@ -49,7 +49,9 @@ If no token is configured, the updater tries a public Wikipedia fallback and pre
 
 Venue metadata is stored directly on each match in `public/data/world-cup.json` as `venue`, `venueCity`, `venueCountry`, and `venueWikiUrl`. The one-time `npm run venues` command enriches those fields from Wikipedia fixture tables, with a small manual override table for fixed schedule rows that Wikipedia exposes differently. Scheduled football-data.org updates preserve existing venue metadata when refreshing results.
 
-Winner odds are refreshed from the public Oddschecker World Cup Winner page with no API key. The updater keeps the first ten listed contenders and marks any Bruno/Sara selected teams in the interface. If Oddschecker cannot be read, it falls back to public World Cup odds articles.
+Winner odds are refreshed without an odds API token. The updater tries the public Polymarket `world-cup-winner` event first, then falls back to The Sun public World Cup winner odds article. The interface shows the top 10 favorites, marks any Bruno/Sara selected team in that top 10, and stores selected teams outside the top 10 so their current chance can still appear on the semi-final/champion cards.
+
+Polymarket rows are prediction-market chances, not bookmaker odds. The app shows both the market chance and the decimal equivalent. Starting chances are manual: add `startingProbability` to the relevant `public/data/world-cup.json` odds rows as a decimal probability, for example `0.1` for 10% or `0.15` for 15%. The updater preserves those manual baselines and does not create or overwrite them automatically.
 
 Suggested GitHub secrets:
 
@@ -61,7 +63,7 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 
 `npm run check` runs the JSON shape checker, the JSON diff checker, and all Node tests:
 
-- `scripts/check-data.mjs` validates the current `public/data/world-cup.json` structure.
+- `scripts/check-data.mjs` validates the current `public/data/world-cup.json` structure, including player picks, match venue metadata, and odds rows/source/update markers.
 - `scripts/check-data-diff.mjs` compares the current `public/data/world-cup.json` against the previous committed version.
 
 `test/scoring.test.mjs` covers the challenge rules:
@@ -82,6 +84,11 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 - Scheduled/manual workflow updates fail if `FOOTBALL_DATA_TOKEN` is required but blank.
 - Configured tokens are trimmed and used.
 - Local fallback updates are allowed when the token is not required.
+- Polymarket winner markets are ranked by probability and converted to decimal odds.
+- Selected teams outside the visible top 10 are still kept for bonus-card chances.
+- Closed, inactive, and placeholder Polymarket markets are ignored.
+- Manual `startingProbability` values are preserved but not auto-created.
+- The Sun article odds parser works as the fallback source.
 
 `test/check-data-diff.test.mjs` covers suspicious `world-cup.json` changes:
 

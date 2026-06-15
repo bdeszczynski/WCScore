@@ -41,6 +41,8 @@ function createFakeDocument() {
       "#standings-body",
       "#goal-standings",
       "#odds-list",
+      "#odds-source",
+      "#odds-updated",
       "#winner-picks",
       "#match-list",
       "#match-filter",
@@ -89,6 +91,10 @@ describe("app render smoke test", () => {
 
       assert.match(document.querySelector("#score-strip").innerHTML, /score-card/);
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
+      assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
+      assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
+      assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
+      assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
       assert.match(document.querySelector("#match-list").innerHTML, /GROUP STAGE/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);

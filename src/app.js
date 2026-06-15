@@ -95,6 +95,22 @@ function getTeamOdds(teamName) {
   return state.data.odds?.teams?.find((entry) => isSameTeam(entry.team, teamName));
 }
 
+function formatChance(value, fallback = "No chance loaded") {
+  const probability = Number(value);
+  if (!Number.isFinite(probability) || probability <= 0) return fallback;
+  return `${(probability * 100).toFixed(1)}%`;
+}
+
+function oddsChanceLabel(odds) {
+  if (Number.isFinite(Number(odds?.probability))) return `${formatChance(odds.probability)} market chance`;
+  const decimal = Number(odds?.decimal);
+  return Number.isFinite(decimal) && decimal > 0 ? `${((1 / decimal) * 100).toFixed(1)}% implied` : "No live odds";
+}
+
+function startingChanceLabel(odds) {
+  return Number.isFinite(Number(odds?.startingProbability)) ? `Start ${formatChance(odds.startingProbability)}` : "Start not set";
+}
+
 function getSelectedTeamOwner(teamName) {
   return state.data.players.find((player) => {
     return (
@@ -432,7 +448,6 @@ function renderOdds() {
   document.querySelector("#odds-list").innerHTML = topOdds
     .map((odds, index) => {
       const decimal = odds?.decimal ? Number(odds.decimal) : null;
-      const implied = decimal ? `${((1 / decimal) * 100).toFixed(1)}% implied` : "No live odds";
       const owner = getSelectedTeamOwner(odds.team);
       return `
         <article class="odds-row">
@@ -446,12 +461,20 @@ function renderOdds() {
           ${owner ? `<div class="odds-owner-badge">${ownerAvatar(owner)}<span>${escapeHtml(owner)} selected</span></div>` : ""}
           <div class="odds-price">
             <strong>${decimal ? decimal.toFixed(2) : "—"}</strong>
-            <span class="muted">${implied}</span>
+            <span class="muted">${escapeHtml(oddsChanceLabel(odds))}</span>
           </div>
         </article>
       `;
     })
     .join("") || `<div class="empty-state">No winner odds loaded yet.</div>`;
+}
+
+function renderOddsMeta() {
+  const source = state.data.odds?.source || "No odds source";
+  const updatedAt = state.data.odds?.updatedAt;
+  const updated = updatedAt ? fmtDate.format(new Date(updatedAt)) : "Never";
+  document.querySelector("#odds-source").textContent = source;
+  document.querySelector("#odds-updated").textContent = updated;
 }
 
 function renderWinnerPicks() {
@@ -470,11 +493,16 @@ function renderWinnerPicks() {
           <div class="bonus-list">
             ${picks
               .map(
-                (pick) => `
+                (pick) => {
+                  const odds = getTeamOdds(pick.name);
+                  const chance = oddsChanceLabel(odds);
+                  const start = startingChanceLabel(odds);
+                  return `
                   <article class="winner-card ${ownerClass(player.name)}">
                     <div>
                       <h3>${teamLabel(pick.name)}</h3>
                       <p class="muted bonus-role">${escapeHtml(pick.roles.join(" + "))}</p>
+                      <p class="muted chance-line"><span>${escapeHtml(chance)}</span><span>${escapeHtml(start)}</span></p>
                     </div>
                     <div class="winner-points">
                       <span class="pill">${pick.status.semiReached ? "Semi +3" : "Semi pending"}</span>
@@ -482,7 +510,8 @@ function renderWinnerPicks() {
                       <span class="pill">${pick.status.points} pts</span>
                     </div>
                   </article>
-                `,
+                `;
+                },
               )
               .join("")}
           </div>
@@ -694,6 +723,7 @@ function render() {
   renderScoreStrip();
   renderStandings();
   renderOdds();
+  renderOddsMeta();
   renderWinnerPicks();
   renderMatches();
 }

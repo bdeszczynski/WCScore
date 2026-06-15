@@ -27,4 +27,31 @@ for (const match of data.matches) {
   }
 }
 
+if (!data.odds?.source || !data.odds?.updatedAt || !Array.isArray(data.odds?.teams)) {
+  throw new Error("Missing odds source, update time, or team rows");
+}
+
+if (data.odds.teams.filter((entry) => Number(entry.rank) <= 10).length < 10) {
+  throw new Error("Odds data must include at least 10 ranked favorites");
+}
+
+for (const entry of data.odds.teams) {
+  const decimal = Number(entry.decimal);
+  if (!entry.team || !Number.isFinite(decimal) || decimal <= 1) {
+    throw new Error(`Invalid odds entry: ${JSON.stringify(entry)}`);
+  }
+  if (entry.probability !== undefined) {
+    const probability = Number(entry.probability);
+    if (!Number.isFinite(probability) || probability <= 0 || probability >= 1) {
+      throw new Error(`Invalid odds probability: ${JSON.stringify(entry)}`);
+    }
+  }
+  if (entry.startingProbability !== undefined) {
+    const startingProbability = Number(entry.startingProbability);
+    if (!Number.isFinite(startingProbability) || startingProbability <= 0 || startingProbability >= 1) {
+      throw new Error(`Invalid starting odds probability: ${JSON.stringify(entry)}`);
+    }
+  }
+}
+
 console.log(`Data OK: ${data.players.length} players, ${data.matches.length} matches`);

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-15T06:45:26.266Z",
-  "source": "football-data.org",
+  "updatedAt": "2026-06-15T07:52:27.632Z",
+  "source": "football-data.org + Polymarket World Cup Winner market",
   "players": [
     {
       "name": "Bruno",
@@ -1136,78 +1136,114 @@
     }
   ],
   "odds": {
-    "source": "Oddschecker World Cup Winner odds",
-    "updatedAt": "2026-06-14T13:26:21.000Z",
+    "source": "Polymarket World Cup Winner market",
+    "updatedAt": "2026-06-15T07:52:27.632Z",
+    "type": "prediction_market",
     "teams": [
       {
-        "rank": 1,
-        "team": "France",
-        "decimal": 6,
-        "fractional": "5",
-        "bookmaker": "Oddschecker best public price"
-      },
-      {
-        "rank": 2,
         "team": "Spain",
-        "decimal": 6,
-        "fractional": "5",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 6.19,
+        "probability": 0.1615,
+        "bookmaker": "Polymarket market probability",
+        "rank": 1
       },
       {
-        "rank": 3,
-        "team": "England",
-        "decimal": 9.5,
-        "fractional": "17/2",
-        "bookmaker": "Oddschecker best public price"
+        "team": "France",
+        "decimal": 6.23,
+        "probability": 0.1605,
+        "bookmaker": "Polymarket market probability",
+        "rank": 2
       },
       {
-        "rank": 4,
         "team": "Portugal",
-        "decimal": 10,
-        "fractional": "9",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 9.3,
+        "probability": 0.1075,
+        "bookmaker": "Polymarket market probability",
+        "rank": 3
       },
       {
-        "rank": 5,
-        "team": "Brazil",
-        "decimal": 12.8,
-        "fractional": "59/5",
-        "bookmaker": "Oddschecker best public price"
+        "team": "England",
+        "decimal": 10.36,
+        "probability": 0.0965,
+        "bookmaker": "Polymarket market probability",
+        "rank": 4
       },
       {
-        "rank": 6,
         "team": "Argentina",
-        "decimal": 12,
-        "fractional": "11",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 12.42,
+        "probability": 0.0805,
+        "bookmaker": "Polymarket market probability",
+        "rank": 5
       },
       {
-        "rank": 7,
+        "team": "Brazil",
+        "decimal": 14.81,
+        "probability": 0.0675,
+        "bookmaker": "Polymarket market probability",
+        "rank": 6
+      },
+      {
         "team": "Germany",
-        "decimal": 18.1,
-        "fractional": "171/10",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 16.26,
+        "probability": 0.0615,
+        "bookmaker": "Polymarket market probability",
+        "rank": 7
       },
       {
-        "rank": 8,
         "team": "Netherlands",
-        "decimal": 21,
-        "fractional": "20",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 21.98,
+        "probability": 0.0455,
+        "bookmaker": "Polymarket market probability",
+        "rank": 8
       },
       {
-        "rank": 9,
-        "team": "Morocco",
-        "decimal": 43,
-        "fractional": "42",
-        "bookmaker": "Oddschecker best public price"
-      },
-      {
-        "rank": 10,
         "team": "Norway",
-        "decimal": 43,
-        "fractional": "42",
-        "bookmaker": "Oddschecker best public price"
+        "decimal": 40.82,
+        "probability": 0.0245,
+        "bookmaker": "Polymarket market probability",
+        "rank": 9
+      },
+      {
+        "team": "Morocco",
+        "decimal": 44.44,
+        "probability": 0.0225,
+        "bookmaker": "Polymarket market probability",
+        "rank": 10
+      },
+      {
+        "team": "Japan",
+        "decimal": 48.78,
+        "probability": 0.0205,
+        "bookmaker": "Polymarket market probability",
+        "rank": 11
+      },
+      {
+        "team": "Mexico",
+        "decimal": 80,
+        "probability": 0.0125,
+        "bookmaker": "Polymarket market probability",
+        "rank": 15
+      },
+      {
+        "team": "Switzerland",
+        "decimal": 117.65,
+        "probability": 0.0085,
+        "bookmaker": "Polymarket market probability",
+        "rank": 17
+      },
+      {
+        "team": "South Korea",
+        "decimal": 222.22,
+        "probability": 0.0045,
+        "bookmaker": "Polymarket market probability",
+        "rank": 24
+      },
+      {
+        "team": "Egypt",
+        "decimal": 666.67,
+        "probability": 0.0015,
+        "bookmaker": "Polymarket market probability",
+        "rank": 33
       }
     ]
   }

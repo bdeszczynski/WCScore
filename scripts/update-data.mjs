@@ -8,8 +8,8 @@ const WIKIPEDIA_PAGES = [
 ];
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const ODDSCHECKER_WINNER_URL = "https://www.oddschecker.com/football/world-cup/winner";
-const ODDSCHECKER_TEAMS = [
+const POLYMARKET_WINNER_URL = "https://gamma-api.polymarket.com/events/slug/world-cup-winner";
+const PUBLIC_ODDS_TEAMS = [
   "France",
   "Spain",
   "England",
@@ -32,14 +32,7 @@ const ODDSCHECKER_TEAMS = [
 ];
 const PUBLIC_ODDS_SOURCES = [
   "https://www.the-sun.com/sport/16467419/world-cup-2026-winner-odds/",
-  "https://nypost.com/2026/05/18/betting/2026-world-cup-odds-france-spain-co-favorites-to-lift-the-trophy/",
-  "https://www.kiplinger.com/taxes/world-cup-betting-odds-and-gambling-tax",
-];
-const FALLBACK_WINNER_ODDS = [
-  { team: "Brazil", american: 900, source: "The Sun public odds article" },
-  { team: "France", american: 450, source: "The Sun public odds article" },
-  { team: "Netherlands", fractional: "20/1", source: "New York Post public odds article" },
-  { team: "Portugal", american: 850, source: "The Sun public odds article" },
+  "https://www.thesun.co.uk/betting/36354428/world-cup-2026-odds-tips/",
 ];
 
 const fifaCodeMap = new Map(
@@ -124,12 +117,87 @@ function fractionalToDecimal(fractional) {
   return 1 + Number(value);
 }
 
-function fallbackWinnerOdds() {
-  return FALLBACK_WINNER_ODDS.map((entry) => ({
-    team: entry.team,
-    decimal: entry.american ? americanToDecimal(entry.american) : fractionalToDecimal(entry.fractional),
-    bookmaker: entry.source,
-  }));
+function probabilityToDecimal(probability) {
+  const value = Number(probability);
+  if (!Number.isFinite(value) || value <= 0 || value >= 1) return null;
+  return 1 / value;
+}
+
+function roundDecimal(value, digits = 2) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return null;
+  return Number(number.toFixed(digits));
+}
+
+function parseJsonArray(value) {
+  if (Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(String(value || ""));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function teamFromWinnerQuestion(question = "") {
+  const match = String(question).match(/^Will\s+(.+?)\s+win\s+the\s+2026\s+FIFA\s+World\s+Cup\??$/i);
+  return match?.[1]?.trim() || "";
+}
+
+function isUsableWinnerTeam(team) {
+  const normalized = normalizeTeam(team);
+  return Boolean(normalized && normalized !== "other" && !normalized.startsWith("team "));
+}
+
+function selectedTeamNamesFromData(data) {
+  const names = new Set();
+  for (const player of data.players || []) {
+    for (const team of player.pointsTeams || []) names.add(normalizeTeam(team.name));
+    for (const team of player.winnerPicks || []) names.add(normalizeTeam(team.name));
+  }
+  return names;
+}
+
+function applyStartingProbabilities(rows, currentRows = []) {
+  const currentByTeam = new Map((currentRows || []).map((entry) => [normalizeTeam(entry.team), entry]));
+  return rows.map((row) => {
+    const existing = currentByTeam.get(normalizeTeam(row.team));
+    const startingProbability = Number(existing?.startingProbability);
+    return Number.isFinite(startingProbability) && startingProbability > 0
+      ? { ...row, startingProbability: roundDecimal(startingProbability, 4) }
+      : row;
+  });
+}
+
+function includeSelectedRows(rows, selectedTeams, limit = 10) {
+  if (!selectedTeams?.size) return rows.slice(0, limit);
+  const topRows = rows.slice(0, limit);
+  const included = new Set(topRows.map((row) => normalizeTeam(row.team)));
+  const selectedRows = rows.filter((row) => selectedTeams.has(normalizeTeam(row.team)) && !included.has(normalizeTeam(row.team)));
+  return [...topRows, ...selectedRows];
+}
+
+export function parsePolymarketWinnerEvent(event, { limit = 10, selectedTeams = new Set(), currentRows = [] } = {}) {
+  const markets = Array.isArray(event?.markets) ? event.markets : [];
+  const rows = markets
+    .map((market) => {
+      const team = String(market.groupItemTitle || teamFromWinnerQuestion(market.question)).trim();
+      const outcomePrices = parseJsonArray(market.outcomePrices);
+      const probability = Number(outcomePrices[0]);
+      const decimal = probabilityToDecimal(probability);
+      if (market.active === false || market.closed || !isUsableWinnerTeam(team) || !decimal) return null;
+      return {
+        team,
+        decimal: roundDecimal(decimal),
+        probability: roundDecimal(probability, 4),
+        bookmaker: "Polymarket market probability",
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.probability - a.probability || a.team.localeCompare(b.team))
+    .map((row, index) => ({ ...row, rank: index + 1 }));
+
+  return applyStartingProbabilities(includeSelectedRows(rows, selectedTeams, limit), currentRows);
 }
 
 function extractPublicOdds(html, team) {
@@ -139,76 +207,6 @@ function extractPublicOdds(html, team) {
   const fractional = new RegExp(`${escaped}[\\s\\S]{0,90}?(\\d{1,2}\\s*/\\s*1)`, "i").exec(html);
   if (fractional) return fractionalToDecimal(fractional[1]);
   return null;
-}
-
-function decodeHtml(value) {
-  return String(value)
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
-
-function htmlToLines(html) {
-  return decodeHtml(
-    String(html)
-      .replace(/<script[\s\S]*?<\/script>/gi, "\n")
-      .replace(/<style[\s\S]*?<\/style>/gi, "\n")
-      .replace(/<[^>]+>/g, "\n"),
-  )
-    .split(/\n+/)
-    .map((line) => line.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
-}
-
-function isOddscheckerTeam(line) {
-  const normalized = normalizeTeam(line);
-  return ODDSCHECKER_TEAMS.find((team) => normalizeTeam(team) === normalized) || null;
-}
-
-function parseOddscheckerToken(line) {
-  const token = line.replace(/\s*\/\s*/g, "/");
-  if (!/^\d{1,3}(?:\/\d{1,3})?$/.test(token)) return null;
-  const decimal = fractionalToDecimal(token);
-  if (!decimal || decimal < 1.01 || decimal > 501) return null;
-  return { token, decimal };
-}
-
-function extractOddscheckerRows(html, limit = 10) {
-  const lines = htmlToLines(html);
-  const starts = lines.map((line, index) => (line === "QuickBet" ? index : -1)).filter((index) => index >= 0);
-
-  for (const start of starts) {
-    const rows = [];
-    for (let index = start + 1; index < lines.length && rows.length < limit; index += 1) {
-      const team = isOddscheckerTeam(lines[index]);
-      if (!team) continue;
-
-      const odds = [];
-      for (let cursor = index + 1; cursor < lines.length; cursor += 1) {
-        if (isOddscheckerTeam(lines[cursor]) || lines[cursor] === "Sort By") break;
-        const parsed = parseOddscheckerToken(lines[cursor]);
-        if (parsed) odds.push(parsed);
-      }
-
-      if (odds.length < 4) continue;
-      const best = odds.reduce((bestPrice, current) => (current.decimal > bestPrice.decimal ? current : bestPrice), odds[0]);
-      rows.push({
-        rank: rows.length + 1,
-        team,
-        decimal: Number(best.decimal.toFixed(2)),
-        fractional: best.token,
-        bookmaker: "Oddschecker best public price",
-      });
-    }
-
-    if (rows.length >= limit) return rows;
-  }
-
-  return [];
 }
 
 function cleanWikiText(value = "") {
@@ -507,29 +505,54 @@ async function fetchFootballDataMatches() {
   return json.matches.map(normalizeFootballDataMatch).filter(Boolean);
 }
 
-async function fetchOddscheckerOdds() {
+export async function fetchPolymarketOdds(currentData = {}) {
   try {
-    const response = await fetch(ODDSCHECKER_WINNER_URL, {
+    const response = await fetch(POLYMARKET_WINNER_URL, {
       headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
     });
-    if (!response.ok) throw new Error(`Oddschecker request failed: ${response.status}`);
+    if (!response.ok) throw new Error(`Polymarket request failed: ${response.status}`);
 
-    const rows = extractOddscheckerRows(await response.text());
-    if (rows.length < 10) throw new Error(`Oddschecker scrape found ${rows.length} usable rows`);
+    const rows = parsePolymarketWinnerEvent(await response.json(), {
+      limit: 10,
+      selectedTeams: selectedTeamNamesFromData(currentData),
+      currentRows: currentData.odds?.teams || [],
+    });
+    if (rows.filter((row) => row.rank <= 10).length < 10) {
+      throw new Error(`Polymarket returned ${rows.length} usable winner markets`);
+    }
 
     return {
-      source: "Oddschecker World Cup Winner odds",
+      source: "Polymarket World Cup Winner market",
       updatedAt: new Date().toISOString(),
+      type: "prediction_market",
       teams: rows,
     };
   } catch (error) {
-    console.warn(`Oddschecker scrape failed: ${error.message}`);
+    console.warn(`Polymarket odds update failed: ${error.message}`);
     return null;
   }
 }
 
-async function fetchPublicArticleOdds() {
-  const odds = new Map(fallbackWinnerOdds().map((entry) => [normalizeTeam(entry.team), entry]));
+export function parseSunWinnerOdds(html, { limit = 10, selectedTeams = new Set(), currentRows = [] } = {}) {
+  const rows = PUBLIC_ODDS_TEAMS.map((team) => {
+    const decimal = extractPublicOdds(html, team);
+    if (!decimal) return null;
+    return {
+      team,
+      decimal: roundDecimal(decimal),
+      probability: roundDecimal(1 / decimal, 4),
+      bookmaker: "The Sun public odds article",
+    };
+  })
+    .filter(Boolean)
+    .sort((a, b) => a.decimal - b.decimal || a.team.localeCompare(b.team))
+    .map((row, index) => ({ ...row, rank: index + 1 }));
+
+  return applyStartingProbabilities(includeSelectedRows(rows, selectedTeams, limit), currentRows);
+}
+
+async function fetchSunArticleOdds(currentData = {}) {
+  const selectedTeams = selectedTeamNamesFromData(currentData);
 
   for (const url of PUBLIC_ODDS_SOURCES) {
     try {
@@ -537,27 +560,26 @@ async function fetchPublicArticleOdds() {
         headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
       });
       if (!response.ok) continue;
-      const html = await response.text();
-      for (const entry of FALLBACK_WINNER_ODDS) {
-        const decimal = extractPublicOdds(html, entry.team);
-        if (decimal) {
-          odds.set(normalizeTeam(entry.team), {
-            team: entry.team,
-            decimal,
-            bookmaker: "Public odds article",
-          });
-        }
+      const rows = parseSunWinnerOdds(await response.text(), {
+        limit: 10,
+        selectedTeams,
+        currentRows: currentData.odds?.teams || [],
+      });
+      if (rows.length >= 4) {
+        return {
+          source: "The Sun World Cup winner odds article",
+          updatedAt: new Date().toISOString(),
+          type: "bookmaker_article",
+          teams: rows,
+        };
       }
     } catch (error) {
-      console.warn(`Public odds scrape failed for ${url}: ${error.message}`);
+      console.warn(`The Sun odds scrape failed for ${url}: ${error.message}`);
     }
   }
 
-  return {
-    source: "Public World Cup odds articles",
-    updatedAt: new Date().toISOString(),
-    teams: [...odds.values()].sort((a, b) => a.team.localeCompare(b.team)),
-  };
+  console.warn("The Sun odds update found no usable article odds");
+  return null;
 }
 
 async function main() {
@@ -578,10 +600,8 @@ async function main() {
     }
   }
 
-  let freshOdds = await fetchOddscheckerOdds();
-  if (!freshOdds && (current.odds?.teams || []).length < 10) {
-    freshOdds = await fetchPublicArticleOdds();
-  }
+  let freshOdds = await fetchPolymarketOdds(current);
+  if (!freshOdds) freshOdds = await fetchSunArticleOdds(current);
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 
