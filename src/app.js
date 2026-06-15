@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v59-native-stats-match-odds";
+const APP_VERSION = "v60-header-story";
 
 const state = {
   data: null,
@@ -984,8 +984,7 @@ function showFlagQuiz() {
 
 function renderMeta() {
   const updated = state.data.updatedAt ? fmtDate.format(new Date(state.data.updatedAt)) : "Never";
-  const source = state.data.source ? ` · ${state.data.source}` : "";
-  document.querySelector("#last-updated").textContent = `Last updated ${updated} Dubai time${source}`;
+  document.querySelector("#last-updated").textContent = `Last updated ${updated} Dubai time`;
 }
 
 function bindEvents() {

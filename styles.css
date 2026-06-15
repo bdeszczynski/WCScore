@@ -107,6 +107,15 @@ h3 {
   color: var(--muted);
 }
 
+.app-story {
+  max-width: 680px;
+  margin: 8px 0 0;
+  color: #40504a;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
