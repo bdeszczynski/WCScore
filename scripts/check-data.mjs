@@ -85,4 +85,26 @@ for (const entry of data.odds.teams) {
   }
 }
 
+if (data.matchOdds !== undefined) {
+  if (!data.matchOdds?.source || !data.matchOdds?.updatedAt || !Array.isArray(data.matchOdds?.matches)) {
+    throw new Error("Invalid match odds block");
+  }
+  const matchIds = new Set(data.matches.map((match) => match.id));
+  for (const entry of data.matchOdds.matches) {
+    if (!matchIds.has(entry.matchId)) throw new Error(`Match odds reference unknown match: ${JSON.stringify(entry)}`);
+    for (const key of ["homeProbability", "awayProbability"]) {
+      const probability = Number(entry[key]);
+      if (!Number.isFinite(probability) || probability <= 0 || probability >= 1) {
+        throw new Error(`Invalid match odds probability: ${JSON.stringify(entry)}`);
+      }
+    }
+    if (entry.drawProbability !== null && entry.drawProbability !== undefined) {
+      const probability = Number(entry.drawProbability);
+      if (!Number.isFinite(probability) || probability < 0 || probability >= 1) {
+        throw new Error(`Invalid draw odds probability: ${JSON.stringify(entry)}`);
+      }
+    }
+  }
+}
+
 console.log(`Data OK: ${data.players.length} players, ${data.matches.length} matches`);

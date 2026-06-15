@@ -9,6 +9,7 @@ const WIKIPEDIA_PAGES = [
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const POLYMARKET_WINNER_URL = "https://gamma-api.polymarket.com/events/slug/world-cup-winner";
+const POLYMARKET_MARKETS_URL = "https://gamma-api.polymarket.com/markets";
 const PUBLIC_ODDS_TEAMS = [
   "France",
   "Spain",
@@ -151,6 +152,10 @@ function normalizeTeam(name) {
     .replace(/[^a-z0-9]+/g, " ");
 }
 
+function isSameTeam(a, b) {
+  return normalizeTeam(a) === normalizeTeam(b);
+}
+
 function americanToDecimal(american) {
   const value = Number(american);
   if (!Number.isFinite(value)) return null;
@@ -252,6 +257,53 @@ export function parsePolymarketWinnerEvent(event, { limit = 10, selectedTeams = 
     .map((row, index) => ({ ...row, rank: index + 1 }));
 
   return applyStartingProbabilities(includeSelectedRows(rows, selectedTeams, limit), currentRows);
+}
+
+function marketVolume(market) {
+  return Number(market.volumeNum ?? market.volume ?? 0) || 0;
+}
+
+function polymarketMarketUrl(market) {
+  const eventSlug = market?.events?.[0]?.slug;
+  const slug = eventSlug || market?.slug;
+  return slug ? `https://polymarket.com/event/${slug}` : null;
+}
+
+export function parsePolymarketMatchMarket(market, match) {
+  if (!market || market.active === false || market.closed) return null;
+  const outcomes = parseJsonArray(market.outcomes);
+  const outcomePrices = parseJsonArray(market.outcomePrices);
+  if (outcomes.length !== outcomePrices.length || outcomes.length < 2) return null;
+
+  const homeIndex = outcomes.findIndex((outcome) => isSameTeam(outcome, match.homeTeam));
+  const awayIndex = outcomes.findIndex((outcome) => isSameTeam(outcome, match.awayTeam));
+  const drawIndex = outcomes.findIndex((outcome) => ["draw", "tie"].includes(normalizeTeam(outcome)));
+  if (homeIndex < 0 || awayIndex < 0) return null;
+
+  const homeProbability = Number(outcomePrices[homeIndex]);
+  const awayProbability = Number(outcomePrices[awayIndex]);
+  const drawProbability = drawIndex >= 0 ? Number(outcomePrices[drawIndex]) : null;
+  if (!Number.isFinite(homeProbability) || !Number.isFinite(awayProbability) || homeProbability <= 0 || awayProbability <= 0) {
+    return null;
+  }
+  if (drawProbability !== null && (!Number.isFinite(drawProbability) || drawProbability < 0)) return null;
+
+  const text = normalizeTeam(
+    [market.question, market.groupItemTitle, market.description, ...(market.events || []).map((event) => event.title)].join(" "),
+  );
+  if (!text.includes(normalizeTeam(match.homeTeam)) || !text.includes(normalizeTeam(match.awayTeam))) return null;
+
+  return {
+    matchId: match.id,
+    homeTeam: match.homeTeam,
+    awayTeam: match.awayTeam,
+    homeProbability: roundDecimal(homeProbability, 4),
+    drawProbability: drawProbability === null ? null : roundDecimal(drawProbability, 4),
+    awayProbability: roundDecimal(awayProbability, 4),
+    question: String(market.question || "").trim(),
+    url: polymarketMarketUrl(market),
+    volume: roundDecimal(marketVolume(market), 2),
+  };
 }
 
 function extractPublicOdds(html, team) {
@@ -569,7 +621,7 @@ export async function fetchPolymarketOdds(currentData = {}) {
     if (!response.ok) throw new Error(`Polymarket request failed: ${response.status}`);
 
     const rows = parsePolymarketWinnerEvent(await response.json(), {
-      limit: 10,
+      limit: Number.POSITIVE_INFINITY,
       selectedTeams: selectedTeamNamesFromData(currentData),
       currentRows: currentData.odds?.teams || [],
     });
@@ -587,6 +639,48 @@ export async function fetchPolymarketOdds(currentData = {}) {
     console.warn(`Polymarket odds update failed: ${error.message}`);
     return null;
   }
+}
+
+function unfinishedMatches(matches = []) {
+  return matches.filter((match) => match.status !== "finished" && match.homeTeam && match.awayTeam);
+}
+
+async function fetchPolymarketMatchMarketsFor(match) {
+  const url = new URL(POLYMARKET_MARKETS_URL);
+  url.searchParams.set("search", `${match.homeTeam} ${match.awayTeam} World Cup`);
+  url.searchParams.set("active", "true");
+  url.searchParams.set("closed", "false");
+  url.searchParams.set("limit", "20");
+
+  const response = await fetch(url, {
+    headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
+  });
+  if (!response.ok) throw new Error(`Polymarket match request failed: ${response.status}`);
+  const markets = await response.json();
+  return (Array.isArray(markets) ? markets : [])
+    .map((market) => parsePolymarketMatchMarket(market, match))
+    .filter(Boolean)
+    .sort((a, b) => b.volume - a.volume);
+}
+
+export async function fetchPolymarketMatchOdds(matches = []) {
+  const rows = [];
+  for (const match of unfinishedMatches(matches)) {
+    try {
+      const [best] = await fetchPolymarketMatchMarketsFor(match);
+      if (best) rows.push(best);
+    } catch (error) {
+      console.warn(`Polymarket match odds update failed for ${match.homeTeam} v ${match.awayTeam}: ${error.message}`);
+    }
+    await sleep(125);
+  }
+
+  return {
+    source: "Polymarket match markets",
+    updatedAt: new Date().toISOString(),
+    type: "prediction_market_match",
+    matches: rows,
+  };
 }
 
 export function parseSunWinnerOdds(html, { limit = 10, selectedTeams = new Set(), currentRows = [] } = {}) {
@@ -661,12 +755,17 @@ async function main() {
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 
+  const freshMatchOdds = await fetchPolymarketMatchOdds(matches);
+  const matchOdds = freshMatchOdds.matches.length ? freshMatchOdds : current.matchOdds || freshMatchOdds;
+  if (freshMatchOdds.matches.length) sources.push(freshMatchOdds.source);
+
   const next = {
     ...current,
     updatedAt: new Date().toISOString(),
     source: sources.join(" + "),
     matches,
     odds,
+    matchOdds,
   };
 
   await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);

@@ -1141,6 +1141,21 @@ select {
   font-weight: 900;
 }
 
+.match-market-chance {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  margin-left: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 7px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .match-meta {
   text-align: right;
   color: var(--muted);

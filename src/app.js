@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v56-upcoming-matches";
+const APP_VERSION = "v57-match-market-badges";
 
 const state = {
   data: null,
@@ -185,6 +185,20 @@ function selectedTeamChanceLabel(odds) {
       : "No live odds";
   const start = Number.isFinite(Number(odds?.startingProbability)) ? formatChance(odds.startingProbability) : "not set";
   return `Now ${now} · Start ${start}`;
+}
+
+function getMatchOdds(match) {
+  return (state.data.matchOdds?.matches || []).find((entry) => {
+    if (entry.matchId && entry.matchId === match.id) return true;
+    return isSameTeam(entry.homeTeam, match.homeTeam) && isSameTeam(entry.awayTeam, match.awayTeam);
+  });
+}
+
+function matchTeamMarketBadge(match, side) {
+  const odds = getMatchOdds(match);
+  const probability = side === "home" ? Number(odds?.homeProbability) : Number(odds?.awayProbability);
+  if (!Number.isFinite(probability) || probability <= 0) return "";
+  return `<span class="match-market-chance" title="Polymarket match win chance">${escapeHtml(formatChance(probability))}</span>`;
 }
 
 function getSelectedTeamOwner(teamName) {
@@ -844,11 +858,11 @@ function renderMatches() {
         <article class="match-card">
           <div class="match-teams">
             <div class="match-team">
-              <strong>${teamLabel(match.homeTeam, homeTracked)}</strong>
+              <strong>${teamLabel(match.homeTeam, homeTracked)}${!isFinished(match) ? matchTeamMarketBadge(match, "home") : ""}</strong>
               <span class="match-score">${isFinished(match) ? match.homeGoals : ""}</span>
             </div>
             <div class="match-team">
-              <strong>${teamLabel(match.awayTeam, awayTracked)}</strong>
+              <strong>${teamLabel(match.awayTeam, awayTracked)}${!isFinished(match) ? matchTeamMarketBadge(match, "away") : ""}</strong>
               <span class="match-score">${isFinished(match) ? match.awayGoals : ""}</span>
             </div>
           </div>

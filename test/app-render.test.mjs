@@ -101,6 +101,25 @@ async function waitForRender(document) {
 describe("app render smoke test", () => {
   it("renders content into the score, standings, and matches tabs", async () => {
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
+    const upcoming = data.matches.find((match) => match.status !== "finished");
+    data.matchOdds = {
+      source: "Polymarket match markets",
+      updatedAt: "2026-06-15T00:00:00.000Z",
+      type: "prediction_market_match",
+      matches: [
+        {
+          matchId: upcoming.id,
+          homeTeam: upcoming.homeTeam,
+          awayTeam: upcoming.awayTeam,
+          homeProbability: 0.55,
+          drawProbability: 0.25,
+          awayProbability: 0.2,
+          question: `${upcoming.homeTeam} vs ${upcoming.awayTeam}: who will win?`,
+          url: "https://polymarket.com/event/test",
+          volume: 100,
+        },
+      ],
+    };
     const document = createFakeDocument();
 
     const previousDocument = globalThis.document;
@@ -139,6 +158,7 @@ describe("app render smoke test", () => {
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
+      assert.match(document.querySelector("#match-list").innerHTML, /match-market-chance/);
       assert.match(document.querySelector("#match-list").innerHTML, /GROUP STAGE/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
       assert.match(document.querySelector("#match-list").innerHTML, /venue-link/);

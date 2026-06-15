@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { getFootballDataToken, parsePolymarketWinnerEvent, parseSunWinnerOdds } from "../scripts/update-data.mjs";
+import {
+  getFootballDataToken,
+  parsePolymarketMatchMarket,
+  parsePolymarketWinnerEvent,
+  parseSunWinnerOdds,
+} from "../scripts/update-data.mjs";
 
 describe("getFootballDataToken", () => {
   it("throws when the workflow requires a token but GitHub passes an empty value", () => {
@@ -137,5 +142,69 @@ describe("parseSunWinnerOdds", () => {
     );
     assert.ok(rows.some((row) => row.team === "Netherlands" && row.startingProbability === 0.04));
     assert.equal(rows[0].bookmaker, "The Sun public odds article");
+  });
+});
+
+describe("parsePolymarketMatchMarket", () => {
+  const match = {
+    id: "wc-1",
+    homeTeam: "Brazil",
+    awayTeam: "Japan",
+  };
+
+  it("parses fixture-specific three-way match markets", () => {
+    const row = parsePolymarketMatchMarket(
+      {
+        question: "Brazil vs Japan: who will win?",
+        outcomes: JSON.stringify(["Brazil", "Draw", "Japan"]),
+        outcomePrices: JSON.stringify(["0.62", "0.24", "0.14"]),
+        active: true,
+        closed: false,
+        slug: "brazil-vs-japan-who-will-win",
+        volumeNum: 1234.56,
+      },
+      match,
+    );
+
+    assert.deepEqual(row, {
+      matchId: "wc-1",
+      homeTeam: "Brazil",
+      awayTeam: "Japan",
+      homeProbability: 0.62,
+      drawProbability: 0.24,
+      awayProbability: 0.14,
+      question: "Brazil vs Japan: who will win?",
+      url: "https://polymarket.com/event/brazil-vs-japan-who-will-win",
+      volume: 1234.56,
+    });
+  });
+
+  it("rejects unrelated or binary markets", () => {
+    assert.equal(
+      parsePolymarketMatchMarket(
+        {
+          question: "Will Brazil win the World Cup?",
+          outcomes: JSON.stringify(["Yes", "No"]),
+          outcomePrices: JSON.stringify(["0.1", "0.9"]),
+          active: true,
+          closed: false,
+        },
+        match,
+      ),
+      null,
+    );
+    assert.equal(
+      parsePolymarketMatchMarket(
+        {
+          question: "Brazil vs Korea: who will win?",
+          outcomes: JSON.stringify(["Brazil", "Draw", "South Korea"]),
+          outcomePrices: JSON.stringify(["0.62", "0.24", "0.14"]),
+          active: true,
+          closed: false,
+        },
+        match,
+      ),
+      null,
+    );
   });
 });
