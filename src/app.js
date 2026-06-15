@@ -9,6 +9,7 @@ import {
   normalizeTeam,
   stageKind,
 } from "./scoring.js?v=30";
+import { flagUrlForTeam } from "./flags.js?v=32";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
 
@@ -20,44 +21,6 @@ const state = {
 };
 
 const selectedTeamNames = new Set();
-const COUNTRY_CODES = {
-  Algeria: "DZ",
-  Argentina: "AR",
-  Australia: "AU",
-  Belgium: "BE",
-  "Bosnia and Herzegovina": "BA",
-  Brazil: "BR",
-  Canada: "CA",
-  Colombia: "CO",
-  Czechia: "CZ",
-  "DR Congo": "CD",
-  Ecuador: "EC",
-  Egypt: "EG",
-  England: "GB-ENG",
-  France: "FR",
-  Germany: "DE",
-  Haiti: "HT",
-  Iran: "IR",
-  Iraq: "IQ",
-  Japan: "JP",
-  Mexico: "MX",
-  Morocco: "MA",
-  Netherlands: "NL",
-  "New Zealand": "NZ",
-  Norway: "NO",
-  Portugal: "PT",
-  Qatar: "QA",
-  Scotland: "GB-SCT",
-  Senegal: "SN",
-  "South Africa": "ZA",
-  "South Korea": "KR",
-  Spain: "ES",
-  Sweden: "SE",
-  Switzerland: "CH",
-  Tunisia: "TN",
-  Uruguay: "UY",
-  Uzbekistan: "UZ",
-};
 
 const fmtDate = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -89,22 +52,12 @@ function escapeHtml(value) {
   });
 }
 
-function flagForTeam(teamName) {
-  const code = COUNTRY_CODES[teamName];
-  if (!code) return "";
-  if (code === "GB-ENG") return "🏴";
-  if (code === "GB-SCT") return "🏴";
-  return code
-    .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
-}
-
 function teamLabel(teamName, tracked = false) {
-  const flag = flagForTeam(teamName);
+  const flagUrl = flagUrlForTeam(teamName);
   return `
     <span class="team-label">
       ${tracked ? `<span class="tracked-star" aria-hidden="true">★</span>` : ""}
-      ${flag ? `<span class="flag-icon" aria-hidden="true">${flag}</span>` : ""}
+      ${flagUrl ? `<img class="flag-icon" src="${flagUrl}" alt="" loading="lazy" decoding="async" />` : ""}
       <span>${escapeHtml(teamName)}</span>
     </span>
   `;
@@ -461,7 +414,7 @@ function getQuizTeams() {
     names.add(match.homeTeam);
     names.add(match.awayTeam);
   }
-  return [...names].filter((team) => flagForTeam(team)).sort((a, b) => a.localeCompare(b));
+  return [...names].filter((team) => flagUrlForTeam(team)).sort((a, b) => a.localeCompare(b));
 }
 
 function shuffle(items) {
@@ -488,7 +441,7 @@ function showFlagQuiz() {
         </div>
         <button class="quiz-close" type="button" aria-label="Close quiz">×</button>
       </div>
-      <div class="quiz-flag" aria-hidden="true">${flagForTeam(correct)}</div>
+      <img class="quiz-flag" src="${flagUrlForTeam(correct)}" alt="" width="80" height="60" />
       <div class="quiz-options">
         ${options.map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`).join("")}
       </div>

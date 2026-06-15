@@ -516,9 +516,11 @@ tr:last-child td {
 }
 
 .flag-icon {
-  width: 1.45em;
-  font-size: 1.05em;
-  line-height: 1;
+  width: 22px;
+  height: 16px;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(26, 38, 33, 0.16);
 }
 
 .tracked-star {
@@ -856,15 +858,15 @@ select {
 }
 
 .quiz-flag {
-  display: grid;
-  place-items: center;
-  min-height: 116px;
-  margin: 14px 0;
+  display: block;
+  width: min(160px, 55vw);
+  height: auto;
+  min-height: 0;
+  margin: 14px auto;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-2);
-  font-size: 4.5rem;
-  line-height: 1;
+  box-shadow: 0 0 0 1px rgba(26, 38, 33, 0.08);
 }
 
 .quiz-options {
