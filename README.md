@@ -57,6 +57,11 @@ Suggested GitHub secrets:
 
 Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra test framework is required.
 
+`npm run check` runs the JSON shape checker, the JSON diff checker, and all Node tests:
+
+- `scripts/check-data.mjs` validates the current `public/data/world-cup.json` structure.
+- `scripts/check-data-diff.mjs` compares the current `public/data/world-cup.json` against the previous committed version.
+
 `test/scoring.test.mjs` covers the challenge rules:
 
 - Group wins score 3 points and draws score 1 point.
@@ -75,6 +80,14 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 - Scheduled/manual workflow updates fail if `FOOTBALL_DATA_TOKEN` is required but blank.
 - Configured tokens are trimmed and used.
 - Local fallback updates are allowed when the token is not required.
+
+`test/check-data-diff.test.mjs` covers suspicious `world-cup.json` changes:
+
+- Match count dropping to zero fails.
+- Finished matches cannot become scheduled again.
+- Finished match scores cannot be rewritten silently.
+- Previously selected teams cannot disappear from player picks.
+- Selected teams must remain present in the loaded match list.
 
 `test/app-render.test.mjs` is a render smoke test:
 

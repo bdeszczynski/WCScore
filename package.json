@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node scripts/check-data.mjs && node --test",
+    "check": "node scripts/check-data.mjs && node scripts/check-data-diff.mjs && node --test",
     "icons": "node scripts/generate-pwa-icons.mjs",
     "test": "node --test",
     "update:data": "node scripts/update-data.mjs",

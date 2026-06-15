@@ -30,6 +30,9 @@ jobs:
       - name: Validate data
         run: node scripts/check-data.mjs
 
+      - name: Validate data changes
+        run: node scripts/check-data-diff.mjs
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403
         with:
