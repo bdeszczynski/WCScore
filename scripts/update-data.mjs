@@ -44,13 +44,20 @@ const FALLBACK_WINNER_ODDS = [
 
 const fifaCodeMap = new Map(
   Object.entries({
+    ALG: "Algeria",
     ARG: "Argentina",
     AUS: "Australia",
+    AUT: "Austria",
     BEL: "Belgium",
+    BIH: "Bosnia-Herzegovina",
     BRA: "Brazil",
     CAN: "Canada",
+    CPV: "Cape Verde Islands",
+    CIV: "Ivory Coast",
     COL: "Colombia",
+    COD: "Congo DR",
     CRO: "Croatia",
+    CUW: "Curaçao",
     DEN: "Denmark",
     ECU: "Ecuador",
     EGY: "Egypt",
@@ -58,19 +65,35 @@ const fifaCodeMap = new Map(
     ESP: "Spain",
     FRA: "France",
     GER: "Germany",
+    GHA: "Ghana",
+    HAI: "Haiti",
     IRN: "Iran",
     ITA: "Italy",
+    IRQ: "Iraq",
     JPN: "Japan",
+    JOR: "Jordan",
     KOR: "South Korea",
+    KSA: "Saudi Arabia",
     MAR: "Morocco",
     MEX: "Mexico",
     NED: "Netherlands",
+    NZL: "New Zealand",
     NOR: "Norway",
+    PAN: "Panama",
+    PAR: "Paraguay",
     POR: "Portugal",
     QAT: "Qatar",
+    RSA: "South Africa",
+    SCO: "Scotland",
+    SEN: "Senegal",
     SUI: "Switzerland",
+    SWE: "Sweden",
+    TUN: "Tunisia",
+    TUR: "Turkey",
     URU: "Uruguay",
     USA: "United States",
+    UZB: "Uzbekistan",
+    CZE: "Czechia",
   }),
 );
 
@@ -198,10 +221,46 @@ function cleanWikiText(value = "") {
   text = text.replace(/\{\{\s*(?:fb|flagicon|flag|country data)\s*\|\s*([A-Z]{2,3})[^}]*\}\}/gi, (_, code) => {
     return fifaCodeMap.get(code.toUpperCase()) || code.toUpperCase();
   });
+  text = text.replace(/\{\{#invoke:\s*flag\s*\|\s*fb(?:-[^|}]+)?\s*\|\s*([A-Z]{2,3})[^}]*\}\}/gi, (_, code) => {
+    return fifaCodeMap.get(code.toUpperCase()) || code.toUpperCase();
+  });
 
   text = text.replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g, "$1").replace(/\[\[([^\]]+)\]\]/g, "$1");
   text = text.replace(/\{\{[^}]+\}\}/g, "");
   return text.replace(/\s+/g, " ").trim();
+}
+
+function wikiPageUrl(title) {
+  if (!title) return null;
+  return `https://en.wikipedia.org/wiki/${encodeURIComponent(title.trim().replace(/\s+/g, "_"))}`;
+}
+
+function inferVenueCountry(venueCity = "") {
+  const value = String(venueCity).toLowerCase();
+  if (/(mexico city|guadalajara|zapopan|monterrey|guadalupe)/.test(value)) return "Mexico";
+  if (/(toronto|vancouver)/.test(value)) return "Canada";
+  if (value) return "United States";
+  return null;
+}
+
+function parseWikiLinks(value = "") {
+  return [...String(value).matchAll(/\[\[([^|\]]+)(?:\|([^\]]+))?\]\]/g)].map((match) => ({
+    title: cleanWikiText(match[1]),
+    label: cleanWikiText(match[2] || match[1]),
+  }));
+}
+
+export function parseVenue(stadiumField = "") {
+  const links = parseWikiLinks(stadiumField);
+  if (!links.length) return {};
+  const [stadium, city] = links;
+  const venueCity = city?.label || null;
+  return {
+    venue: stadium.label,
+    venueCity,
+    venueCountry: inferVenueCountry(venueCity),
+    venueWikiUrl: wikiPageUrl(stadium.title),
+  };
 }
 
 function parseTemplateFields(block) {
@@ -220,11 +279,13 @@ function parseTemplateFields(block) {
 
 function findFootballBoxes(wikitext) {
   const boxes = [];
-  const marker = "{{football box";
+  const markers = ["{{football box", "{{#invoke:football box"];
   let index = 0;
 
   while (index < wikitext.length) {
-    const start = wikitext.toLowerCase().indexOf(marker, index);
+    const lower = wikitext.toLowerCase();
+    const starts = markers.map((marker) => lower.indexOf(marker, index)).filter((position) => position >= 0);
+    const start = starts.length ? Math.min(...starts) : -1;
     if (start === -1) break;
 
     let cursor = start;
@@ -309,13 +370,13 @@ async function fetchWikipediaWikitext(page) {
   url.searchParams.set("origin", "*");
 
   let response;
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
     response = await fetch(url, {
       headers: { "User-Agent": "WCScore/1.0 (static score tracker)" },
     });
     if (response.ok) break;
-    if (response.status !== 429 || attempt === 3) break;
-    await sleep(2000 * attempt);
+    if (response.status !== 429 || attempt === 5) break;
+    await sleep(5000 * attempt);
   }
   if (!response.ok) throw new Error(`Wikipedia request failed for ${page}: ${response.status}`);
   const json = await response.json();
@@ -324,7 +385,7 @@ async function fetchWikipediaWikitext(page) {
   return wikitext;
 }
 
-async function fetchWikipediaMatches() {
+export async function fetchWikipediaMatches() {
   const matches = [];
 
   for (const page of WIKIPEDIA_PAGES) {
@@ -346,6 +407,7 @@ async function fetchWikipediaMatches() {
         const score = parseScore(fields.get("score") || "");
         const stage = inferStage(fields, kickoff);
         const winnerAfterPenalties = parsePenaltyWinner(fields, homeTeam, awayTeam);
+        const venue = parseVenue(fields.get("stadium") || fields.get("venue") || "");
 
         return {
           id: `wiki-${page.toLowerCase().replaceAll("_", "-")}-${index + 1}-${normalizeTeam(homeTeam).replaceAll(" ", "-")}-${normalizeTeam(awayTeam).replaceAll(" ", "-")}`,
@@ -355,12 +417,13 @@ async function fetchWikipediaMatches() {
           awayTeam,
           ...score,
           winnerAfterPenalties,
+          ...venue,
         };
       })
       .filter(Boolean);
 
     matches.push(...pageMatches);
-    await sleep(900);
+    await sleep(1800);
   }
 
   return matches;
@@ -390,7 +453,38 @@ function normalizeFootballDataMatch(match) {
     homeGoals: finished ? fullTime.home : null,
     awayGoals: finished ? fullTime.away : null,
     winnerAfterPenalties,
+    ...parseVenue(match.venue || ""),
   };
+}
+
+function metadataKey(match) {
+  return [
+    normalizeTeam(match.homeTeam),
+    normalizeTeam(match.awayTeam),
+    String(match.kickoff || "").slice(0, 10),
+  ].join("|");
+}
+
+function teamsKey(match) {
+  return [normalizeTeam(match.homeTeam), normalizeTeam(match.awayTeam)].join("|");
+}
+
+export function mergeMatchMetadata(matches, metadataMatches) {
+  const byId = new Map(metadataMatches.map((match) => [String(match.id), match]));
+  const byTeamsAndDate = new Map(metadataMatches.map((match) => [metadataKey(match), match]));
+  const byTeams = new Map(metadataMatches.map((match) => [teamsKey(match), match]));
+
+  return matches.map((match) => {
+    const metadata = byId.get(String(match.id)) || byTeamsAndDate.get(metadataKey(match)) || byTeams.get(teamsKey(match));
+    if (!metadata) return match;
+    return {
+      ...match,
+      venue: match.venue || metadata.venue || null,
+      venueCity: match.venueCity || metadata.venueCity || null,
+      venueCountry: match.venueCountry || metadata.venueCountry || null,
+      venueWikiUrl: match.venueWikiUrl || metadata.venueWikiUrl || null,
+    };
+  });
 }
 
 export function getFootballDataToken(env = process.env) {
@@ -473,6 +567,7 @@ async function main() {
   let matches = await fetchFootballDataMatches();
   if (matches?.length) {
     sources.push("football-data.org");
+    matches = mergeMatchMetadata(matches, current.matches || []);
   } else {
     matches = await fetchWikipediaMatches();
     if (matches.length) {

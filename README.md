@@ -47,6 +47,8 @@ The scheduled updater makes an API call to `football-data.org` when `FOOTBALL_DA
 
 If no token is configured, the updater tries a public Wikipedia fallback and preserves the existing JSON if no fresh matches are found. Wikipedia is useful as a backup, but it is not reliable enough to be the main live-score source.
 
+Venue metadata is stored directly on each match in `public/data/world-cup.json` as `venue`, `venueCity`, `venueCountry`, and `venueWikiUrl`. The one-time `npm run venues` command enriches those fields from Wikipedia fixture tables, with a small manual override table for fixed schedule rows that Wikipedia exposes differently. Scheduled football-data.org updates preserve existing venue metadata when refreshing results.
+
 Winner odds are refreshed from the public Oddschecker World Cup Winner page with no API key. The updater keeps the first ten listed contenders and marks any Bruno/Sara selected teams in the interface. If Oddschecker cannot be read, it falls back to public World Cup odds articles.
 
 Suggested GitHub secrets:
@@ -94,7 +96,14 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 - Loads the real `public/data/world-cup.json` into a fake DOM.
 - Imports the real app entrypoint.
 - Confirms the Score, Standings, and Matches sections render content.
+- Confirms Matches render venue links and host-country flags.
 - Confirms match stages display `GROUP STAGE` instead of raw `GROUP_STAGE`.
+
+`test/venues.test.mjs` covers stadium metadata:
+
+- Every loaded match has venue name, host country, and a Wikipedia stadium link.
+- Representative fixtures match known venue rows from the published schedule.
+- Wikipedia `stadium` fields parse into venue, city, host country, and stadium page URL.
 
 ## Local commands
 
@@ -102,6 +111,7 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 npm run check
 npm run icons
 npm run update:data
+npm run venues
 npm run serve
 ```
 

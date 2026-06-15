@@ -88,6 +88,8 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
       assert.match(document.querySelector("#match-list").innerHTML, /GROUP STAGE/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
+      assert.match(document.querySelector("#match-list").innerHTML, /venue-link/);
+      assert.match(document.querySelector("#match-list").innerHTML, /venue-host-flag/);
     } finally {
       globalThis.document = previousDocument;
       globalThis.fetch = previousFetch;

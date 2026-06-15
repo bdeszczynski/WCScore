@@ -368,6 +368,27 @@ function formatStageLabel(stage) {
   return String(stage || "Stage TBC").replace(/_/g, " ");
 }
 
+function safeVenueWikiUrl(url) {
+  const value = String(url || "");
+  return value.startsWith("https://en.wikipedia.org/wiki/") ? value : "";
+}
+
+function renderVenue(match) {
+  if (!match.venue) return "";
+  const hostFlag = flagUrlForTeam(match.venueCountry);
+  const city = match.venueCity ? `, ${escapeHtml(match.venueCity)}` : "";
+  const safeUrl = safeVenueWikiUrl(match.venueWikiUrl);
+  const venue = safeUrl
+    ? `<a class="venue-link" href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(match.venue)}</a>`
+    : escapeHtml(match.venue);
+  return `
+    <div class="venue-line">
+      ${hostFlag ? `<img class="venue-host-flag" src="${hostFlag}" alt="" loading="lazy" decoding="async" />` : ""}
+      <span>${venue}${city}</span>
+    </div>
+  `;
+}
+
 function renderMatches() {
   const matches = getVisibleMatches();
   const container = document.querySelector("#match-list");
@@ -396,6 +417,7 @@ function renderMatches() {
           <div class="match-meta">
             <div>${escapeHtml(formatStageLabel(match.stage))}</div>
             <div>${isFinished(match) ? score : formatKickoff(match)}</div>
+            ${renderVenue(match)}
             ${match.winnerAfterPenalties ? `<div>${escapeHtml(match.winnerAfterPenalties)} won pens</div>` : ""}
           </div>
         </article>

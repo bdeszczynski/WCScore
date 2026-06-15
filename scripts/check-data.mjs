@@ -14,6 +14,12 @@ for (const match of data.matches) {
   if (!match.id || !match.homeTeam || !match.awayTeam) {
     throw new Error(`Invalid match entry: ${JSON.stringify(match)}`);
   }
+  if (!match.venue || !match.venueCountry || !match.venueWikiUrl) {
+    throw new Error(`Match is missing venue metadata: ${match.id}`);
+  }
+  if (!String(match.venueWikiUrl).startsWith("https://en.wikipedia.org/wiki/")) {
+    throw new Error(`Match has unsafe venue wiki URL: ${match.id}`);
+  }
   if (match.status === "finished") {
     if (!Number.isFinite(match.homeGoals) || !Number.isFinite(match.awayGoals)) {
       throw new Error(`Finished match is missing score: ${match.id}`);

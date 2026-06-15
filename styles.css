@@ -523,6 +523,27 @@ tr:last-child td {
   box-shadow: 0 0 0 1px rgba(26, 38, 33, 0.16);
 }
 
+.venue-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.venue-host-flag {
+  width: 18px;
+  height: 13px;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(26, 38, 33, 0.16);
+}
+
+.venue-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
 .tracked-star {
   color: var(--accent);
   font-size: 0.82em;
