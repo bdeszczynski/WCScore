@@ -505,6 +505,9 @@ h3 {
 
 .standings-tools {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
   justify-content: flex-end;
   margin-top: -4px;
 }

@@ -5,8 +5,8 @@ Static score tracker for Bruno vs Sara. It uses no database and no authenticatio
 - `index.html`, `styles.css`, and `src/app.js` render the dashboard.
 - `manifest.webmanifest`, `sw.js`, and `public/icons/` make it installable as a PWA.
 - `public/data/world-cup.json` is the only state file.
-- `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 08:00 and 20:00 Dubai time.
-- GitHub Pages deploys the repo as a static site and redeploys when GitHub Actions commits refreshed data.
+- `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 07:10 and 07:40 Dubai time, then deploys GitHub Pages.
+- `.github/workflows/deploy-pages.yml` can republish the current repo to GitHub Pages without refreshing data.
 
 ## Scoring
 
@@ -47,7 +47,7 @@ Balance update: in the running app, Sara keeps Brazil as a points team and Spain
 
 All runtime data lives in `public/data/world-cup.json`. The site is static, so visitors only read that file; no browser-side API tokens, database, or server are involved.
 
-The scheduled updater runs in GitHub Actions at 08:00 and 20:00 Dubai time. It writes a refreshed `world-cup.json`, validates it, and auto-commits the file when anything changed. GitHub Pages then redeploys the static site.
+The scheduled updater runs in GitHub Actions at 07:10 and 07:40 Dubai time. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
 
 Match schedule and results:
 

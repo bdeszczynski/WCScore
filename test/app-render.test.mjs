@@ -100,6 +100,7 @@ async function waitForRender(document) {
 
 describe("app render smoke test", () => {
   it("renders content into the score, standings, and matches tabs", async () => {
+    const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
     const upcoming = data.matches.find((match) => match.status !== "finished");
     data.matchOdds = {
@@ -138,6 +139,11 @@ describe("app render smoke test", () => {
     });
 
     try {
+      assert.match(html, /Trigger data refresh/);
+      assert.match(html, /actions\/workflows\/update-world-cup-data\.yml/);
+      assert.match(html, /Publish to Pages/);
+      assert.match(html, /actions\/workflows\/deploy-pages\.yml/);
+
       await import(`../src/app.js?render-test=${Date.now()}`);
       await waitForRender(document);
 
