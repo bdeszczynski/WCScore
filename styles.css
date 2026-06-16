@@ -384,8 +384,13 @@ h3 {
   text-transform: uppercase;
 }
 
-.info-dot {
+.info-wrap {
   position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.info-dot {
   display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
@@ -401,7 +406,56 @@ h3 {
   line-height: 1;
   text-align: center;
   text-transform: none;
-  cursor: help;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+}
+
+.info-dot:hover,
+.info-dot:focus-visible,
+.info-dot[aria-expanded="true"] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(20, 107, 98, 0.14);
+}
+
+.info-tooltip {
+  position: absolute;
+  z-index: 30;
+  right: -8px;
+  bottom: calc(100% + 8px);
+  width: min(240px, 72vw);
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.info-tooltip::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 100%;
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.info-dot:hover + .info-tooltip,
+.info-dot:focus-visible + .info-tooltip,
+.info-dot[aria-expanded="true"] + .info-tooltip {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .score-breakdown {
@@ -889,7 +943,9 @@ tr:last-child td {
 
 .market-share-pill .info-dot {
   width: 15px;
+  min-width: 15px;
   height: 15px;
+  padding: 0;
   font-size: 0.64rem;
 }
 

@@ -83,6 +83,7 @@ function createFakeDocument() {
 
   return {
     body: new FakeElement(),
+    addEventListener() {},
     createElement: () => new FakeElement(),
     querySelector: (selector) => elements.get(selector) || null,
     querySelectorAll: (selector) => (selector === "[data-ladder-round]" ? ladderButtons : []),
@@ -152,6 +153,7 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Market/);
+      assert.match(document.querySelector("#winner-picks").innerHTML, /<button\s+class="info-dot"/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Start/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Selected team probability divided by total loaded Polymarket probability/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-card/);

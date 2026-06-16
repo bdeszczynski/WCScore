@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v63-deploy-link";
+const APP_VERSION = "v64-tap-tooltips";
 
 const state = {
   data: null,
@@ -743,6 +743,7 @@ function renderWinnerPicks() {
         .map((team) => ({ ...team, status: bonusStatus(team.name) }))
         .sort((a, b) => teamOddsProbability(b.name) - teamOddsProbability(a.name) || a.name.localeCompare(b.name));
       const marketShare = playerMarketShare(player);
+      const marketHelpId = `market-share-help-${normalizeTeam(player.name).replaceAll(" ", "-")}`;
       return `
         <section class="bonus-column ${ownerClass(player.name)}" aria-label="${escapeHtml(player.name)} bonus teams">
           <div class="bonus-column-head">
@@ -754,13 +755,16 @@ function renderWinnerPicks() {
               <span class="pill">${picks.reduce((sum, pick) => sum + pick.status.points, 0)} pts</span>
               <span class="market-share-pill">
                 <span>Market ${formatChance(marketShare, "0.0%")}</span>
-                <span
-                  class="info-dot"
-                  tabindex="0"
-                  role="img"
-                  aria-label="Selected team probability divided by total loaded Polymarket probability"
-                  title="Selected team probability divided by total loaded Polymarket probability"
-                >i</span>
+                <span class="info-wrap">
+                  <button
+                    class="info-dot"
+                    type="button"
+                    aria-label="Show market share calculation"
+                    aria-describedby="${marketHelpId}"
+                    aria-expanded="false"
+                  >i</button>
+                  <span class="info-tooltip" id="${marketHelpId}" role="tooltip">Selected team probability divided by total loaded Polymarket probability</span>
+                </span>
               </span>
             </div>
           </div>
@@ -988,6 +992,12 @@ function renderMeta() {
 }
 
 function bindEvents() {
+  const closeInfoTooltips = (except = null) => {
+    document.querySelectorAll(".info-dot[aria-expanded='true']").forEach((button) => {
+      if (button !== except) button.setAttribute("aria-expanded", "false");
+    });
+  };
+
   const selectLadderRound = (selected) => {
     state.ladderRound = selected.dataset.ladderRound;
     document.querySelectorAll("[data-ladder-round]").forEach((item) => item.classList.toggle("active", item === selected));
@@ -1017,6 +1027,24 @@ function bindEvents() {
   document.querySelector("#match-filter").addEventListener("change", (event) => {
     state.matchFilter = event.target.value;
     renderMatches();
+  });
+
+  document.querySelector("#winner-picks").addEventListener("click", (event) => {
+    const infoButton = event.target.closest(".info-dot");
+    if (!infoButton) return;
+    event.stopPropagation();
+    closeInfoTooltips(infoButton);
+    infoButton.setAttribute("aria-expanded", String(infoButton.getAttribute("aria-expanded") !== "true"));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest(".info-dot")) return;
+    closeInfoTooltips();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    closeInfoTooltips();
   });
 }
 
