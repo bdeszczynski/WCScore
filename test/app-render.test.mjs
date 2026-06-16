@@ -152,8 +152,11 @@ describe("app render smoke test", () => {
       assert.match(adminHtml, /Publish to Pages/);
       assert.match(adminHtml, /actions\/workflows\/deploy-pages\.yml/);
       assert.match(adminHtml, /Update game results/);
+      assert.match(adminHtml, /id="result-builder"/);
+      assert.match(adminHtml, /src="src\/admin\.js\?v=66"/);
       assert.match(adminHtml, /edit\/master\/public\/data\/manual-results\.json/);
       assert.match(serviceWorker, /admin\.html/);
+      assert.match(serviceWorker, /src\/admin\.js\?v=66/);
 
       await import(`../src/app.js?render-test=${Date.now()}`);
       await waitForRender(document);

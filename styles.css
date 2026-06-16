@@ -34,6 +34,7 @@ body {
 }
 
 button,
+input,
 select {
   font: inherit;
 }
@@ -302,6 +303,122 @@ h3 {
 
 .muted-card {
   background: var(--surface-2);
+}
+
+.admin-builder {
+  display: grid;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.result-form,
+.admin-output {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span,
+.admin-output label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+#manual-results-output {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.field input,
+.field select {
+  min-height: 42px;
+  padding: 0 11px;
+}
+
+.result-score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.admin-match-context,
+.admin-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.primary-action,
+.secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-action {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.secondary-action {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.primary-action:hover,
+.primary-action:focus-visible,
+.secondary-action:hover,
+.secondary-action:focus-visible {
+  transform: translateY(-1px);
+}
+
+.secondary-action:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.48;
+  transform: none;
+}
+
+#manual-results-output {
+  min-height: 240px;
+  padding: 12px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.compact-heading {
+  margin-bottom: -2px;
 }
 
 .score-strip {
@@ -1569,6 +1686,10 @@ select {
   }
 
   .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-score-grid {
     grid-template-columns: 1fr;
   }
 
