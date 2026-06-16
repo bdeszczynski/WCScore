@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
 const DATA_FILE = new URL("../public/data/world-cup.json", import.meta.url);
+const MANUAL_RESULTS_FILE = new URL("../public/data/manual-results.json", import.meta.url);
 const WIKIPEDIA_PAGES = [
   "2026_FIFA_World_Cup",
   ...Array.from({ length: 12 }, (_, index) => `2026_FIFA_World_Cup_Group_${String.fromCharCode(65 + index)}`),
@@ -639,6 +640,70 @@ export function mergeMatchMetadata(matches, metadataMatches) {
   });
 }
 
+export function applyManualResultOverrides(matches, manualResults = {}) {
+  const overrides = Array.isArray(manualResults?.matches) ? manualResults.matches : [];
+  if (!overrides.length) return matches;
+
+  const matchIds = new Set(matches.map((match) => String(match.id)));
+  const overridesById = new Map();
+  for (const override of overrides) {
+    const id = String(override?.id || "").trim();
+    if (!id) throw new Error(`Manual result override is missing an id: ${JSON.stringify(override)}`);
+    if (!matchIds.has(id)) throw new Error(`Manual result override references unknown match id: ${id}`);
+    overridesById.set(id, override);
+  }
+
+  return matches.map((match) => {
+    const override = overridesById.get(String(match.id));
+    if (!override) return match;
+
+    const hasHomeGoals = override.homeGoals !== undefined && override.homeGoals !== null;
+    const hasAwayGoals = override.awayGoals !== undefined && override.awayGoals !== null;
+    const status = override.status || (hasHomeGoals && hasAwayGoals ? "finished" : match.status);
+    if (!["scheduled", "finished"].includes(status)) {
+      throw new Error(`Manual result override has invalid status for ${match.id}: ${status}`);
+    }
+
+    const next = { ...match, status, resultSource: "manual" };
+    if (override.note) next.resultNote = String(override.note);
+    else delete next.resultNote;
+
+    if (status === "finished") {
+      const homeGoals = Number(override.homeGoals);
+      const awayGoals = Number(override.awayGoals);
+      if (!Number.isFinite(homeGoals) || !Number.isFinite(awayGoals)) {
+        throw new Error(`Manual finished result override is missing score for ${match.id}`);
+      }
+      next.homeGoals = homeGoals;
+      next.awayGoals = awayGoals;
+    } else {
+      next.homeGoals = null;
+      next.awayGoals = null;
+    }
+
+    if (override.winnerAfterPenalties !== undefined) {
+      const winner = override.winnerAfterPenalties || null;
+      if (winner && ![match.homeTeam, match.awayTeam].some((team) => isSameTeam(team, winner))) {
+        throw new Error(`Manual penalty winner is not in match ${match.id}: ${winner}`);
+      }
+      next.winnerAfterPenalties = winner;
+    } else if (status !== "finished") {
+      next.winnerAfterPenalties = null;
+    }
+
+    return next;
+  });
+}
+
+async function readManualResults() {
+  try {
+    return JSON.parse(await readFile(MANUAL_RESULTS_FILE, "utf8"));
+  } catch (error) {
+    if (error.code === "ENOENT") return { matches: [] };
+    throw error;
+  }
+}
+
 export function getFootballDataToken(env = process.env) {
   const token = env.FOOTBALL_DATA_TOKEN?.trim();
   if (token) return token;
@@ -853,6 +918,7 @@ async function fetchSunArticleOdds(currentData = {}) {
 
 async function main() {
   const current = JSON.parse(await readFile(DATA_FILE, "utf8"));
+  const manualResults = await readManualResults();
   const sources = [];
 
   const footballData = await fetchFootballDataMatches();
@@ -871,6 +937,7 @@ async function main() {
       sources.push("Existing fixtures; no fresh matches found");
     }
   }
+  matches = applyManualResultOverrides(matches, manualResults);
 
   let freshOdds = await fetchPolymarketOdds(current);
   if (!freshOdds) freshOdds = await fetchSunArticleOdds(current);

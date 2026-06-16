@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  applyManualResultOverrides,
   getFootballDataToken,
   parseFootballDataMatchOdds,
   parseNativeStatsMatchOdds,
@@ -33,6 +34,61 @@ describe("getFootballDataToken", () => {
 
   it("allows local fallback data updates when the token is not required", () => {
     assert.equal(getFootballDataToken({}), null);
+  });
+});
+
+describe("applyManualResultOverrides", () => {
+  it("applies manual scores after API data and marks the result source", () => {
+    const [match] = applyManualResultOverrides(
+      [
+        {
+          id: "537327",
+          homeTeam: "Mexico",
+          awayTeam: "South Africa",
+          status: "finished",
+          homeGoals: 2,
+          awayGoals: 0,
+          winnerAfterPenalties: null,
+        },
+      ],
+      {
+        matches: [
+          {
+            id: "537327",
+            status: "finished",
+            homeGoals: 3,
+            awayGoals: 1,
+            note: "Manual correction after source lag",
+          },
+        ],
+      },
+    );
+
+    assert.deepEqual(
+      {
+        status: match.status,
+        homeGoals: match.homeGoals,
+        awayGoals: match.awayGoals,
+        winnerAfterPenalties: match.winnerAfterPenalties,
+        resultSource: match.resultSource,
+        resultNote: match.resultNote,
+      },
+      {
+        status: "finished",
+        homeGoals: 3,
+        awayGoals: 1,
+        winnerAfterPenalties: null,
+        resultSource: "manual",
+        resultNote: "Manual correction after source lag",
+      },
+    );
+  });
+
+  it("rejects manual overrides for unknown matches", () => {
+    assert.throws(
+      () => applyManualResultOverrides([{ id: "known", homeTeam: "Spain", awayTeam: "France" }], { matches: [{ id: "missing" }] }),
+      /unknown match id: missing/,
+    );
   });
 });
 

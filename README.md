@@ -3,8 +3,10 @@
 Static score tracker for Bruno vs Sara. It uses no database and no authentication:
 
 - `index.html`, `styles.css`, and `src/app.js` render the dashboard.
+- `admin.html` links to the manual GitHub Actions and result override controls.
 - `manifest.webmanifest`, `sw.js`, and `public/icons/` make it installable as a PWA.
-- `public/data/world-cup.json` is the only state file.
+- `public/data/world-cup.json` is the generated runtime data file.
+- `public/data/manual-results.json` is the manual result override file, applied after API refreshes.
 - `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 07:10 and 07:40 Dubai time, then deploys GitHub Pages.
 - `.github/workflows/deploy-pages.yml` can republish the current repo to GitHub Pages without refreshing data.
 
@@ -45,7 +47,7 @@ Balance update: in the running app, Sara keeps Brazil as a points team and Spain
 
 ## Data pipeline
 
-All runtime data lives in `public/data/world-cup.json`. The site is static, so visitors only read that file; no browser-side API tokens, database, or server are involved.
+Runtime dashboard data lives in `public/data/world-cup.json`. Manual result corrections live separately in `public/data/manual-results.json` and are folded into `world-cup.json` by the updater. The site is static, so visitors only read local JSON files; no browser-side API tokens, database, or server are involved.
 
 The scheduled updater runs in GitHub Actions at 07:10 and 07:40 Dubai time. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
 
@@ -54,6 +56,7 @@ Match schedule and results:
 - Primary source: `football-data.org`, using the `FOOTBALL_DATA_TOKEN` repository secret.
 - Usage: fixture IDs, teams, kickoff times, match status, scores, groups, and match numbers.
 - Fallback: public Wikipedia fixture tables if the football-data token is unavailable locally.
+- Manual corrections: `public/data/manual-results.json` overrides API results by match ID after each refresh.
 - The app is not live-second scoring. Results update only after the source updates, the scheduled workflow runs, and Pages deploys.
 
 Venue metadata:

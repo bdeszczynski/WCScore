@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=64" />
+    <link rel="stylesheet" href="styles.css?v=65" />
   </head>
   <body>
     <main class="app-shell">
@@ -36,16 +36,19 @@
             </p>
           </div>
         </section>
-        <details class="rules-tab">
-          <summary>Rules</summary>
-          <div class="rules-panel">
-            <p>Points teams earn 3 points for a win and 1 point for a draw in every round they play.</p>
-            <p>In knockout rounds, a team that loses on penalties also earns 1 bonus point.</p>
-            <p>Standings sort by points, then goal difference, then total goals scored.</p>
-            <p>Goals For, Goals Against, and Goal Difference are shown as scoring tiebreakers.</p>
-            <p>Every selected team earns 3 bonus points for reaching the semi-finals and 7 bonus points for winning the World Cup.</p>
-          </div>
-        </details>
+        <div class="topbar-actions">
+          <a class="header-action" href="admin.html">Admin</a>
+          <details class="rules-tab">
+            <summary>Rules</summary>
+            <div class="rules-panel">
+              <p>Points teams earn 3 points for a win and 1 point for a draw in every round they play.</p>
+              <p>In knockout rounds, a team that loses on penalties also earns 1 bonus point.</p>
+              <p>Standings sort by points, then goal difference, then total goals scored.</p>
+              <p>Goals For, Goals Against, and Goal Difference are shown as scoring tiebreakers.</p>
+              <p>Every selected team earns 3 bonus points for reaching the semi-finals and 7 bonus points for winning the World Cup.</p>
+            </div>
+          </details>
+        </div>
       </header>
 
       <nav class="main-tabs" role="tablist" aria-label="Dashboard views">
@@ -188,6 +191,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=64"></script>
+    <script type="module" src="src/app.js?v=65"></script>
   </body>
 </html>

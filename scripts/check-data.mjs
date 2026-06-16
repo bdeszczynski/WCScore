@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 
 const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
 const startingChances = JSON.parse(await readFile(new URL("../public/data/starting-chances.json", import.meta.url), "utf8"));
+const manualResults = JSON.parse(await readFile(new URL("../public/data/manual-results.json", import.meta.url), "utf8"));
 const requiredPlayers = ["Bruno", "Sara"];
 
 function normalizeTeam(name) {
@@ -32,6 +33,28 @@ for (const match of data.matches) {
   if (match.status === "finished") {
     if (!Number.isFinite(match.homeGoals) || !Number.isFinite(match.awayGoals)) {
       throw new Error(`Finished match is missing score: ${match.id}`);
+    }
+  }
+}
+
+if (!Array.isArray(manualResults.matches)) {
+  throw new Error("Manual results must contain a matches array");
+}
+
+const matchIds = new Set(data.matches.map((match) => String(match.id)));
+for (const override of manualResults.matches) {
+  if (!override.id || !matchIds.has(String(override.id))) {
+    throw new Error(`Manual result override references unknown match: ${JSON.stringify(override)}`);
+  }
+  if (override.status !== undefined && !["scheduled", "finished"].includes(override.status)) {
+    throw new Error(`Manual result override has invalid status: ${JSON.stringify(override)}`);
+  }
+  if ((override.homeGoals === undefined) !== (override.awayGoals === undefined)) {
+    throw new Error(`Manual result override must set both scores together: ${JSON.stringify(override)}`);
+  }
+  if (override.homeGoals !== undefined || override.awayGoals !== undefined) {
+    if (!Number.isFinite(Number(override.homeGoals)) || !Number.isFinite(Number(override.awayGoals))) {
+      throw new Error(`Manual result override has invalid score: ${JSON.stringify(override)}`);
     }
   }
 }

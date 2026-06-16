@@ -1,0 +1,5 @@
+{
+  "updatedAt": null,
+  "notes": "Manual match result overrides. Keep matches empty unless the API result needs a correction. Shape: {\"id\":\"537327\",\"status\":\"finished\",\"homeGoals\":2,\"awayGoals\":1,\"winnerAfterPenalties\":null,\"note\":\"optional\"}. Overrides are applied after API refreshes and win until removed.",
+  "matches": []
+}

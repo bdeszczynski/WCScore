@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Admin links for the World Cup challenge score tracker" />
+    <meta name="theme-color" content="#146b62" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://flagcdn.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <title>Admin - World Cup Challenge Score</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
+    <link rel="stylesheet" href="styles.css?v=65" />
+  </head>
+  <body>
+    <main class="app-shell admin-shell">
+      <header class="topbar admin-topbar">
+        <section class="brand-lockup">
+          <img class="app-mark" src="public/icons/page-ball-v27.png" alt="" width="96" height="96" />
+          <div>
+            <p class="eyebrow">Control room</p>
+            <h1>Admin</h1>
+            <p class="app-story">Manual links for publishing, refreshing data, and correcting the JSON score file.</p>
+          </div>
+        </section>
+        <div class="topbar-actions">
+          <a class="header-action" href="index.html">Scoreboard</a>
+        </div>
+      </header>
+
+      <section class="admin-grid" aria-label="Admin actions">
+        <a
+          class="admin-card"
+          href="https://github.com/bdeszczynski/WCScore/actions/workflows/update-world-cup-data.yml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="eyebrow">GitHub Actions</span>
+          <strong>Refresh data</strong>
+          <span>Runs the football-data, Polymarket, and match-odds update, validates the JSON, commits changes, and deploys Pages.</span>
+        </a>
+
+        <a
+          class="admin-card"
+          href="https://github.com/bdeszczynski/WCScore/actions/workflows/deploy-pages.yml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="eyebrow">GitHub Pages</span>
+          <strong>Publish to Pages</strong>
+          <span>Republishes the current repository to GitHub Pages without refreshing any match data.</span>
+        </a>
+
+        <a
+          class="admin-card"
+          href="https://github.com/bdeszczynski/WCScore/edit/master/public/data/manual-results.json"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="eyebrow">Manual override</span>
+          <strong>Update game results</strong>
+          <span>Opens `manual-results.json` in GitHub. These result corrections are applied after API refreshes and win until removed.</span>
+        </a>
+
+        <a
+          class="admin-card muted-card"
+          href="https://github.com/bdeszczynski/WCScore/blob/master/public/data/world-cup.json"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="eyebrow">Source file</span>
+          <strong>View current JSON</strong>
+          <span>Checks the generated source data before deciding whether a refresh, manual override, or publish is needed.</span>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

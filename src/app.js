@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v64-tap-tooltips";
+const APP_VERSION = "v65-admin-page";
 
 const state = {
   data: null,
@@ -875,6 +875,7 @@ function renderMatches() {
             <div>${isFinished(match) ? score : formatKickoff(match)}</div>
             ${renderVenue(match)}
             ${match.winnerAfterPenalties ? `<div>${escapeHtml(match.winnerAfterPenalties)} won pens</div>` : ""}
+            ${match.resultSource === "manual" ? `<div class="match-source">Manual result</div>` : ""}
           </div>
         </article>
       `;
