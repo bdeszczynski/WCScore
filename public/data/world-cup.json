@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-16T04:06:23.568Z",
+  "updatedAt": "2026-06-16T05:08:18.080Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-16T04:06:23.036Z",
+    "updatedAt": "2026-06-16T05:08:17.723Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1342,8 +1342,8 @@
       },
       {
         "team": "Netherlands",
-        "decimal": 20.2,
-        "probability": 0.0495,
+        "decimal": 20.41,
+        "probability": 0.049,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.058
@@ -1669,7 +1669,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-16T04:06:23.565Z",
+    "updatedAt": "2026-06-16T05:08:18.077Z",
     "type": "bookmaker_match",
     "matches": [
       {
