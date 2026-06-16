@@ -3,14 +3,23 @@ name: Update World Cup data
 on:
   workflow_dispatch:
   schedule:
-    # 08:00 and 20:00 Asia/Dubai. Dubai is UTC+4 year-round.
-    - cron: "0 4,16 * * *"
+    # 07:40 Asia/Dubai. Dubai is UTC+4 year-round.
+    - cron: "40 3 * * *"
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   update:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -38,3 +47,15 @@ jobs:
         with:
           commit_message: "Update World Cup challenge data"
           file_pattern: public/data/world-cup.json
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
