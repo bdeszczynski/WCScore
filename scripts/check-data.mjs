@@ -42,21 +42,37 @@ if (!Array.isArray(manualResults.matches)) {
 }
 
 const matchIds = new Set(data.matches.map((match) => String(match.id)));
+const manualMatchIds = new Set();
 for (const override of manualResults.matches) {
   if (!override.id || !matchIds.has(String(override.id))) {
     throw new Error(`Manual result override references unknown match: ${JSON.stringify(override)}`);
   }
+  if (manualMatchIds.has(String(override.id))) {
+    throw new Error(`Manual result override duplicates match: ${JSON.stringify(override)}`);
+  }
+  manualMatchIds.add(String(override.id));
+  if (override.manualOverride !== undefined && typeof override.manualOverride !== "boolean") {
+    throw new Error(`Manual result override flag must be boolean: ${JSON.stringify(override)}`);
+  }
   if (override.status !== undefined && !["scheduled", "finished"].includes(override.status)) {
     throw new Error(`Manual result override has invalid status: ${JSON.stringify(override)}`);
   }
-  if ((override.homeGoals === undefined) !== (override.awayGoals === undefined)) {
+  const hasHomeGoals = override.homeGoals !== undefined && override.homeGoals !== null;
+  const hasAwayGoals = override.awayGoals !== undefined && override.awayGoals !== null;
+  if (hasHomeGoals !== hasAwayGoals) {
     throw new Error(`Manual result override must set both scores together: ${JSON.stringify(override)}`);
   }
-  if (override.homeGoals !== undefined || override.awayGoals !== undefined) {
+  if (hasHomeGoals || hasAwayGoals) {
     if (!Number.isFinite(Number(override.homeGoals)) || !Number.isFinite(Number(override.awayGoals))) {
       throw new Error(`Manual result override has invalid score: ${JSON.stringify(override)}`);
     }
   }
+  if (override.manualOverride === true && override.status === "finished" && (!hasHomeGoals || !hasAwayGoals)) {
+    throw new Error(`Manual finished override must include both scores: ${JSON.stringify(override)}`);
+  }
+}
+for (const matchId of matchIds) {
+  if (!manualMatchIds.has(matchId)) throw new Error(`Manual results are missing match: ${matchId}`);
 }
 
 if (!data.odds?.source || !data.odds?.updatedAt || !Array.isArray(data.odds?.teams)) {

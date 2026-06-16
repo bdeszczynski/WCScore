@@ -645,16 +645,17 @@ export function applyManualResultOverrides(matches, manualResults = {}) {
   if (!overrides.length) return matches;
 
   const matchIds = new Set(matches.map((match) => String(match.id)));
-  const overridesById = new Map();
+  const activeOverridesById = new Map();
   for (const override of overrides) {
     const id = String(override?.id || "").trim();
     if (!id) throw new Error(`Manual result override is missing an id: ${JSON.stringify(override)}`);
     if (!matchIds.has(id)) throw new Error(`Manual result override references unknown match id: ${id}`);
-    overridesById.set(id, override);
+    if (override.manualOverride === true) activeOverridesById.set(id, override);
   }
+  if (!activeOverridesById.size) return matches;
 
   return matches.map((match) => {
-    const override = overridesById.get(String(match.id));
+    const override = activeOverridesById.get(String(match.id));
     if (!override) return match;
 
     const hasHomeGoals = override.homeGoals !== undefined && override.homeGoals !== null;
@@ -693,6 +694,35 @@ export function applyManualResultOverrides(matches, manualResults = {}) {
 
     return next;
   });
+}
+
+export function syncManualResultSkeleton(matches, manualResults = {}) {
+  const existingById = new Map((manualResults.matches || []).map((match) => [String(match.id), match]));
+  return {
+    updatedAt: new Date().toISOString(),
+    notes:
+      manualResults.notes ||
+      "Ready-made manual result overrides. API/world-cup.json wins by default. To override a match, set manualOverride to true on that row, edit status/homeGoals/awayGoals/winnerAfterPenalties/note, commit this file, then run Refresh data. Turn manualOverride back to false or remove the row to let API data win again.",
+    matches: matches.map((match) => {
+      const existing = existingById.get(String(match.id)) || {};
+      const manualOverride = existing.manualOverride === true;
+      return {
+        id: String(match.id),
+        matchNumber: match.matchNumber ?? null,
+        stage: match.stage ?? null,
+        group: match.group ?? null,
+        kickoff: match.kickoff ?? null,
+        homeTeam: match.homeTeam,
+        awayTeam: match.awayTeam,
+        manualOverride,
+        status: manualOverride ? existing.status || match.status : match.status,
+        homeGoals: manualOverride ? existing.homeGoals ?? match.homeGoals : match.homeGoals,
+        awayGoals: manualOverride ? existing.awayGoals ?? match.awayGoals : match.awayGoals,
+        winnerAfterPenalties: manualOverride ? existing.winnerAfterPenalties ?? null : match.winnerAfterPenalties ?? null,
+        note: existing.note || "",
+      };
+    }),
+  };
 }
 
 async function readManualResults() {
@@ -937,7 +967,8 @@ async function main() {
       sources.push("Existing fixtures; no fresh matches found");
     }
   }
-  matches = applyManualResultOverrides(matches, manualResults);
+  const syncedManualResults = syncManualResultSkeleton(matches, manualResults);
+  matches = applyManualResultOverrides(matches, syncedManualResults);
 
   let freshOdds = await fetchPolymarketOdds(current);
   if (!freshOdds) freshOdds = await fetchSunArticleOdds(current);
@@ -981,6 +1012,7 @@ async function main() {
   };
 
   await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);
+  await writeFile(MANUAL_RESULTS_FILE, `${JSON.stringify(syncedManualResults, null, 2)}\n`);
   console.log(`Updated ${matches.length} matches from ${next.source}`);
 }
 

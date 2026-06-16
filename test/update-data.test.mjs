@@ -8,6 +8,7 @@ import {
   parsePolymarketMatchMarket,
   parsePolymarketWinnerEvent,
   parseSunWinnerOdds,
+  syncManualResultSkeleton,
 } from "../scripts/update-data.mjs";
 
 describe("getFootballDataToken", () => {
@@ -55,6 +56,7 @@ describe("applyManualResultOverrides", () => {
         matches: [
           {
             id: "537327",
+            manualOverride: true,
             status: "finished",
             homeGoals: 3,
             awayGoals: 1,
@@ -84,11 +86,120 @@ describe("applyManualResultOverrides", () => {
     );
   });
 
+  it("ignores ready-made rows until manualOverride is true", () => {
+    const [match] = applyManualResultOverrides(
+      [
+        {
+          id: "537327",
+          homeTeam: "Mexico",
+          awayTeam: "South Africa",
+          status: "finished",
+          homeGoals: 2,
+          awayGoals: 0,
+          winnerAfterPenalties: null,
+        },
+      ],
+      {
+        matches: [
+          {
+            id: "537327",
+            manualOverride: false,
+            status: "finished",
+            homeGoals: 3,
+            awayGoals: 1,
+          },
+        ],
+      },
+    );
+
+    assert.equal(match.homeGoals, 2);
+    assert.equal(match.awayGoals, 0);
+    assert.equal(match.resultSource, undefined);
+  });
+
   it("rejects manual overrides for unknown matches", () => {
     assert.throws(
       () => applyManualResultOverrides([{ id: "known", homeTeam: "Spain", awayTeam: "France" }], { matches: [{ id: "missing" }] }),
       /unknown match id: missing/,
     );
+  });
+});
+
+describe("syncManualResultSkeleton", () => {
+  it("keeps inactive manual rows aligned with API data", () => {
+    const synced = syncManualResultSkeleton(
+      [
+        {
+          id: "537327",
+          matchNumber: 1,
+          stage: "GROUP_STAGE",
+          group: "GROUP_A",
+          kickoff: "2026-06-11T19:00:00Z",
+          homeTeam: "Mexico",
+          awayTeam: "South Africa",
+          status: "finished",
+          homeGoals: 2,
+          awayGoals: 0,
+          winnerAfterPenalties: null,
+        },
+      ],
+      {
+        matches: [
+          {
+            id: "537327",
+            manualOverride: false,
+            status: "finished",
+            homeGoals: 9,
+            awayGoals: 9,
+            note: "Old inactive value",
+          },
+        ],
+      },
+    );
+
+    assert.equal(synced.matches[0].manualOverride, false);
+    assert.equal(synced.matches[0].homeGoals, 2);
+    assert.equal(synced.matches[0].awayGoals, 0);
+    assert.equal(synced.matches[0].note, "Old inactive value");
+  });
+
+  it("preserves active manual override scores while refreshing match metadata", () => {
+    const synced = syncManualResultSkeleton(
+      [
+        {
+          id: "537327",
+          matchNumber: 2,
+          stage: "GROUP_STAGE",
+          group: "GROUP_A",
+          kickoff: "2026-06-11T19:00:00Z",
+          homeTeam: "Mexico",
+          awayTeam: "South Africa",
+          status: "finished",
+          homeGoals: 2,
+          awayGoals: 0,
+          winnerAfterPenalties: null,
+        },
+      ],
+      {
+        matches: [
+          {
+            id: "537327",
+            manualOverride: true,
+            status: "finished",
+            homeGoals: 3,
+            awayGoals: 1,
+            winnerAfterPenalties: null,
+            note: "Manual correction",
+          },
+        ],
+      },
+    );
+
+    assert.equal(synced.matches[0].matchNumber, 2);
+    assert.equal(synced.matches[0].manualOverride, true);
+    assert.equal(synced.matches[0].homeGoals, 3);
+    assert.equal(synced.matches[0].awayGoals, 1);
+    assert.equal(synced.matches[0].note, "Manual correction");
   });
 });
 
