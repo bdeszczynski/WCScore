@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v66-admin-result-builder";
+const APP_VERSION = "v65-admin-page";
 
 const state = {
   data: null,

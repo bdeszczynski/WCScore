@@ -13,7 +13,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=66" />
+    <link rel="stylesheet" href="styles.css?v=65" />
   </head>
   <body>
     <main class="app-shell admin-shell">
@@ -56,11 +56,13 @@
 
         <a
           class="admin-card"
-          href="#result-builder"
+          href="https://github.com/bdeszczynski/WCScore/edit/master/public/data/manual-results.json"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <span class="eyebrow">Manual override</span>
           <strong>Update game results</strong>
-          <span>Opens the result builder below. It prepares result corrections that win over API data until removed.</span>
+          <span>Opens `manual-results.json` in GitHub. These result corrections are applied after API refreshes and win until removed.</span>
         </a>
 
         <a
@@ -74,74 +76,6 @@
           <span>Checks the generated source data before deciding whether a refresh, manual override, or publish is needed.</span>
         </a>
       </section>
-
-      <section class="panel admin-builder" id="result-builder">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Manual override builder</p>
-            <h2>Update game results</h2>
-          </div>
-        </div>
-
-        <form class="result-form" id="result-form">
-          <label class="field">
-            <span>Match</span>
-            <select id="admin-match" required></select>
-          </label>
-
-          <div class="admin-match-context" id="admin-match-context">Loading matches...</div>
-
-          <div class="result-score-grid">
-            <label class="field">
-              <span id="home-score-label">Home goals</span>
-              <input id="home-goals" min="0" step="1" type="number" />
-            </label>
-            <label class="field">
-              <span id="away-score-label">Away goals</span>
-              <input id="away-goals" min="0" step="1" type="number" />
-            </label>
-          </div>
-
-          <label class="field">
-            <span>Penalty winner</span>
-            <select id="penalty-winner"></select>
-          </label>
-
-          <label class="field">
-            <span>Note</span>
-            <input id="result-note" maxlength="160" type="text" placeholder="Optional" />
-          </label>
-
-          <div class="admin-form-actions">
-            <button class="primary-action" type="submit">Save override</button>
-            <button class="secondary-action" id="remove-override" type="button">Remove override</button>
-          </div>
-        </form>
-
-        <section class="admin-output">
-          <div class="panel-heading compact-heading">
-            <div>
-              <p class="eyebrow">Prepared file</p>
-              <h2>manual-results.json</h2>
-            </div>
-          </div>
-          <textarea id="manual-results-output" readonly spellcheck="false"></textarea>
-          <div class="admin-form-actions">
-            <button class="primary-action" id="copy-manual-results" type="button">Copy JSON</button>
-            <button class="secondary-action" id="download-manual-results" type="button">Download JSON</button>
-            <a
-              class="secondary-action action-link"
-              href="https://github.com/bdeszczynski/WCScore/edit/master/public/data/manual-results.json"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open file editor
-            </a>
-          </div>
-          <p class="admin-status" id="admin-status">Prepare overrides here, then copy the JSON into the file editor and run Refresh data.</p>
-        </section>
-      </section>
     </main>
-    <script type="module" src="src/admin.js?v=66"></script>
   </body>
 </html>
