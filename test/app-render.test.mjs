@@ -143,10 +143,10 @@ describe("app render smoke test", () => {
 
     try {
       assert.match(html, /href="admin\.html"/);
-      assert.match(html, /Trigger data refresh/);
-      assert.match(html, /actions\/workflows\/update-world-cup-data\.yml/);
-      assert.match(html, /Publish to Pages/);
-      assert.match(html, /actions\/workflows\/deploy-pages\.yml/);
+      assert.doesNotMatch(html, /Trigger data refresh/);
+      assert.doesNotMatch(html, /actions\/workflows\/update-world-cup-data\.yml/);
+      assert.doesNotMatch(html, /Publish to Pages/);
+      assert.doesNotMatch(html, /actions\/workflows\/deploy-pages\.yml/);
       assert.match(adminHtml, /Refresh data/);
       assert.match(adminHtml, /actions\/workflows\/update-world-cup-data\.yml/);
       assert.match(adminHtml, /Publish to Pages/);
