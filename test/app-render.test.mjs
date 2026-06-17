@@ -7,6 +7,14 @@ class FakeClassList {
     this.values = new Set();
   }
 
+  add(name) {
+    this.values.add(name);
+  }
+
+  remove(name) {
+    this.values.delete(name);
+  }
+
   toggle(name, force) {
     const shouldAdd = force ?? !this.values.has(name);
     if (shouldAdd) this.values.add(name);

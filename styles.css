@@ -116,27 +116,42 @@ h3 {
   line-height: 1.45;
 }
 
+.app-story.var-bot-story {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 10px;
+  max-width: 820px;
+  line-height: 1.38;
+}
+
+.commentary-lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
 .commentary-bot {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 23px;
-  height: 19px;
-  margin-right: 7px;
+  width: 19px;
+  height: 16px;
   border: 2px solid var(--ink);
-  border-radius: 6px;
+  border-radius: 5px;
   background: #f6faf7;
-  vertical-align: -5px;
 }
 
 .commentary-bot::before {
   content: "";
   position: absolute;
-  top: -7px;
+  top: -5px;
   left: 50%;
   width: 2px;
-  height: 6px;
+  height: 4px;
   background: var(--ink);
   transform: translateX(-50%);
 }
@@ -144,29 +159,32 @@ h3 {
 .commentary-bot::after {
   content: "";
   position: absolute;
-  top: -10px;
+  top: -7px;
   left: 50%;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 999px;
   background: var(--accent);
   transform: translateX(-50%);
 }
 
 .commentary-bot-eye {
-  width: 4px;
-  height: 4px;
-  margin: 0 2px;
+  width: 3px;
+  height: 3px;
+  margin: 0 1.5px;
   border-radius: 999px;
   background: var(--ink);
 }
 
 .commentary-label {
-  display: inline-block;
-  margin-right: 6px;
   color: var(--ink);
   font-size: 0.72rem;
   font-weight: 900;
+}
+
+.commentary-text {
+  display: block;
+  min-width: 0;
 }
 
 .story-flag {

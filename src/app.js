@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v67-var-bot";
+const APP_VERSION = "v68-var-bot-layout";
 
 const state = {
   data: null,
@@ -1013,16 +1013,20 @@ function renderHeaderStory() {
   if (!story) return;
   const commentary = cleanCommentary(state.data.commentary?.text);
   if (state.activeView === "standings" && commentary) {
+    story.classList.add("var-bot-story");
     story.innerHTML = `
-      <span class="commentary-bot" aria-hidden="true">
-        <span class="commentary-bot-eye"></span>
-        <span class="commentary-bot-eye"></span>
+      <span class="commentary-lead">
+        <span class="commentary-bot" aria-hidden="true">
+          <span class="commentary-bot-eye"></span>
+          <span class="commentary-bot-eye"></span>
+        </span>
+        <span class="commentary-label">VAR-bot says</span>
       </span>
-      <span class="commentary-label">VAR-bot says</span>
-      ${escapeHtml(commentary)}
+      <span class="commentary-text">${escapeHtml(commentary)}</span>
     `;
     return;
   }
+  story.classList.remove("var-bot-story");
   story.innerHTML = APP_STORY_HTML;
 }
 
