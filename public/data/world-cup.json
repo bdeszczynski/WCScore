@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T06:48:05.427Z",
+  "updatedAt": "2026-06-17T06:57:29.424Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-17T06:48:04.911Z",
+    "updatedAt": "2026-06-17T06:57:28.889Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1302,8 +1302,8 @@
       },
       {
         "team": "Argentina",
-        "decimal": 9.3,
-        "probability": 0.1075,
+        "decimal": 9.39,
+        "probability": 0.1065,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.1
@@ -1669,7 +1669,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-17T06:48:05.423Z",
+    "updatedAt": "2026-06-17T06:57:29.421Z",
     "type": "bookmaker_match",
     "matches": [
       {
