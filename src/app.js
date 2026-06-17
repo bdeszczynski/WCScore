@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v65-admin-page";
+const APP_VERSION = "v66-winner-standings";
 
 const state = {
   data: null,
@@ -221,13 +221,16 @@ function getStandings() {
     });
 }
 
-function getGoalStandings() {
-  return getStandings().sort((a, b) => {
-    if (b.gd !== a.gd) return b.gd - a.gd;
-    if (b.gf !== a.gf) return b.gf - a.gf;
-    if (a.ga !== b.ga) return a.ga - b.ga;
-    return a.teamName.localeCompare(b.teamName);
-  });
+function getWinnerPickStandings() {
+  return state.data.players
+    .flatMap((player) => player.winnerPicks.map((team) => aggregateTeam(team.name, player.name)))
+    .sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.gd !== a.gd) return b.gd - a.gd;
+      if (b.gf !== a.gf) return b.gf - a.gf;
+      if (a.ga !== b.ga) return a.ga - b.ga;
+      return a.teamName.localeCompare(b.teamName);
+    });
 }
 
 function groupMatches() {
@@ -661,12 +664,12 @@ function renderStandings() {
     )
     .join("");
 
-  renderGoalStandings();
+  renderWinnerStandings();
 }
 
-function renderGoalStandings() {
-  const rows = getGoalStandings().filter((row) => state.ownerFilter === "all" || row.owner === state.ownerFilter);
-  const container = document.querySelector("#goal-standings");
+function renderWinnerStandings() {
+  const rows = getWinnerPickStandings().filter((row) => state.ownerFilter === "all" || row.owner === state.ownerFilter);
+  const container = document.querySelector("#winner-standings");
 
   container.innerHTML = rows
     .map(
@@ -678,16 +681,16 @@ function renderGoalStandings() {
             <p class="muted"><span class="owner-cell">${ownerAvatar(row.owner)} ${escapeHtml(row.owner)}</span></p>
           </div>
           <div class="goal-stats">
+            <strong>${row.points}</strong>
+            <span>PTS</span>
+          </div>
+          <div class="goal-stats">
             <strong>${row.gd > 0 ? "+" : ""}${row.gd}</strong>
             <span>GD</span>
           </div>
           <div class="goal-stats">
             <strong>${row.gf}</strong>
             <span>GF</span>
-          </div>
-          <div class="goal-stats">
-            <strong>${row.ga}</strong>
-            <span>GA</span>
           </div>
         </article>
       `,

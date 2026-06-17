@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=65" />
+    <link rel="stylesheet" href="styles.css?v=66" />
   </head>
   <body>
     <main class="app-shell">
@@ -122,14 +122,15 @@
             </div>
           </section>
 
-          <section class="panel goals-panel">
+          <section class="panel winner-standings-panel">
             <div class="panel-heading">
               <div>
-                <p class="eyebrow">Goal tiebreakers</p>
-                <h2>Goal standings</h2>
+                <p class="eyebrow">Winner picks</p>
+                <h2>Winner team standings</h2>
+                <p class="panel-note">Tracking only. These match points do not go into the challenge score.</p>
               </div>
             </div>
-            <div class="goal-list" id="goal-standings"></div>
+            <div class="goal-list" id="winner-standings"></div>
           </section>
 
         </section>
@@ -173,6 +174,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=65"></script>
+    <script type="module" src="src/app.js?v=66"></script>
   </body>
 </html>

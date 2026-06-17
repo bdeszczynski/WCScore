@@ -69,7 +69,7 @@ function createFakeDocument() {
       "#last-updated",
       "#score-strip",
       "#standings-body",
-      "#goal-standings",
+      "#winner-standings",
       "#odds-list",
       "#odds-source",
       "#odds-updated",
@@ -160,6 +160,9 @@ describe("app render smoke test", () => {
 
       assert.match(document.querySelector("#score-strip").innerHTML, /score-card/);
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
+      assert.match(document.querySelector("#winner-standings").innerHTML, /Spain/);
+      assert.match(document.querySelector("#winner-standings").innerHTML, /Netherlands/);
+      assert.doesNotMatch(document.querySelector("#winner-standings").innerHTML, /Brazil/);
       assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Market/);
