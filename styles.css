@@ -1472,9 +1472,26 @@ select {
   box-shadow: 0 0 0 1px rgba(26, 38, 33, 0.08);
 }
 
+.quiz-flag[hidden] {
+  display: none;
+}
+
+.quiz-question {
+  min-height: 20px;
+  margin: -2px 0 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .quiz-options {
   display: grid;
   gap: 8px;
+}
+
+.quiz-options[hidden] {
+  display: none;
 }
 
 .quiz-options button {
@@ -1503,6 +1520,35 @@ select {
   color: var(--muted);
   font-weight: 800;
   text-align: center;
+}
+
+.quiz-flower {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: 12px 0 6px;
+}
+
+.quiz-flower[hidden] {
+  display: none;
+}
+
+.quiz-flower img {
+  width: min(320px, 78vw);
+  height: auto;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+  box-shadow: 0 12px 34px rgba(23, 32, 27, 0.18);
+}
+
+.quiz-flower p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 950;
 }
 
 .confetti-overlay {

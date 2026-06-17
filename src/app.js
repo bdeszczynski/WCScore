@@ -10,9 +10,10 @@ import {
   stageKind,
 } from "./scoring.js?v=31";
 import { flagUrlForTeam } from "./flags.js?v=34";
+import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=1";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v70-hide-topbar-actions";
+const APP_VERSION = "v71-quiz-gate-flower";
 
 const state = {
   data: null,
@@ -929,10 +930,6 @@ function getQuizTeams() {
   return [...names].filter((team) => flagUrlForTeam(team)).sort((a, b) => a.localeCompare(b));
 }
 
-function shuffle(items) {
-  return [...items].sort(() => Math.random() - 0.5);
-}
-
 function showFlagQuiz() {
   const teams = getQuizTeams();
   if (teams.length < 3) return false;
@@ -951,26 +948,63 @@ function showFlagQuiz() {
         </div>
       </div>
       <img class="quiz-flag" alt="" width="160" height="120" />
+      <p class="quiz-question"></p>
       <div class="quiz-options"></div>
+      <div class="quiz-flower" hidden>
+        <img alt="" width="320" height="220" />
+        <p></p>
+      </div>
       <p class="quiz-feedback" aria-live="polite"></p>
     </div>
   `;
 
-  let correct = "";
+  const flagCountry = teams[Math.floor(Math.random() * teams.length)];
+  const flagQuestion = flagQuestionForTeam(flagCountry);
+  const capitalQuestion = buildCapitalQuizQuestion(teams);
+  const questions = [
+    { ...flagQuestion, options: buildFlagQuizOptions(flagCountry, teams) },
+    ...(capitalQuestion
+      ? [
+          {
+            kind: "capital",
+            eyebrow: "Capital quiz",
+            title: `What is the capital of ${capitalQuestion.country}?`,
+            prompt: "No freebies. Pick the capital.",
+            correct: capitalQuestion.correct,
+            options: capitalQuestion.options,
+          },
+        ]
+      : []),
+  ];
+  let questionIndex = 0;
   let attempts = 0;
+  let perfectRun = true;
   const feedback = modal.querySelector(".quiz-feedback");
   const flag = modal.querySelector(".quiz-flag");
+  const questionText = modal.querySelector(".quiz-question");
+  const eyebrow = modal.querySelector(".eyebrow");
+  const title = modal.querySelector("#quiz-title");
   const optionsContainer = modal.querySelector(".quiz-options");
+  const flowerReward = modal.querySelector(".quiz-flower");
 
   const renderQuestion = () => {
-    correct = teams[Math.floor(Math.random() * teams.length)];
-    const options = shuffle([correct, ...shuffle(teams.filter((team) => team !== correct)).slice(0, 2)]);
-    flag.src = flagUrlForTeam(correct, 320);
-    optionsContainer.innerHTML = options
-      .map((team) => `<button type="button" data-quiz-answer="${escapeHtml(team)}">${escapeHtml(team)}</button>`)
+    const question = questions[questionIndex];
+    eyebrow.textContent = `${question.eyebrow} · ${questionIndex + 1}/${questions.length}`;
+    title.textContent = question.title;
+    questionText.textContent = question.prompt || "";
+    flag.hidden = question.kind !== "flag";
+    if (question.kind === "flag") flag.src = question.imageUrl;
+    flowerReward.hidden = true;
+    optionsContainer.hidden = false;
+    optionsContainer.innerHTML = question.options
+      .map((option) => `<button type="button" data-quiz-answer="${escapeHtml(option)}">${escapeHtml(option)}</button>`)
       .join("");
     feedback.textContent =
-      attempts > 0 ? "To use the app efficiently, you need to be able to recognize countries by their flags. Try again." : "";
+      attempts > 0
+        ? question.kind === "flag"
+          ? "To use the app efficiently, you need to be able to recognize countries by their flags. Try again."
+          : "To use the app efficiently, the geography knowledge has to travel beyond flags. Try again."
+        : "";
   };
 
   const close = () => {
@@ -978,23 +1012,52 @@ function showFlagQuiz() {
     showLeaderConfettiOnce();
   };
 
+  const showPerfectReward = () => {
+    const flower = pickFlowerReward();
+    const image = flowerReward.querySelector("img");
+    const label = flowerReward.querySelector("p");
+    eyebrow.textContent = "Perfect quiz run";
+    title.textContent = "Two first answers. One flower.";
+    questionText.textContent = "";
+    flag.hidden = true;
+    optionsContainer.hidden = true;
+    flowerReward.hidden = false;
+    image.src = flower.imageUrl;
+    image.alt = flower.name;
+    label.textContent = flower.name;
+    feedback.textContent = "Flag and capital both cleared on the first try.";
+    setTimeout(close, 6000);
+  };
+
   optionsContainer.addEventListener("click", (event) => {
     const button = event.target.closest("[data-quiz-answer]");
     if (!button) return;
+    const question = questions[questionIndex];
     const picked = button.dataset.quizAnswer;
-    const right = isSameTeam(picked, correct);
+    const right = picked === question.correct;
     optionsContainer.querySelectorAll("[data-quiz-answer]").forEach((item) => {
       item.disabled = true;
-      item.classList.toggle("correct", isSameTeam(item.dataset.quizAnswer, correct));
+      item.classList.toggle("correct", item.dataset.quizAnswer === question.correct);
       item.classList.toggle("wrong", item === button && !right);
     });
     if (right) {
       feedback.textContent = "Correct.";
-      setTimeout(close, 850);
+      if (questionIndex === questions.length - 1) {
+        if (perfectRun) {
+          setTimeout(showPerfectReward, 650);
+        } else {
+          setTimeout(close, 850);
+        }
+        return;
+      }
+      questionIndex += 1;
+      attempts = 0;
+      setTimeout(renderQuestion, 850);
       return;
     }
     attempts += 1;
-    feedback.textContent = "Not quite. Try another flag.";
+    perfectRun = false;
+    feedback.textContent = question.kind === "flag" ? "Not quite. Try another flag." : "Not quite. Try that capital again.";
     setTimeout(renderQuestion, 900);
   });
 
