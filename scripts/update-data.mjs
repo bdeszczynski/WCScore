@@ -386,13 +386,13 @@ async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}
       },
       body: JSON.stringify({
         model: "gpt-5-nano",
-        reasoning: { effort: "minimal" },
-        max_output_tokens: 220,
+        reasoning: { effort: "low" },
+        max_output_tokens: 260,
         input: [
           {
             role: "developer",
             content:
-              "Write one short VAR-bot recap for Bruno vs Sara's World Cup challenge. Be fun, playful, and lightly trash-talky, but affectionate. Name a predicted challenge winner as 'Prediction: Bruno', 'Prediction: Sara', or 'Prediction: too close to call'. Base it on current score, tiebreakers, selected teams, winner picks, and market probabilities in the supplied facts only. Do not invent matches, results, injuries, odds, or context. Keep it under 65 words. No markdown.",
+              "Write one short VAR-bot forward-looking verdict for Bruno vs Sara's World Cup challenge. Be fun, playful, and lightly trash-talky, but affectionate. Name a predicted challenge winner as 'Prediction: Bruno', 'Prediction: Sara', or 'Prediction: too close to call'. Explain why from here, including one future swing factor such as remaining selected teams, winner-pick upside, tiebreakers, or market probabilities. Use only supplied facts. Do not invent matches, results, injuries, odds, or context. Keep it under 70 words. No markdown.",
           },
           {
             role: "user",

@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v68-var-bot-layout";
+const APP_VERSION = "v69-var-bot-reasoning";
 
 const state = {
   data: null,
@@ -1030,6 +1030,12 @@ function renderHeaderStory() {
   story.innerHTML = APP_STORY_HTML;
 }
 
+function renderTopbarActions() {
+  const actions = document.querySelector(".topbar-actions");
+  if (!actions) return;
+  actions.hidden = state.activeView !== "score";
+}
+
 function bindEvents() {
   const closeInfoTooltips = (except = null) => {
     document.querySelectorAll(".info-dot[aria-expanded='true']").forEach((button) => {
@@ -1100,12 +1106,14 @@ function switchView(view) {
     panel.hidden = !active;
   });
   renderHeaderStory();
+  renderTopbarActions();
 }
 
 function render() {
   document.body.dataset.appVersion = APP_VERSION;
   renderMeta();
   renderHeaderStory();
+  renderTopbarActions();
   renderScoreStrip();
   renderStandings();
   renderOdds();

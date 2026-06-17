@@ -89,6 +89,7 @@ function createFakeDocument() {
       "#match-list",
       "#match-filter",
       ".ladder-heading",
+      ".topbar-actions",
     ].map((selector) => [selector, new FakeElement()]),
   );
 
@@ -182,6 +183,7 @@ describe("app render smoke test", () => {
 
       assert.match(document.querySelector("#score-strip").innerHTML, /score-card/);
       assert.match(document.querySelector("#app-story").innerHTML, /Poland/);
+      assert.equal(document.querySelector(".topbar-actions").hidden, false);
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Spain/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Netherlands/);
@@ -210,8 +212,12 @@ describe("app render smoke test", () => {
       document.viewButtons[1].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
       assert.match(document.querySelector("#app-story").innerHTML, /Prediction: Sara/);
+      assert.equal(document.querySelector(".topbar-actions").hidden, true);
+      document.viewButtons[2].dispatch("click");
+      assert.equal(document.querySelector(".topbar-actions").hidden, true);
       document.viewButtons[0].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /Poland/);
+      assert.equal(document.querySelector(".topbar-actions").hidden, false);
     } finally {
       globalThis.document = previousDocument;
       globalThis.fetch = previousFetch;
