@@ -1533,14 +1533,14 @@ select {
   display: none;
 }
 
-.quiz-flower img {
+.quiz-flower-photo {
   width: min(320px, 78vw);
-  height: auto;
-  aspect-ratio: 16 / 11;
-  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  background-color: var(--surface-2);
+  background-repeat: no-repeat;
+  background-size: 500% 500%;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--surface-2);
   box-shadow: 0 12px 34px rgba(23, 32, 27, 0.18);
 }
 

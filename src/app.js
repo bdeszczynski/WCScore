@@ -10,10 +10,10 @@ import {
   stageKind,
 } from "./scoring.js?v=31";
 import { flagUrlForTeam } from "./flags.js?v=34";
-import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=1";
+import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v73-local-flowers";
+const APP_VERSION = "v75-real-flower-photos";
 
 const state = {
   data: null,
@@ -951,7 +951,7 @@ function showFlagQuiz() {
       <p class="quiz-question"></p>
       <div class="quiz-options"></div>
       <div class="quiz-flower" hidden>
-        <img alt="" width="320" height="220" />
+        <div class="quiz-flower-photo" role="img"></div>
         <p></p>
       </div>
       <p class="quiz-feedback" aria-live="polite"></p>
@@ -1014,7 +1014,7 @@ function showFlagQuiz() {
 
   const showPerfectReward = () => {
     const flower = pickFlowerReward();
-    const image = flowerReward.querySelector("img");
+    const image = flowerReward.querySelector(".quiz-flower-photo");
     const label = flowerReward.querySelector("p");
     eyebrow.textContent = "Perfect quiz run";
     title.textContent = "Two first answers. One flower.";
@@ -1022,11 +1022,12 @@ function showFlagQuiz() {
     flag.hidden = true;
     optionsContainer.hidden = true;
     flowerReward.hidden = false;
-    image.src = flower.imageUrl;
-    image.alt = flower.name;
+    image.setAttribute("aria-label", flower.name);
+    image.style.backgroundImage = `url("${flower.imageUrl}")`;
+    image.style.backgroundPosition = flower.tilePosition;
     label.textContent = flower.name;
     feedback.textContent = "Flag and capital both cleared on the first try.";
-    setTimeout(close, 6000);
+    setTimeout(close, 4000);
   };
 
   optionsContainer.addEventListener("click", (event) => {

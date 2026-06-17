@@ -125,6 +125,7 @@ describe("app render smoke test", () => {
     const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
     const adminHtml = await readFile(new URL("../admin.html", import.meta.url), "utf8");
     const styles = await readFile(new URL("../styles.css", import.meta.url), "utf8");
+    const appJs = await readFile(new URL("../src/app.js", import.meta.url), "utf8");
     const serviceWorker = await readFile(new URL("../sw.js", import.meta.url), "utf8");
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
     data.commentary = {
@@ -174,9 +175,10 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(html, /Publish to Pages/);
       assert.doesNotMatch(html, /actions\/workflows\/deploy-pages\.yml/);
       assert.match(styles, /\.topbar-actions\[hidden\]\s*\{[^}]*display:\s*none;/);
-      assert.match(styles, /\.quiz-flower img\s*\{[^}]*width:\s*min\(320px,\s*78vw\)/);
+      assert.match(styles, /\.quiz-flower-photo\s*\{[^}]*width:\s*min\(320px,\s*78vw\)/);
       assert.doesNotMatch(html, /https:\/\/loremflickr\.com/);
       assert.doesNotMatch(html, /https:\/\/live\.staticflickr\.com/);
+      assert.match(appJs, /quiz\.js\?v=3/);
       assert.match(adminHtml, /Refresh data/);
       assert.match(adminHtml, /actions\/workflows\/update-world-cup-data\.yml/);
       assert.match(adminHtml, /Publish to Pages/);
@@ -184,6 +186,8 @@ describe("app render smoke test", () => {
       assert.match(adminHtml, /Update game results/);
       assert.match(adminHtml, /edit\/master\/public\/data\/manual-results\.json/);
       assert.match(serviceWorker, /admin\.html/);
+      assert.match(serviceWorker, /quiz\.js\?v=3/);
+      assert.match(serviceWorker, /flower-sprite-v1\.jpg/);
 
       await import(`../src/app.js?render-test=${Date.now()}`);
       await waitForRender(document);

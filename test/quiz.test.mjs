@@ -5,7 +5,7 @@ import {
   buildFlagQuizOptions,
   flagQuestionForTeam,
   FLOWER_REWARDS,
-  flowerImageUrl,
+  flowerTilePosition,
   pickFlowerReward,
 } from "../src/quiz.js";
 
@@ -36,13 +36,14 @@ describe("quiz helpers", () => {
     assert.deepEqual(question.options, ["Tokyo", "Kyoto", "Osaka"]);
   });
 
-  it("keeps exactly 25 named flower rewards and emits a local SVG image URL", () => {
+  it("keeps exactly 25 real flower rewards and emits a local sprite tile", () => {
     const reward = pickFlowerReward(() => 0);
 
     assert.equal(FLOWER_REWARDS.length, 25);
+    assert.deepEqual(FLOWER_REWARDS.slice(0, 4), ["Rose", "Tulip", "Crocus", "Jasmine"]);
     assert.equal(reward.name, "Rose");
-    assert.equal(reward.imageUrl, flowerImageUrl("Rose", 0));
-    assert.match(reward.imageUrl, /^data:image\/svg\+xml;charset=UTF-8,/);
-    assert.match(decodeURIComponent(reward.imageUrl), /aria-label="Rose"/);
+    assert.equal(reward.imageUrl, "public/images/flower-sprite-v1.jpg");
+    assert.equal(reward.tilePosition, flowerTilePosition(0));
+    assert.equal(flowerTilePosition(24), "100% 100%");
   });
 });

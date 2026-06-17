@@ -36,6 +36,8 @@ export const SIMILAR_FLAG_CHOICES = {
 export const FLOWER_REWARDS = [
   "Rose",
   "Tulip",
+  "Crocus",
+  "Jasmine",
   "Sunflower",
   "Daisy",
   "Lily",
@@ -57,9 +59,9 @@ export const FLOWER_REWARDS = [
   "Azalea",
   "Begonia",
   "Bluebell",
-  "Bougainvillea",
-  "Buttercup",
 ];
+
+const FLOWER_SPRITE_URL = "public/images/flower-sprite-v1.jpg";
 
 export const CAPITAL_QUESTIONS = {
   Algeria: { capital: "Algiers", choices: ["Tunis", "Rabat"] },
@@ -156,71 +158,10 @@ export function flagQuestionForTeam(team) {
   };
 }
 
-export function flowerImageUrl(name, index, width = 360, height = 240) {
-  const palettes = [
-    ["#d94b5f", "#ffd6de", "#f8b24e"],
-    ["#f28b30", "#ffe0a8", "#8f4c23"],
-    ["#f2c94c", "#fff2a6", "#5b4226"],
-    ["#f7f7f2", "#f4d35e", "#65845f"],
-    ["#ffffff", "#f6c1d6", "#5b7f72"],
-    ["#b56bd8", "#efd4ff", "#e7b33f"],
-    ["#5f6fd6", "#cdd5ff", "#f2c14e"],
-    ["#f0769f", "#ffd6e7", "#7f4f24"],
-    ["#b93a32", "#ffb199", "#443627"],
-    ["#6aa6d9", "#d8eefb", "#4c6f73"],
-    ["#8d6ac8", "#d9c8ff", "#6c7d47"],
-    ["#d66b2f", "#ffd3a3", "#80521f"],
-    ["#e65a73", "#ffc7d1", "#775241"],
-    ["#f0b13c", "#ffe1a1", "#606c38"],
-    ["#e4475d", "#ffb4c1", "#40513b"],
-    ["#f8efe4", "#f2c078", "#4f6f52"],
-    ["#f4d7dc", "#fff0f5", "#728c69"],
-    ["#df443a", "#ffb1a9", "#2f3e46"],
-    ["#7a5cc9", "#d8cafd", "#466365"],
-    ["#f0b6c7", "#ffe3ed", "#567d46"],
-    ["#e24d60", "#ffc4ce", "#6f4e37"],
-    ["#ef8fa7", "#ffd4df", "#6b705c"],
-    ["#497bd1", "#c9dbff", "#587d71"],
-    ["#d8509d", "#ffc6e9", "#5a6f43"],
-    ["#ffd34d", "#fff0a8", "#5b5f2a"],
-  ];
-  const [petal, petalLight, center] = palettes[index % palettes.length];
-  const rotation = (index * 17) % 360;
-  const petalCount = 8 + (index % 5);
-  const petals = Array.from({ length: petalCount }, (_, petalIndex) => {
-    const angle = (360 / petalCount) * petalIndex + rotation;
-    return `<ellipse cx="180" cy="88" rx="28" ry="68" fill="${petal}" opacity="0.9" transform="rotate(${angle} 180 120)" />`;
-  }).join("");
-  const sparkles = Array.from({ length: 8 }, (_, sparkleIndex) => {
-    const x = 48 + ((sparkleIndex * 37 + index * 19) % 264);
-    const y = 28 + ((sparkleIndex * 29 + index * 13) % 176);
-    const size = 2 + ((sparkleIndex + index) % 4);
-    return `<circle cx="${x}" cy="${y}" r="${size}" fill="${petalLight}" opacity="0.55" />`;
-  }).join("");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 360 240" role="img" aria-label="${name}">
-    <defs>
-      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#fffaf2" />
-        <stop offset="1" stop-color="#efe9dd" />
-      </linearGradient>
-      <radialGradient id="petalGlow" cx="50%" cy="35%" r="65%">
-        <stop offset="0" stop-color="${petalLight}" />
-        <stop offset="1" stop-color="${petal}" />
-      </radialGradient>
-    </defs>
-    <rect width="360" height="240" rx="20" fill="url(#bg)" />
-    ${sparkles}
-    <path d="M180 141 C152 159 129 181 118 213" fill="none" stroke="#5e7d55" stroke-width="9" stroke-linecap="round" />
-    <path d="M148 179 C126 166 100 164 76 178 C107 192 130 191 148 179Z" fill="#7da966" opacity="0.9" />
-    <path d="M180 170 C205 154 232 152 258 168 C230 186 204 186 180 170Z" fill="#678f57" opacity="0.9" />
-    <g>
-      ${petals}
-      <circle cx="180" cy="120" r="42" fill="url(#petalGlow)" opacity="0.32" />
-      <circle cx="180" cy="120" r="27" fill="${center}" />
-      <circle cx="171" cy="111" r="7" fill="#fff4c7" opacity="0.72" />
-    </g>
-  </svg>`;
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+export function flowerTilePosition(index) {
+  const col = index % 5;
+  const row = Math.floor(index / 5);
+  return `${col * 25}% ${row * 25}%`;
 }
 
 export function pickFlowerReward(random = Math.random) {
@@ -228,6 +169,7 @@ export function pickFlowerReward(random = Math.random) {
   const name = FLOWER_REWARDS[index];
   return {
     name,
-    imageUrl: flowerImageUrl(name, index),
+    imageUrl: FLOWER_SPRITE_URL,
+    tilePosition: flowerTilePosition(index),
   };
 }
