@@ -84,9 +84,17 @@ Upcoming match odds:
 - Usage: small win-chance badges next to teams in the upcoming Matches tab.
 - Native Stats and football-data H/D/A decimal odds are converted into normalized implied probabilities. Draw probability is stored in `matchOdds`, while the UI shows only the home and away team win chances next to team names.
 
+VAR-bot commentary:
+
+- Optional LLM-generated recap written into `world-cup.json` during data refresh.
+- Usage: the Standings header can replace the app story with a short "VAR-bot says" recap and predicted Bruno vs Sara challenge winner.
+- Inputs: current score, scoring rules, selected points teams, winner picks, tiebreakers, recent results, and loaded market probabilities.
+- Circuit breaker: if the key is missing, the request times out, or the LLM call fails, the updater keeps going and preserves any previous commentary.
+
 Suggested GitHub secrets:
 
 - `FOOTBALL_DATA_TOKEN`
+- `OPENAI_API_KEY` for optional VAR-bot commentary
 
 ## Tests
 

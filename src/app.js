@@ -12,7 +12,7 @@ import {
 import { flagUrlForTeam } from "./flags.js?v=34";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v66-winner-standings";
+const APP_VERSION = "v67-var-bot";
 
 const state = {
   data: null,
@@ -67,6 +67,12 @@ const ROUND_OF_16 = [
 
 const selectedTeamNames = new Set();
 let leaderConfettiShown = false;
+const APP_STORY_HTML = `
+  Born because <img class="story-flag" src="https://flagcdn.com/w40/pl.png" alt="Poland" /> and
+  <img class="story-flag" src="https://flagcdn.com/w40/it.png" alt="Italy" /> missed the World Cup, Sara
+  and Bruno needed new teams to cheer for. A terrible match schedule poster finished the job; now this
+  tracker adds drama, keeps score, and should raise Sara from about 10 known flags to at least 48.
+`;
 
 const fmtDate = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -104,6 +110,13 @@ function escapeHtml(value) {
       "'": "&#39;",
     }[char];
   });
+}
+
+function cleanCommentary(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 420);
 }
 
 function teamLabel(teamName, tracked = false) {
@@ -995,6 +1008,24 @@ function renderMeta() {
   document.querySelector("#last-updated").textContent = `Last updated ${updated} Dubai time`;
 }
 
+function renderHeaderStory() {
+  const story = document.querySelector("#app-story");
+  if (!story) return;
+  const commentary = cleanCommentary(state.data.commentary?.text);
+  if (state.activeView === "standings" && commentary) {
+    story.innerHTML = `
+      <span class="commentary-bot" aria-hidden="true">
+        <span class="commentary-bot-eye"></span>
+        <span class="commentary-bot-eye"></span>
+      </span>
+      <span class="commentary-label">VAR-bot says</span>
+      ${escapeHtml(commentary)}
+    `;
+    return;
+  }
+  story.innerHTML = APP_STORY_HTML;
+}
+
 function bindEvents() {
   const closeInfoTooltips = (except = null) => {
     document.querySelectorAll(".info-dot[aria-expanded='true']").forEach((button) => {
@@ -1064,11 +1095,13 @@ function switchView(view) {
     panel.classList.toggle("active", active);
     panel.hidden = !active;
   });
+  renderHeaderStory();
 }
 
 function render() {
   document.body.dataset.appVersion = APP_VERSION;
   renderMeta();
+  renderHeaderStory();
   renderScoreStrip();
   renderStandings();
   renderOdds();

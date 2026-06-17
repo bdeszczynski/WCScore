@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
+import { aggregateTeam, bonusStatus, comparePlayerTotals } from "../src/scoring.js";
 
 const DATA_FILE = new URL("../public/data/world-cup.json", import.meta.url);
 const MANUAL_RESULTS_FILE = new URL("../public/data/manual-results.json", import.meta.url);
@@ -12,6 +13,9 @@ const NATIVE_STATS_WC_URL = "https://native-stats.org/competition/WC/";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const POLYMARKET_WINNER_URL = "https://gamma-api.polymarket.com/events/slug/world-cup-winner";
 const POLYMARKET_MARKETS_URL = "https://gamma-api.polymarket.com/markets";
+const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
+const OPENAI_COMMENTARY_TIMEOUT_MS = 12000;
+const OPENAI_COMMENTARY_MAX_CHARS = 420;
 const PUBLIC_ODDS_TEAMS = [
   "France",
   "Spain",
@@ -261,6 +265,158 @@ function includeSelectedRows(rows, selectedTeams, limit = 10) {
   const included = new Set(topRows.map((row) => normalizeTeam(row.team)));
   const selectedRows = rows.filter((row) => selectedTeams.has(normalizeTeam(row.team)) && !included.has(normalizeTeam(row.team)));
   return [...topRows, ...selectedRows];
+}
+
+function getPlayerPointTotals(data) {
+  return (data.players || []).map((player) => {
+    const rows = (player.pointsTeams || []).map((team) => aggregateTeam(data.matches || [], team.name, player.name));
+    const points = rows.reduce((sum, row) => sum + row.points, 0);
+    const gf = rows.reduce((sum, row) => sum + row.gf, 0);
+    const ga = rows.reduce((sum, row) => sum + row.ga, 0);
+    const bonusPoints = [...(player.pointsTeams || []), ...(player.winnerPicks || [])]
+      .filter((team, index, teams) => teams.findIndex((candidate) => isSameTeam(candidate.name, team.name)) === index)
+      .reduce((sum, team) => sum + bonusStatus(data.matches || [], team.name).points, 0);
+
+    return {
+      name: player.name,
+      teamPoints: points,
+      bonusPoints,
+      total: points + bonusPoints,
+      gd: gf - ga,
+      gf,
+      ga,
+      pointTeams: rows.map((row) => ({
+        team: row.teamName,
+        points: row.points,
+        played: row.played,
+        gd: row.gd,
+        gf: row.gf,
+        ga: row.ga,
+      })),
+      winnerPicks: (player.winnerPicks || []).map((team) => {
+        const row = aggregateTeam(data.matches || [], team.name, player.name);
+        const status = bonusStatus(data.matches || [], team.name);
+        return {
+          team: team.name,
+          trackingPoints: row.points,
+          played: row.played,
+          gd: row.gd,
+          gf: row.gf,
+          semiReached: status.semiReached,
+          wonCup: status.wonCup,
+        };
+      }),
+    };
+  });
+}
+
+function buildCommentaryFacts(data) {
+  const players = getPlayerPointTotals(data).sort((a, b) => comparePlayerTotals(a, b) || a.name.localeCompare(b.name));
+  const oddsByTeam = new Map((data.odds?.teams || []).map((entry) => [normalizeTeam(entry.team), entry]));
+  const finishedMatches = (data.matches || [])
+    .filter((match) => match.status === "finished")
+    .slice(-8)
+    .map((match) => `${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}`);
+  const topTeams = players.flatMap((player) => player.pointTeams.map((team) => ({ ...team, owner: player.name }))).sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.gd !== a.gd) return b.gd - a.gd;
+    if (b.gf !== a.gf) return b.gf - a.gf;
+    return a.team.localeCompare(b.team);
+  });
+
+  return {
+    updatedAt: data.updatedAt,
+    rules: {
+      pointTeamScoring: "Selected points teams score 3 challenge points for a win and 1 for a draw in every round they play.",
+      knockoutPenaltyLoss: "In knockout rounds, a selected points team that loses on penalties gets 1 extra challenge point.",
+      challengeTieBreakers: "If Bruno and Sara have equal total challenge points, leader is decided by combined points-team goal difference, then combined points-team goals for. If still equal, they are tied.",
+      winnerPickBonus:
+        "Selected winner picks do not score ordinary match points for the challenge. Any selected team, including points teams and winner picks, gives its owner 3 bonus points for reaching the semi-finals and 7 bonus points for winning the World Cup.",
+      winnerPickTracking: "Winner-pick standings are only progress tracking and do not add match points to the challenge score.",
+    },
+    players: players.map((player) => ({
+      ...player,
+      pointTeamNames: (data.players || []).find((entry) => entry.name === player.name)?.pointsTeams?.map((team) => team.name) || [],
+      winnerPickNames: (data.players || []).find((entry) => entry.name === player.name)?.winnerPicks?.map((team) => team.name) || [],
+      winnerPicks: player.winnerPicks.map((pick) => {
+        const odds = oddsByTeam.get(normalizeTeam(pick.team));
+        return {
+          ...pick,
+          marketProbability: Number.isFinite(Number(odds?.probability)) ? odds.probability : null,
+          startingProbability: Number.isFinite(Number(odds?.startingProbability)) ? odds.startingProbability : null,
+        };
+      }),
+    })),
+    leader: players[0]?.name || null,
+    recentFinishedMatches: finishedMatches,
+    bestPointTeams: topTeams.slice(0, 6),
+    instruction: "Predict the likely Bruno vs Sara challenge winner from current score, tiebreakers, selected teams, winner picks, and market probabilities only.",
+  };
+}
+
+function extractResponseText(json) {
+  if (typeof json?.output_text === "string") return json.output_text;
+  const parts = [];
+  for (const item of json?.output || []) {
+    for (const content of item?.content || []) {
+      if (content?.type === "output_text" && content.text) parts.push(content.text);
+    }
+  }
+  return parts.join(" ");
+}
+
+function cleanCommentaryText(text) {
+  return String(text || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, OPENAI_COMMENTARY_MAX_CHARS);
+}
+
+async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}) {
+  if (!apiKey) return null;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), OPENAI_COMMENTARY_TIMEOUT_MS);
+  try {
+    const response = await fetchImpl(OPENAI_RESPONSES_URL, {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-5-nano",
+        max_output_tokens: 120,
+        input: [
+          {
+            role: "developer",
+            content:
+              "Write one short VAR-bot recap for Bruno vs Sara's World Cup challenge. Be fun, playful, and lightly trash-talky, but affectionate. Name a predicted challenge winner as 'Prediction: Bruno', 'Prediction: Sara', or 'Prediction: too close to call'. Base it on current score, tiebreakers, selected teams, winner picks, and market probabilities in the supplied facts only. Do not invent matches, results, injuries, odds, or context. Keep it under 65 words. No markdown.",
+          },
+          {
+            role: "user",
+            content: JSON.stringify(facts),
+          },
+        ],
+      }),
+    });
+    if (!response.ok) throw new Error(`OpenAI commentary request failed: ${response.status}`);
+    const text = cleanCommentaryText(extractResponseText(await response.json()));
+    return text ? { updatedAt: new Date().toISOString(), text } : null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function generateVarBotCommentary(data, currentCommentary, options = {}) {
+  const apiKey = options.apiKey ?? process.env.OPENAI_API_KEY;
+  if (!apiKey) return currentCommentary || null;
+  try {
+    return (await requestOpenAiCommentary(buildCommentaryFacts(data), { apiKey, fetchImpl: options.fetchImpl })) || currentCommentary || null;
+  } catch (error) {
+    if (!options.silent) console.warn(`VAR-bot commentary skipped: ${error.message}`);
+    return currentCommentary || null;
+  }
 }
 
 export function parsePolymarketWinnerEvent(event, { limit = 10, selectedTeams = new Set(), currentRows = [] } = {}) {
@@ -1010,6 +1166,7 @@ async function main() {
     odds,
     matchOdds,
   };
+  next.commentary = await generateVarBotCommentary(next, current.commentary);
 
   await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);
   await writeFile(MANUAL_RESULTS_FILE, `${JSON.stringify(syncedManualResults, null, 2)}\n`);

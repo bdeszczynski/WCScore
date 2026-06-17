@@ -146,4 +146,13 @@ if (data.matchOdds !== undefined) {
   }
 }
 
+if (data.commentary !== undefined) {
+  if (!data.commentary?.updatedAt || typeof data.commentary?.text !== "string") {
+    throw new Error("Invalid commentary block");
+  }
+  if (data.commentary.text.length > 420) {
+    throw new Error("Commentary text is too long");
+  }
+}
+
 console.log(`Data OK: ${data.players.length} players, ${data.matches.length} matches`);

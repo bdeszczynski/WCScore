@@ -63,10 +63,13 @@ function createFakeDocument() {
     (round) => new FakeElement({ ladderRound: round }),
   );
   ladderButtons[0].classList.toggle("active", true);
+  const viewButtons = ["score", "standings", "matches"].map((viewTab) => new FakeElement({ viewTab }));
+  const viewPanels = ["score", "standings", "matches"].map((view) => new FakeElement({ view }));
 
   const elements = new Map(
     [
       "#last-updated",
+      "#app-story",
       "#score-strip",
       "#standings-body",
       "#winner-standings",
@@ -86,9 +89,16 @@ function createFakeDocument() {
     addEventListener() {},
     createElement: () => new FakeElement(),
     querySelector: (selector) => elements.get(selector) || null,
-    querySelectorAll: (selector) => (selector === "[data-ladder-round]" ? ladderButtons : []),
+    querySelectorAll: (selector) => {
+      if (selector === "[data-ladder-round]") return ladderButtons;
+      if (selector === "[data-view-tab]") return viewButtons;
+      if (selector === "[data-view]") return viewPanels;
+      return [];
+    },
     elements,
     ladderButtons,
+    viewButtons,
+    viewPanels,
   };
 }
 
@@ -105,6 +115,10 @@ describe("app render smoke test", () => {
     const adminHtml = await readFile(new URL("../admin.html", import.meta.url), "utf8");
     const serviceWorker = await readFile(new URL("../sw.js", import.meta.url), "utf8");
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
+    data.commentary = {
+      updatedAt: "2026-06-17T08:00:00.000Z",
+      text: "Prediction: Sara. VAR-bot sees Spain warming up while Bruno starts negotiating with goal difference.",
+    };
     const upcoming = data.matches.find((match) => match.status !== "finished");
     data.matchOdds = {
       source: "Polymarket match markets",
@@ -159,6 +173,7 @@ describe("app render smoke test", () => {
       await waitForRender(document);
 
       assert.match(document.querySelector("#score-strip").innerHTML, /score-card/);
+      assert.match(document.querySelector("#app-story").innerHTML, /Poland/);
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Spain/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Netherlands/);
@@ -184,6 +199,11 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
       assert.match(document.querySelector("#match-list").innerHTML, /venue-link/);
       assert.match(document.querySelector("#match-list").innerHTML, /venue-host-flag/);
+      document.viewButtons[1].dispatch("click");
+      assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
+      assert.match(document.querySelector("#app-story").innerHTML, /Prediction: Sara/);
+      document.viewButtons[0].dispatch("click");
+      assert.match(document.querySelector("#app-story").innerHTML, /Poland/);
     } finally {
       globalThis.document = previousDocument;
       globalThis.fetch = previousFetch;

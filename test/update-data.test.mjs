@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   applyManualResultOverrides,
+  generateVarBotCommentary,
   getFootballDataToken,
   parseFootballDataMatchOdds,
   parseNativeStatsMatchOdds,
@@ -10,6 +11,50 @@ import {
   parseSunWinnerOdds,
   syncManualResultSkeleton,
 } from "../scripts/update-data.mjs";
+
+const sampleCommentaryData = {
+  updatedAt: "2026-06-17T08:00:00.000Z",
+  players: [
+    {
+      name: "Bruno",
+      pointsTeams: [{ name: "Morocco" }, { name: "Japan" }, { name: "Norway" }, { name: "Mexico" }],
+      winnerPicks: [{ name: "France" }, { name: "Portugal" }],
+    },
+    {
+      name: "Sara",
+      pointsTeams: [{ name: "Switzerland" }, { name: "Brazil" }, { name: "Egypt" }, { name: "South Korea" }],
+      winnerPicks: [{ name: "Spain" }, { name: "Netherlands" }],
+    },
+  ],
+  matches: [
+    {
+      id: "1",
+      stage: "GROUP_STAGE",
+      status: "finished",
+      homeTeam: "Norway",
+      awayTeam: "Egypt",
+      homeGoals: 2,
+      awayGoals: 0,
+    },
+    {
+      id: "2",
+      stage: "GROUP_STAGE",
+      status: "finished",
+      homeTeam: "Brazil",
+      awayTeam: "Japan",
+      homeGoals: 1,
+      awayGoals: 1,
+    },
+  ],
+  odds: {
+    teams: [
+      { team: "France", probability: 0.16, startingProbability: 0.174 },
+      { team: "Portugal", probability: 0.1, startingProbability: 0.105 },
+      { team: "Spain", probability: 0.18, startingProbability: 0.182 },
+      { team: "Netherlands", probability: 0.06, startingProbability: 0.058 },
+    ],
+  },
+};
 
 describe("getFootballDataToken", () => {
   it("throws when the workflow requires a token but GitHub passes an empty value", () => {
@@ -200,6 +245,47 @@ describe("syncManualResultSkeleton", () => {
     assert.equal(synced.matches[0].homeGoals, 3);
     assert.equal(synced.matches[0].awayGoals, 1);
     assert.equal(synced.matches[0].note, "Manual correction");
+  });
+});
+
+describe("generateVarBotCommentary", () => {
+  it("skips commentary when no OpenAI key is configured", async () => {
+    const previous = { updatedAt: "2026-06-16T00:00:00.000Z", text: "Previous recap" };
+    assert.deepEqual(await generateVarBotCommentary(sampleCommentaryData, previous, { apiKey: "" }), previous);
+  });
+
+  it("keeps previous commentary when the LLM request fails", async () => {
+    const previous = { updatedAt: "2026-06-16T00:00:00.000Z", text: "Previous recap" };
+    const commentary = await generateVarBotCommentary(sampleCommentaryData, previous, {
+      apiKey: "test-key",
+      silent: true,
+      fetchImpl: async () => ({ ok: false, status: 500 }),
+    });
+
+    assert.deepEqual(commentary, previous);
+  });
+
+  it("stores short VAR-bot commentary from a successful LLM response", async () => {
+    const commentary = await generateVarBotCommentary(sampleCommentaryData, null, {
+      apiKey: "test-key",
+      fetchImpl: async (_url, request) => {
+        const payload = JSON.parse(request.body);
+        assert.match(payload.input[0].content, /VAR-bot recap/);
+        assert.match(payload.input[0].content, /Prediction/);
+        assert.match(payload.input[0].content, /trash-talky/);
+        assert.match(payload.input[1].content, /winnerPickBonus/);
+        return {
+          ok: true,
+          json: async () => ({
+            output_text: "Prediction: Bruno. Norway is doing the heavy lifting while Sara's spreadsheet is asking Spain for emergency services.",
+          }),
+        };
+      },
+    });
+
+    assert.match(commentary.text, /Prediction: Bruno/);
+    assert.ok(commentary.text.length <= 420);
+    assert.ok(commentary.updatedAt);
   });
 });
 

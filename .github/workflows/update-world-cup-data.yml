@@ -34,6 +34,7 @@ jobs:
         run: node scripts/update-data.mjs
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           REQUIRE_FOOTBALL_DATA_TOKEN: "1"
 
       - name: Validate data

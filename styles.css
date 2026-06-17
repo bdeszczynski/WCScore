@@ -116,6 +116,59 @@ h3 {
   line-height: 1.45;
 }
 
+.commentary-bot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 19px;
+  margin-right: 7px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: #f6faf7;
+  vertical-align: -5px;
+}
+
+.commentary-bot::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 2px;
+  height: 6px;
+  background: var(--ink);
+  transform: translateX(-50%);
+}
+
+.commentary-bot::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+
+.commentary-bot-eye {
+  width: 4px;
+  height: 4px;
+  margin: 0 2px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+
+.commentary-label {
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
 .story-flag {
   display: inline-block;
   width: 18px;
