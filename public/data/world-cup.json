@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T04:33:40.154Z",
+  "updatedAt": "2026-06-17T06:48:05.427Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -385,9 +385,9 @@
       "kickoff": "2026-06-17T04:00:00Z",
       "homeTeam": "Austria",
       "awayTeam": "Jordan",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "Levi's Stadium",
       "venueCity": "Santa Clara",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-17T04:33:39.623Z",
+    "updatedAt": "2026-06-17T06:48:04.911Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1302,8 +1302,8 @@
       },
       {
         "team": "Argentina",
-        "decimal": 9.22,
-        "probability": 0.1085,
+        "decimal": 9.3,
+        "probability": 0.1075,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.1
@@ -1318,8 +1318,8 @@
       },
       {
         "team": "Portugal",
-        "decimal": 9.95,
-        "probability": 0.1005,
+        "decimal": 9.85,
+        "probability": 0.1015,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1669,7 +1669,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-17T04:33:40.150Z",
+    "updatedAt": "2026-06-17T06:48:05.423Z",
     "type": "bookmaker_match",
     "matches": [
       {
