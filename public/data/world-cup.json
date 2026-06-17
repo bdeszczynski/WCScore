@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T09:16:02.758Z",
+  "updatedAt": "2026-06-17T09:27:38.907Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-17T09:16:02.205Z",
+    "updatedAt": "2026-06-17T09:27:38.310Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1302,8 +1302,8 @@
       },
       {
         "team": "Argentina",
-        "decimal": 9.39,
-        "probability": 0.1065,
+        "decimal": 9.3,
+        "probability": 0.1075,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.1
@@ -1318,8 +1318,8 @@
       },
       {
         "team": "Portugal",
-        "decimal": 9.85,
-        "probability": 0.1015,
+        "decimal": 9.76,
+        "probability": 0.1025,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1669,7 +1669,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-17T09:16:02.755Z",
+    "updatedAt": "2026-06-17T09:27:38.904Z",
     "type": "bookmaker_match",
     "matches": [
       {
@@ -1783,5 +1783,9 @@
         "volume": null
       }
     ]
+  },
+  "commentary": {
+    "updatedAt": "2026-06-17T09:27:41.713Z",
+    "text": "Prediction: Bruno. Bruno leads 8 vs 6, with solid tiebreaks pending and strong picks—Norway and Mexico lighting up the scoreline for him. Sara’s lineup and Spain/Netherlands may spark a comeback, but Bruno’s edge in GD and market odds tilts the balance. Fun times ahead!"
   }
 }
