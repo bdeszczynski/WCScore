@@ -9,6 +9,7 @@ Static score tracker for Bruno vs Sara. It uses no database and no authenticatio
 - `public/data/manual-results.json` is a ready-made match list for manual result overrides, applied after API refreshes only when `manualOverride` is `true`.
 - `.github/workflows/update-world-cup-data.yml` refreshes that JSON from GitHub's native schedule at 10:00 Dubai time, or on manual/external dispatch, then deploys GitHub Pages.
 - `.github/workflows/deploy-pages.yml` can republish the current repo to GitHub Pages without refreshing data.
+- Optional LLM feature: VAR-bot writes a short standings recap and Bruno vs Sara prediction during data refresh when `OPENAI_API_KEY` is configured.
 
 ## Scoring
 

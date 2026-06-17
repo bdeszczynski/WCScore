@@ -1166,7 +1166,12 @@ async function main() {
     odds,
     matchOdds,
   };
-  next.commentary = await generateVarBotCommentary(next, current.commentary);
+  const commentary = await generateVarBotCommentary(next, current.commentary);
+  if (commentary) {
+    next.commentary = commentary;
+  } else {
+    delete next.commentary;
+  }
 
   await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);
   await writeFile(MANUAL_RESULTS_FILE, `${JSON.stringify(syncedManualResults, null, 2)}\n`);
