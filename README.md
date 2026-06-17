@@ -51,18 +51,7 @@ Runtime dashboard data lives in `public/data/world-cup.json`. Manual result corr
 
 The scheduled updater runs in GitHub Actions from the native GitHub schedule at 10:00 Dubai time. It also runs when triggered manually or by an external cron service. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
 
-GitHub's native `schedule` trigger is best-effort and can be delayed or dropped under load. For a more reliable daily trigger, use an external cron service such as cron-job.org to call the workflow dispatch API:
-
-- URL: `https://api.github.com/repos/bdeszczynski/WCScore/actions/workflows/update-world-cup-data.yml/dispatches`
-- Method: `POST`
-- Body: `{"ref":"master"}`
-- Headers:
-  - `Accept: application/vnd.github+json`
-  - `Authorization: Bearer YOUR_GITHUB_TOKEN`
-  - `X-GitHub-Api-Version: 2026-03-10`
-  - `Content-Type: application/json`
-
-Use a fine-grained GitHub personal access token limited to this repository with **Actions: Read and write** permission. Recommended external trigger times are 07:10 and 07:40 Dubai time, leaving GitHub's native 10:00 schedule as a later fallback.
+GitHub's native `schedule` trigger is best-effort and can be delayed or dropped under load. For a more reliable daily trigger, an external cron service calls the same GitHub Actions workflow through GitHub's workflow-dispatch API. The external cron handles the timing, while GitHub Actions still performs the data refresh, validation, commit, and Pages deployment. GitHub's native 10:00 Dubai schedule remains as a later fallback.
 
 Match schedule and results:
 
