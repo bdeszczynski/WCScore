@@ -175,8 +175,8 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(html, /actions\/workflows\/deploy-pages\.yml/);
       assert.match(styles, /\.topbar-actions\[hidden\]\s*\{[^}]*display:\s*none;/);
       assert.match(styles, /\.quiz-flower img\s*\{[^}]*width:\s*min\(320px,\s*78vw\)/);
-      assert.match(html, /https:\/\/loremflickr\.com/);
-      assert.match(html, /https:\/\/live\.staticflickr\.com/);
+      assert.doesNotMatch(html, /https:\/\/loremflickr\.com/);
+      assert.doesNotMatch(html, /https:\/\/live\.staticflickr\.com/);
       assert.match(adminHtml, /Refresh data/);
       assert.match(adminHtml, /actions\/workflows\/update-world-cup-data\.yml/);
       assert.match(adminHtml, /Publish to Pages/);

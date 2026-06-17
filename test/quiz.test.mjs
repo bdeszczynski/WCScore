@@ -5,7 +5,7 @@ import {
   buildFlagQuizOptions,
   flagQuestionForTeam,
   FLOWER_REWARDS,
-  flowerPhotoUrl,
+  flowerImageUrl,
   pickFlowerReward,
 } from "../src/quiz.js";
 
@@ -36,12 +36,13 @@ describe("quiz helpers", () => {
     assert.deepEqual(question.options, ["Tokyo", "Kyoto", "Osaka"]);
   });
 
-  it("keeps exactly 100 named flower rewards and emits a CDN image URL", () => {
+  it("keeps exactly 25 named flower rewards and emits a local SVG image URL", () => {
     const reward = pickFlowerReward(() => 0);
 
-    assert.equal(FLOWER_REWARDS.length, 100);
+    assert.equal(FLOWER_REWARDS.length, 25);
     assert.equal(reward.name, "Rose");
-    assert.equal(reward.imageUrl, flowerPhotoUrl("Rose", 0));
-    assert.match(reward.imageUrl, /^https:\/\/loremflickr\.com\/360\/240\/rose,flower\?lock=1$/);
+    assert.equal(reward.imageUrl, flowerImageUrl("Rose", 0));
+    assert.match(reward.imageUrl, /^data:image\/svg\+xml;charset=UTF-8,/);
+    assert.match(decodeURIComponent(reward.imageUrl), /aria-label="Rose"/);
   });
 });
