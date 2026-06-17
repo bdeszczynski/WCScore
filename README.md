@@ -62,7 +62,7 @@ GitHub's native `schedule` trigger is best-effort and can be delayed or dropped 
   - `X-GitHub-Api-Version: 2026-03-10`
   - `Content-Type: application/json`
 
-Use a fine-grained GitHub personal access token limited to this repository with **Actions: Read and write** permission. Do not commit this token to the repo or put it in the app. Store it only in the external cron service's secret/header configuration. Recommended external trigger times are 07:10 and 07:40 Dubai time, leaving GitHub's native 10:00 schedule as a later fallback.
+Use a fine-grained GitHub personal access token limited to this repository with **Actions: Read and write** permission. Recommended external trigger times are 07:10 and 07:40 Dubai time, leaving GitHub's native 10:00 schedule as a later fallback.
 
 Match schedule and results:
 
