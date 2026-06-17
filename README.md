@@ -7,7 +7,7 @@ Static score tracker for Bruno vs Sara. It uses no database and no authenticatio
 - `manifest.webmanifest`, `sw.js`, and `public/icons/` make it installable as a PWA.
 - `public/data/world-cup.json` is the generated runtime data file.
 - `public/data/manual-results.json` is a ready-made match list for manual result overrides, applied after API refreshes only when `manualOverride` is `true`.
-- `.github/workflows/update-world-cup-data.yml` refreshes that JSON at 07:10 and 07:40 Dubai time, then deploys GitHub Pages.
+- `.github/workflows/update-world-cup-data.yml` refreshes that JSON from GitHub's native schedule at 10:00 Dubai time, or on manual/external dispatch, then deploys GitHub Pages.
 - `.github/workflows/deploy-pages.yml` can republish the current repo to GitHub Pages without refreshing data.
 
 ## Scoring
@@ -49,7 +49,20 @@ Balance update: in the running app, Sara keeps Brazil as a points team and Spain
 
 Runtime dashboard data lives in `public/data/world-cup.json`. Manual result corrections live separately in `public/data/manual-results.json` and are folded into `world-cup.json` by the updater. The site is static, so visitors only read local JSON files; no browser-side API tokens, database, or server are involved.
 
-The scheduled updater runs in GitHub Actions at 07:10 and 07:40 Dubai time. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
+The scheduled updater runs in GitHub Actions from the native GitHub schedule at 10:00 Dubai time. It also runs when triggered manually or by an external cron service. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
+
+GitHub's native `schedule` trigger is best-effort and can be delayed or dropped under load. For a more reliable daily trigger, use an external cron service such as cron-job.org to call the workflow dispatch API:
+
+- URL: `https://api.github.com/repos/bdeszczynski/WCScore/actions/workflows/update-world-cup-data.yml/dispatches`
+- Method: `POST`
+- Body: `{"ref":"master"}`
+- Headers:
+  - `Accept: application/vnd.github+json`
+  - `Authorization: Bearer YOUR_GITHUB_TOKEN`
+  - `X-GitHub-Api-Version: 2026-03-10`
+  - `Content-Type: application/json`
+
+Use a fine-grained GitHub personal access token limited to this repository with **Actions: Read and write** permission. Do not commit this token to the repo or put it in the app. Store it only in the external cron service's secret/header configuration. Recommended external trigger times are 07:10 and 07:40 Dubai time, leaving GitHub's native 10:00 schedule as a later fallback.
 
 Match schedule and results:
 

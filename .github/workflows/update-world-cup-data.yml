@@ -3,8 +3,8 @@ name: Update World Cup data
 on:
   workflow_dispatch:
   schedule:
-    # 07:10 and 07:40 Asia/Dubai. Dubai is UTC+4 year-round.
-    - cron: "10,40 3 * * *"
+    # 10:00 Asia/Dubai. Dubai is UTC+4 year-round.
+    - cron: "0 6 * * *"
 
 permissions:
   contents: write
