@@ -386,7 +386,8 @@ async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}
       },
       body: JSON.stringify({
         model: "gpt-5-nano",
-        max_output_tokens: 120,
+        reasoning: { effort: "minimal" },
+        max_output_tokens: 220,
         input: [
           {
             role: "developer",
