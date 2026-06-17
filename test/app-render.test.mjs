@@ -122,6 +122,7 @@ describe("app render smoke test", () => {
   it("renders content into the score, standings, and matches tabs", async () => {
     const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
     const adminHtml = await readFile(new URL("../admin.html", import.meta.url), "utf8");
+    const styles = await readFile(new URL("../styles.css", import.meta.url), "utf8");
     const serviceWorker = await readFile(new URL("../sw.js", import.meta.url), "utf8");
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
     data.commentary = {
@@ -170,6 +171,7 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(html, /actions\/workflows\/update-world-cup-data\.yml/);
       assert.doesNotMatch(html, /Publish to Pages/);
       assert.doesNotMatch(html, /actions\/workflows\/deploy-pages\.yml/);
+      assert.match(styles, /\.topbar-actions\[hidden\]\s*\{[^}]*display:\s*none;/);
       assert.match(adminHtml, /Refresh data/);
       assert.match(adminHtml, /actions\/workflows\/update-world-cup-data\.yml/);
       assert.match(adminHtml, /Publish to Pages/);
