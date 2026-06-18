@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-17T09:27:38.907Z",
+  "updatedAt": "2026-06-18T03:00:31.880Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -402,9 +402,9 @@
       "kickoff": "2026-06-17T17:00:00Z",
       "homeTeam": "Portugal",
       "awayTeam": "Congo DR",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "NRG Stadium",
       "venueCity": "Houston",
@@ -419,9 +419,9 @@
       "kickoff": "2026-06-17T20:00:00Z",
       "homeTeam": "England",
       "awayTeam": "Croatia",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 4,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": "AT&T Stadium",
       "venueCity": "Arlington",
@@ -436,9 +436,9 @@
       "kickoff": "2026-06-17T23:00:00Z",
       "homeTeam": "Ghana",
       "awayTeam": "Panama",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": "BMO Field",
       "venueCity": "Toronto",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-17T09:27:38.310Z",
+    "updatedAt": "2026-06-18T03:00:31.307Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1294,32 +1294,32 @@
       },
       {
         "team": "Spain",
-        "decimal": 7.55,
-        "probability": 0.1325,
+        "decimal": 7.27,
+        "probability": 0.1375,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.182
       },
       {
-        "team": "Argentina",
-        "decimal": 9.3,
-        "probability": 0.1075,
+        "team": "England",
+        "decimal": 7.78,
+        "probability": 0.1285,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
-        "startingProbability": 0.1
-      },
-      {
-        "team": "England",
-        "decimal": 9.57,
-        "probability": 0.1045,
-        "bookmaker": "Polymarket market probability",
-        "rank": 4,
         "startingProbability": 0.118
       },
       {
+        "team": "Argentina",
+        "decimal": 8.66,
+        "probability": 0.1155,
+        "bookmaker": "Polymarket market probability",
+        "rank": 4,
+        "startingProbability": 0.1
+      },
+      {
         "team": "Portugal",
-        "decimal": 9.76,
-        "probability": 0.1025,
+        "decimal": 12.42,
+        "probability": 0.0805,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1342,8 +1342,8 @@
       },
       {
         "team": "Netherlands",
-        "decimal": 22.47,
-        "probability": 0.0445,
+        "decimal": 25.32,
+        "probability": 0.0395,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.058
@@ -1413,8 +1413,8 @@
       },
       {
         "team": "Croatia",
-        "decimal": 133.33,
-        "probability": 0.0075,
+        "decimal": 153.85,
+        "probability": 0.0065,
         "bookmaker": "Polymarket market probability",
         "rank": 17,
         "startingProbability": 0.011
@@ -1531,11 +1531,19 @@
         "startingProbability": 0.004
       },
       {
-        "team": "Ghana",
+        "team": "Congo DR",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
         "rank": 32,
+        "startingProbability": 0.0014
+      },
+      {
+        "team": "Ghana",
+        "decimal": 666.67,
+        "probability": 0.0015,
+        "bookmaker": "Polymarket market probability",
+        "rank": 33,
         "startingProbability": 0.003
       },
       {
@@ -1543,7 +1551,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 33,
+        "rank": 34,
         "startingProbability": 0.007
       },
       {
@@ -1551,15 +1559,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 34
-      },
-      {
-        "team": "Congo DR",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 35,
-        "startingProbability": 0.0014
+        "rank": 35
       },
       {
         "team": "Curaçao",
@@ -1669,53 +1669,9 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-17T09:27:38.904Z",
+    "updatedAt": "2026-06-18T03:00:31.878Z",
     "type": "bookmaker_match",
     "matches": [
-      {
-        "matchId": "537403",
-        "homeTeam": "Portugal",
-        "awayTeam": "Congo DR",
-        "homeProbability": 0.7364,
-        "drawProbability": 0.1694,
-        "awayProbability": 0.0942,
-        "question": "Portugal vs Congo DR",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537409",
-        "homeTeam": "England",
-        "awayTeam": "Croatia",
-        "homeProbability": 0.5503,
-        "drawProbability": 0.2535,
-        "awayProbability": 0.1961,
-        "question": "England vs Croatia",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537410",
-        "homeTeam": "Ghana",
-        "awayTeam": "Panama",
-        "homeProbability": 0.4814,
-        "drawProbability": 0.2715,
-        "awayProbability": 0.2471,
-        "question": "Ghana vs Panama",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537404",
-        "homeTeam": "Uzbekistan",
-        "awayTeam": "Colombia",
-        "homeProbability": 0.1245,
-        "drawProbability": 0.2113,
-        "awayProbability": 0.6642,
-        "question": "Uzbekistan vs Colombia",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
       {
         "matchId": "537329",
         "homeTeam": "Czechia",
@@ -1779,6 +1735,50 @@
         "drawProbability": 0.2927,
         "awayProbability": 0.447,
         "question": "Scotland vs Morocco",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537341",
+        "homeTeam": "Brazil",
+        "awayTeam": "Haiti",
+        "homeProbability": 0.8919,
+        "drawProbability": 0.0774,
+        "awayProbability": 0.0308,
+        "question": "Brazil vs Haiti",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537347",
+        "homeTeam": "Turkey",
+        "awayTeam": "Paraguay",
+        "homeProbability": 0.4195,
+        "drawProbability": 0.3012,
+        "awayProbability": 0.2793,
+        "question": "Turkey vs Paraguay",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537359",
+        "homeTeam": "Netherlands",
+        "awayTeam": "Sweden",
+        "homeProbability": 0.5641,
+        "drawProbability": 0.2439,
+        "awayProbability": 0.192,
+        "question": "Netherlands vs Sweden",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537353",
+        "homeTeam": "Germany",
+        "awayTeam": "Ivory Coast",
+        "homeProbability": 0.597,
+        "drawProbability": 0.2298,
+        "awayProbability": 0.1731,
+        "question": "Germany vs Ivory Coast",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
       }
