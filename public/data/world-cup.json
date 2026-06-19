@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-18T04:51:45.160Z",
+  "updatedAt": "2026-06-19T05:40:04.645Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -470,9 +470,9 @@
       "kickoff": "2026-06-18T16:00:00Z",
       "homeTeam": "Czechia",
       "awayTeam": "South Africa",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "Mercedes-Benz Stadium",
       "venueCity": "Atlanta",
@@ -487,9 +487,9 @@
       "kickoff": "2026-06-18T19:00:00Z",
       "homeTeam": "Switzerland",
       "awayTeam": "Bosnia-Herzegovina",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 4,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "SoFi Stadium",
       "venueCity": "Inglewood",
@@ -504,9 +504,9 @@
       "kickoff": "2026-06-18T22:00:00Z",
       "homeTeam": "Canada",
       "awayTeam": "Qatar",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 6,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": "BC Place",
       "venueCity": "Vancouver",
@@ -521,9 +521,9 @@
       "kickoff": "2026-06-19T01:00:00Z",
       "homeTeam": "Mexico",
       "awayTeam": "South Korea",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": "Estadio Akron",
       "venueCity": "Zapopan",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-18T04:51:44.782Z",
+    "updatedAt": "2026-06-19T05:40:04.094Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1294,8 +1294,8 @@
       },
       {
         "team": "Spain",
-        "decimal": 7.27,
-        "probability": 0.1375,
+        "decimal": 7.33,
+        "probability": 0.1365,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.182
@@ -1310,16 +1310,16 @@
       },
       {
         "team": "Argentina",
-        "decimal": 8.66,
-        "probability": 0.1155,
+        "decimal": 8.51,
+        "probability": 0.1175,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.1
       },
       {
         "team": "Portugal",
-        "decimal": 12.42,
-        "probability": 0.0805,
+        "decimal": 13.61,
+        "probability": 0.0735,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1334,8 +1334,8 @@
       },
       {
         "team": "Germany",
-        "decimal": 17.7,
-        "probability": 0.0565,
+        "decimal": 17.09,
+        "probability": 0.0585,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.067
@@ -1350,8 +1350,8 @@
       },
       {
         "team": "Norway",
-        "decimal": 37.74,
-        "probability": 0.0265,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.024
@@ -1366,13 +1366,13 @@
       },
       {
         "team": "USA",
-        "decimal": 44.44,
-        "probability": 0.0225,
+        "decimal": 42.55,
+        "probability": 0.0235,
         "bookmaker": "Polymarket market probability",
         "rank": 11
       },
       {
-        "team": "Belgium",
+        "team": "Colombia",
         "decimal": 60.61,
         "probability": 0.0165,
         "bookmaker": "Polymarket market probability",
@@ -1388,7 +1388,7 @@
         "startingProbability": 0.016
       },
       {
-        "team": "Colombia",
+        "team": "Belgium",
         "decimal": 64.52,
         "probability": 0.0155,
         "bookmaker": "Polymarket market probability",
@@ -1397,16 +1397,16 @@
       },
       {
         "team": "Mexico",
-        "decimal": 68.97,
-        "probability": 0.0145,
+        "decimal": 64.52,
+        "probability": 0.0155,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.012
       },
       {
         "team": "Switzerland",
-        "decimal": 117.65,
-        "probability": 0.0085,
+        "decimal": 105.26,
+        "probability": 0.0095,
         "bookmaker": "Polymarket market probability",
         "rank": 16,
         "startingProbability": 0.015
@@ -1428,35 +1428,27 @@
         "startingProbability": 0.009
       },
       {
-        "team": "Uruguay",
-        "decimal": 153.85,
-        "probability": 0.0065,
-        "bookmaker": "Polymarket market probability",
-        "rank": 19,
-        "startingProbability": 0.015
-      },
-      {
-        "team": "Ivory Coast",
-        "decimal": 181.82,
-        "probability": 0.0055,
-        "bookmaker": "Polymarket market probability",
-        "rank": 20,
-        "startingProbability": 0.004
-      },
-      {
         "team": "Sweden",
         "decimal": 181.82,
         "probability": 0.0055,
         "bookmaker": "Polymarket market probability",
-        "rank": 21,
+        "rank": 19,
         "startingProbability": 0.01
+      },
+      {
+        "team": "Uruguay",
+        "decimal": 181.82,
+        "probability": 0.0055,
+        "bookmaker": "Polymarket market probability",
+        "rank": 20,
+        "startingProbability": 0.015
       },
       {
         "team": "Australia",
         "decimal": 222.22,
         "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
-        "rank": 22,
+        "rank": 21,
         "startingProbability": 0.002
       },
       {
@@ -1464,7 +1456,7 @@
         "decimal": 222.22,
         "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
-        "rank": 23,
+        "rank": 22,
         "startingProbability": 0.007
       },
       {
@@ -1472,8 +1464,16 @@
         "decimal": 222.22,
         "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
-        "rank": 24,
+        "rank": 23,
         "startingProbability": 0.012
+      },
+      {
+        "team": "Ivory Coast",
+        "decimal": 222.22,
+        "probability": 0.0045,
+        "bookmaker": "Polymarket market probability",
+        "rank": 24,
+        "startingProbability": 0.004
       },
       {
         "team": "Turkiye",
@@ -1483,20 +1483,20 @@
         "rank": 25
       },
       {
-        "team": "South Korea",
+        "team": "Canada",
         "decimal": 285.71,
         "probability": 0.0035,
         "bookmaker": "Polymarket market probability",
         "rank": 26,
-        "startingProbability": 0.002
+        "startingProbability": 0.005
       },
       {
-        "team": "Canada",
-        "decimal": 400,
-        "probability": 0.0025,
+        "team": "South Korea",
+        "decimal": 285.71,
+        "probability": 0.0035,
         "bookmaker": "Polymarket market probability",
         "rank": 27,
-        "startingProbability": 0.005
+        "startingProbability": 0.002
       },
       {
         "team": "Egypt",
@@ -1523,19 +1523,11 @@
         "startingProbability": 0.003
       },
       {
-        "team": "Bosnia-Herzegovina",
-        "decimal": 666.67,
-        "probability": 0.0015,
-        "bookmaker": "Polymarket market probability",
-        "rank": 31,
-        "startingProbability": 0.004
-      },
-      {
         "team": "Congo DR",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 32,
+        "rank": 31,
         "startingProbability": 0.0014
       },
       {
@@ -1543,7 +1535,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 33,
+        "rank": 32,
         "startingProbability": 0.003
       },
       {
@@ -1551,8 +1543,16 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 34,
+        "rank": 33,
         "startingProbability": 0.007
+      },
+      {
+        "team": "Bosnia-Herzegovina",
+        "decimal": 2000,
+        "probability": 0.0005,
+        "bookmaker": "Polymarket market probability",
+        "rank": 34,
+        "startingProbability": 0.004
       },
       {
         "team": "Cape Verde",
@@ -1669,53 +1669,9 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-18T04:51:45.156Z",
+    "updatedAt": "2026-06-19T05:40:04.641Z",
     "type": "bookmaker_match",
     "matches": [
-      {
-        "matchId": "537329",
-        "homeTeam": "Czechia",
-        "awayTeam": "South Africa",
-        "homeProbability": 0.4685,
-        "drawProbability": 0.2924,
-        "awayProbability": 0.2391,
-        "question": "Czechia vs South Africa",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537335",
-        "homeTeam": "Switzerland",
-        "awayTeam": "Bosnia-Herzegovina",
-        "homeProbability": 0.6063,
-        "drawProbability": 0.2357,
-        "awayProbability": 0.1581,
-        "question": "Switzerland vs Bosnia-Herzegovina",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537336",
-        "homeTeam": "Canada",
-        "awayTeam": "Qatar",
-        "homeProbability": 0.622,
-        "drawProbability": 0.2391,
-        "awayProbability": 0.1389,
-        "question": "Canada vs Qatar",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537330",
-        "homeTeam": "Mexico",
-        "awayTeam": "South Korea",
-        "homeProbability": 0.5131,
-        "drawProbability": 0.2759,
-        "awayProbability": 0.2109,
-        "question": "Mexico vs South Korea",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
       {
         "matchId": "537348",
         "homeTeam": "United States",
@@ -1779,6 +1735,50 @@
         "drawProbability": 0.2298,
         "awayProbability": 0.1731,
         "question": "Germany vs Ivory Coast",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537354",
+        "homeTeam": "Ecuador",
+        "awayTeam": "Curaçao",
+        "homeProbability": 0.7518,
+        "drawProbability": 0.17,
+        "awayProbability": 0.0782,
+        "question": "Ecuador vs Curaçao",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537360",
+        "homeTeam": "Tunisia",
+        "awayTeam": "Japan",
+        "homeProbability": 0.2152,
+        "drawProbability": 0.2843,
+        "awayProbability": 0.5005,
+        "question": "Tunisia vs Japan",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537371",
+        "homeTeam": "Spain",
+        "awayTeam": "Saudi Arabia",
+        "homeProbability": 0.8356,
+        "drawProbability": 0.1216,
+        "awayProbability": 0.0429,
+        "question": "Spain vs Saudi Arabia",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537365",
+        "homeTeam": "Belgium",
+        "awayTeam": "Iran",
+        "homeProbability": 0.6536,
+        "drawProbability": 0.2143,
+        "awayProbability": 0.132,
+        "question": "Belgium vs Iran",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
       }

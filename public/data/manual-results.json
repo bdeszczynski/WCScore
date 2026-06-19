@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-18T04:51:44.518Z",
+  "updatedAt": "2026-06-19T05:40:03.821Z",
   "notes": "Ready-made manual result overrides. API/world-cup.json wins by default. To override a match, set manualOverride to true on that row, edit status/homeGoals/awayGoals/winnerAfterPenalties/note, commit this file, then run Refresh data. Turn manualOverride back to false or remove the row to let API data win again.",
   "matches": [
     {
@@ -371,9 +371,9 @@
       "homeTeam": "Czechia",
       "awayTeam": "South Africa",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "note": ""
     },
@@ -386,9 +386,9 @@
       "homeTeam": "Switzerland",
       "awayTeam": "Bosnia-Herzegovina",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 4,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "note": ""
     },
@@ -401,9 +401,9 @@
       "homeTeam": "Canada",
       "awayTeam": "Qatar",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 6,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "note": ""
     },
@@ -416,9 +416,9 @@
       "homeTeam": "Mexico",
       "awayTeam": "South Korea",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "note": ""
     },
