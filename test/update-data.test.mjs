@@ -270,9 +270,11 @@ describe("generateVarBotCommentary", () => {
       apiKey: "test-key",
       fetchImpl: async (_url, request) => {
         const payload = JSON.parse(request.body);
-        assert.match(payload.input[0].content, /VAR-bot forward-looking verdict/);
+        assert.match(payload.input[0].content, /VAR-bot says pundit verdict/);
+        assert.match(payload.input[0].content, /football studio segment/);
         assert.match(payload.input[0].content, /Prediction/);
-        assert.match(payload.input[0].content, /trash-talky/);
+        assert.match(payload.input[0].content, /trash-talk line/);
+        assert.match(payload.input[0].content, /comeback path/);
         assert.match(payload.input[1].content, /winnerPickBonus/);
         return {
           ok: true,

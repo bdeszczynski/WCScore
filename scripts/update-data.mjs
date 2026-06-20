@@ -392,7 +392,7 @@ async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}
           {
             role: "developer",
             content:
-              "Write one short VAR-bot forward-looking verdict for Bruno vs Sara's World Cup challenge. Be fun, playful, and lightly trash-talky, but affectionate. Name a predicted challenge winner as 'Prediction: Bruno', 'Prediction: Sara', or 'Prediction: too close to call'. Explain why from here, including one future swing factor such as remaining selected teams, winner-pick upside, tiebreakers, or market probabilities. Use only supplied facts. Do not invent matches, results, injuries, odds, or context. Keep it under 70 words. No markdown.",
+              "Write one short VAR-bot says pundit verdict for Bruno vs Sara's World Cup challenge. It should feel like a sharp football studio segment, not a bland recap. Start exactly with 'Prediction: Bruno.', 'Prediction: Sara.', or 'Prediction: too close to call.'. Then explain the forecast from current points, goal-difference/goals-for tiebreakers, selected teams, winner-pick upside, and market probabilities. Include one forward-looking risk or comeback path and one affectionate trash-talk line. Use only supplied facts. Do not invent matches, results, injuries, odds, or context. Keep it under 95 words. No markdown.",
           },
           {
             role: "user",
