@@ -9,6 +9,7 @@ const WIKIPEDIA_PAGES = [
   ...Array.from({ length: 12 }, (_, index) => `2026_FIFA_World_Cup_Group_${String.fromCharCode(65 + index)}`),
 ];
 const FOOTBALL_DATA_URL = "https://api.football-data.org/v4/competitions/WC/matches";
+const FOOTBALL_DATA_SCORERS_URL = "https://api.football-data.org/v4/competitions/WC/scorers?season=2026&limit=20";
 const NATIVE_STATS_WC_URL = "https://native-stats.org/competition/WC/";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const POLYMARKET_WINNER_URL = "https://gamma-api.polymarket.com/events/slug/world-cup-winner";
@@ -920,6 +921,56 @@ async function fetchFootballDataMatches() {
   };
 }
 
+export function parseFootballDataScorers(json, { limit = 20 } = {}) {
+  const rows = Array.isArray(json?.scorers) ? json.scorers : [];
+  return rows
+    .map((entry, index) => {
+      const player = stripHtml(entry?.player?.name || "");
+      const team = fifaCodeMap.get(entry?.team?.tla) || stripHtml(entry?.team?.shortName || entry?.team?.name || "");
+      const goals = Number(entry?.goals);
+      const assists = entry?.assists === null || entry?.assists === undefined ? null : Number(entry.assists);
+      const penalties = entry?.penalties === null || entry?.penalties === undefined ? null : Number(entry.penalties);
+      if (!player || !team || !Number.isFinite(goals)) return null;
+      return {
+        rank: index + 1,
+        player,
+        team,
+        goals,
+        assists: Number.isFinite(assists) ? assists : null,
+        penalties: Number.isFinite(penalties) ? penalties : null,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.goals - a.goals || (b.assists ?? -1) - (a.assists ?? -1) || a.player.localeCompare(b.player))
+    .slice(0, limit)
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+}
+
+async function fetchFootballDataTopScorers(currentTopScorers) {
+  const token = getFootballDataToken();
+  if (!token) return currentTopScorers || null;
+  try {
+    const response = await fetch(FOOTBALL_DATA_SCORERS_URL, {
+      headers: { "X-Auth-Token": token },
+    });
+    if (!response.ok) {
+      console.warn(`football-data.org scorers skipped: ${response.status}`);
+      return currentTopScorers || null;
+    }
+    const scorers = parseFootballDataScorers(await response.json());
+    if (!scorers.length) return currentTopScorers || null;
+    return {
+      source: "football-data.org scorers",
+      updatedAt: new Date().toISOString(),
+      type: "football_data_scorers",
+      scorers,
+    };
+  } catch (error) {
+    console.warn(`football-data.org scorers skipped: ${error.message}`);
+    return currentTopScorers || null;
+  }
+}
+
 function nativeStatsTeamNames(rowHtml) {
   return [...rowHtml.matchAll(/<span class="hidden text-gray-200 align-middle md:inline-block">\s*([\s\S]*?)\s*<\/span>/g)]
     .map((match) => stripHtml(match[1]))
@@ -1132,6 +1183,9 @@ async function main() {
   const odds = freshOdds || current.odds;
   if (freshOdds?.source) sources.push(freshOdds.source);
 
+  const topScorers = await fetchFootballDataTopScorers(current.topScorers);
+  if (topScorers?.source && topScorers !== current.topScorers) sources.push(topScorers.source);
+
   const freshNativeStatsMatchOdds = footballDataMatchOdds.length ? null : await fetchNativeStatsMatchOdds(matches);
   const freshPolymarketMatchOdds =
     footballDataMatchOdds.length || freshNativeStatsMatchOdds?.matches.length ? null : await fetchPolymarketMatchOdds(matches);
@@ -1165,8 +1219,10 @@ async function main() {
     source: sources.join(" + "),
     matches,
     odds,
+    topScorers,
     matchOdds,
   };
+  if (!topScorers) delete next.topScorers;
   const commentary = await generateVarBotCommentary(next, current.commentary);
   if (commentary) {
     next.commentary = commentary;
@@ -1177,6 +1233,7 @@ async function main() {
   await writeFile(DATA_FILE, `${JSON.stringify(next, null, 2)}\n`);
   await writeFile(MANUAL_RESULTS_FILE, `${JSON.stringify(syncedManualResults, null, 2)}\n`);
   console.log(`Updated ${matches.length} matches from ${next.source}`);
+  console.log(`Updated ${topScorers?.scorers?.length || 0} top scorers`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

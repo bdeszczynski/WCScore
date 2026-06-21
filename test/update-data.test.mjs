@@ -5,6 +5,7 @@ import {
   generateVarBotCommentary,
   getFootballDataToken,
   parseFootballDataMatchOdds,
+  parseFootballDataScorers,
   parseNativeStatsMatchOdds,
   parsePolymarketMatchMarket,
   parsePolymarketWinnerEvent,
@@ -500,6 +501,34 @@ describe("parseFootballDataMatchOdds", () => {
 
   it("returns null when football-data has no odds values", () => {
     assert.equal(parseFootballDataMatchOdds({ odds: { homeWin: null, draw: null, awayWin: null } }, match), null);
+  });
+});
+
+describe("parseFootballDataScorers", () => {
+  it("normalizes goals, assists, penalties, and team names", () => {
+    const rows = parseFootballDataScorers({
+      scorers: [
+        {
+          player: { name: "Kylian Mbappe" },
+          team: { name: "France", shortName: "France", tla: "FRA" },
+          goals: 5,
+          assists: 2,
+          penalties: 1,
+        },
+        {
+          player: { name: "Bruno Test" },
+          team: { name: "Portugal", shortName: "Portugal", tla: "POR" },
+          goals: 3,
+          assists: null,
+          penalties: null,
+        },
+      ],
+    });
+
+    assert.deepEqual(rows, [
+      { rank: 1, player: "Kylian Mbappe", team: "France", goals: 5, assists: 2, penalties: 1 },
+      { rank: 2, player: "Bruno Test", team: "Portugal", goals: 3, assists: null, penalties: null },
+    ]);
   });
 });
 

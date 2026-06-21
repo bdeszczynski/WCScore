@@ -74,7 +74,7 @@ function createFakeDocument() {
   );
   ladderButtons[0].classList.toggle("active", true);
   const viewButtons = ["score", "standings", "matches"].map((viewTab) => new FakeElement({ viewTab }));
-  const viewPanels = ["score", "standings", "matches"].map((view) => new FakeElement({ view }));
+  const viewPanels = ["score", "standings", "matches", "scorers"].map((view) => new FakeElement({ view }));
 
   const elements = new Map(
     [
@@ -83,6 +83,8 @@ function createFakeDocument() {
       "#score-strip",
       "#standings-body",
       "#winner-standings",
+      "#top-scorers-list",
+      "#top-scorers-updated",
       "#odds-list",
       "#odds-source",
       "#odds-updated",
@@ -151,6 +153,15 @@ describe("app render smoke test", () => {
         },
       ],
     };
+    data.topScorers = {
+      source: "football-data.org scorers",
+      updatedAt: "2026-06-20T10:00:00.000Z",
+      type: "football_data_scorers",
+      scorers: [
+        { rank: 1, player: "Kylian Mbappe", team: "France", goals: 5, assists: 2, penalties: 1 },
+        { rank: 2, player: "Cristiano Ronaldo", team: "Portugal", goals: 4, assists: null, penalties: null },
+      ],
+    };
     const document = createFakeDocument();
 
     const previousDocument = globalThis.document;
@@ -196,9 +207,14 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#app-story").innerHTML, /Poland/);
       assert.equal(document.querySelector(".topbar-actions").hidden, false);
       assert.match(document.querySelector("#standings-body").innerHTML, /<tr>/);
+      assert.match(document.querySelector("#standings-body").innerHTML, /<td>\d+<\/td>/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Spain/);
+      assert.match(document.querySelector("#winner-standings").innerHTML, /<span>GP<\/span>/);
       assert.match(document.querySelector("#winner-standings").innerHTML, /Netherlands/);
       assert.doesNotMatch(document.querySelector("#winner-standings").innerHTML, /Brazil/);
+      assert.match(document.querySelector("#top-scorers-list").innerHTML, /Kylian Mbappe/);
+      assert.match(document.querySelector("#top-scorers-list").innerHTML, /Goals/);
+      assert.match(document.querySelector("#top-scorers-updated").textContent, /Updated/);
       assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /Market/);

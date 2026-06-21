@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=75" />
+    <link rel="stylesheet" href="styles.css?v=76" />
   </head>
   <body>
     <main class="app-shell">
@@ -38,6 +38,7 @@
         </section>
         <div class="topbar-actions">
           <a class="header-action" href="admin.html">Admin</a>
+          <button class="header-action" type="button" data-view-link="scorers">Top scorers</button>
           <details class="rules-tab">
             <summary>Rules</summary>
             <div class="rules-panel">
@@ -108,6 +109,7 @@
                     <th>Team</th>
                     <th>Owner</th>
                     <th>Pts</th>
+                    <th>GP</th>
                     <th>W</th>
                     <th>D</th>
                     <th>L</th>
@@ -172,8 +174,21 @@
           <div class="match-list" id="match-list"></div>
         </section>
       </section>
+
+      <section class="tab-view" id="view-scorers" data-view="scorers" role="tabpanel" hidden>
+        <section class="panel scorers-screen">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Golden boot watch</p>
+              <h2>Top scorers</h2>
+              <p class="panel-note" id="top-scorers-updated">Updated never</p>
+            </div>
+          </div>
+          <div class="scorers-list" id="top-scorers-list"></div>
+        </section>
+      </section>
     </main>
 
-    <script type="module" src="src/app.js?v=75"></script>
+    <script type="module" src="src/app.js?v=76"></script>
   </body>
 </html>

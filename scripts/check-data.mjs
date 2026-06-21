@@ -146,6 +146,22 @@ if (data.matchOdds !== undefined) {
   }
 }
 
+if (data.topScorers !== undefined) {
+  if (!data.topScorers?.source || !data.topScorers?.updatedAt || !Array.isArray(data.topScorers?.scorers)) {
+    throw new Error("Invalid top scorers block");
+  }
+  for (const scorer of data.topScorers.scorers) {
+    if (!scorer.player || !scorer.team || !Number.isFinite(Number(scorer.goals)) || Number(scorer.goals) < 0) {
+      throw new Error(`Invalid top scorer row: ${JSON.stringify(scorer)}`);
+    }
+    for (const key of ["assists", "penalties"]) {
+      if (scorer[key] !== null && scorer[key] !== undefined && (!Number.isFinite(Number(scorer[key])) || Number(scorer[key]) < 0)) {
+        throw new Error(`Invalid top scorer ${key}: ${JSON.stringify(scorer)}`);
+      }
+    }
+  }
+}
+
 if (data.commentary !== undefined) {
   if (!data.commentary?.updatedAt || typeof data.commentary?.text !== "string") {
     throw new Error("Invalid commentary block");

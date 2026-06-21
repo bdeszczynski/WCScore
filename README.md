@@ -85,6 +85,13 @@ Upcoming match odds:
 - Usage: small win-chance badges next to teams in the upcoming Matches tab.
 - Native Stats and football-data H/D/A decimal odds are converted into normalized implied probabilities. Draw probability is stored in `matchOdds`, while the UI shows only the home and away team win chances next to team names.
 
+Top scorers:
+
+- Source: football-data.org competition scorers endpoint for the World Cup.
+- Usage: Top scorers screen opened from the header action next to Rules.
+- Stored as `topScorers` in `public/data/world-cup.json`, including player, team, goals, assists, penalties, source, and update timestamp when the API returns rows.
+- If the token/account does not return scorer rows yet, the app shows a small not-available state and preserves any previously loaded scorer table.
+
 VAR-bot commentary:
 
 - Optional LLM-generated recap written into `world-cup.json` during data refresh.

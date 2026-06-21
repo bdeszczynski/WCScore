@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v75-real-flower-photos";
+const APP_VERSION = "v76-top-scorers";
 
 const state = {
   data: null,
@@ -666,6 +666,7 @@ function renderStandings() {
           <td>${teamLabel(row.teamName)}</td>
           <td><span class="owner-cell">${ownerAvatar(row.owner)} ${escapeHtml(row.owner)}</span></td>
           <td>${row.points}</td>
+          <td>${row.played}</td>
           <td>${row.win}</td>
           <td>${row.draw}</td>
           <td>${row.loss}</td>
@@ -699,6 +700,10 @@ function renderWinnerStandings() {
             <span>PTS</span>
           </div>
           <div class="goal-stats">
+            <strong>${row.played}</strong>
+            <span>GP</span>
+          </div>
+          <div class="goal-stats">
             <strong>${row.gd > 0 ? "+" : ""}${row.gd}</strong>
             <span>GD</span>
           </div>
@@ -709,6 +714,43 @@ function renderWinnerStandings() {
         </article>
       `,
     )
+    .join("");
+}
+
+function renderTopScorers() {
+  const container = document.querySelector("#top-scorers-list");
+  const updated = document.querySelector("#top-scorers-updated");
+  if (!container || !updated) return;
+
+  const block = state.data.topScorers;
+  const scorers = [...(block?.scorers || [])].slice(0, 10);
+  updated.textContent = block?.updatedAt ? `Updated ${fmtCompactDate.format(new Date(block.updatedAt))} Dubai` : "Updated never";
+
+  if (!scorers.length) {
+    container.innerHTML = `<div class="empty-state">Top scorers are not available from football-data.org yet.</div>`;
+    return;
+  }
+
+  container.innerHTML = scorers
+    .map((scorer, index) => {
+      const assists = scorer.assists === null || scorer.assists === undefined ? "A -" : `A ${Number(scorer.assists)}`;
+      const penalties = scorer.penalties === null || scorer.penalties === undefined ? "" : `<span>Pens ${Number(scorer.penalties)}</span>`;
+      return `
+        <article class="scorer-row">
+          <div class="scorer-rank">${Number(scorer.rank) || index + 1}</div>
+          <div>
+            <h3 class="scorer-name">${escapeHtml(scorer.player)}</h3>
+            <p class="scorer-team">${teamLabel(scorer.team)}</p>
+          </div>
+          <div class="scorer-stats">
+            <strong>${Number(scorer.goals)}</strong>
+            <span>Goals</span>
+            <span>${escapeHtml(assists)}</span>
+            ${penalties}
+          </div>
+        </article>
+      `;
+    })
     .join("");
 }
 
@@ -1119,6 +1161,12 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll("[data-view-link]").forEach((button) => {
+    button.addEventListener("click", () => {
+      switchView(button.dataset.viewLink);
+    });
+  });
+
   document.querySelectorAll("[data-owner-filter]").forEach((button) => {
     button.addEventListener("click", () => {
       state.ownerFilter = button.dataset.ownerFilter;
@@ -1183,6 +1231,7 @@ function render() {
   renderOdds();
   renderOddsMeta();
   renderWinnerPicks();
+  renderTopScorers();
   renderLadder();
   renderMatches();
 }
@@ -1200,7 +1249,7 @@ loadData()
 
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
-  const workerUrl = new URL("../sw.js", import.meta.url);
+  const workerUrl = new URL("../sw.js?v=76", import.meta.url);
   navigator.serviceWorker.register(workerUrl).catch((error) => {
     console.warn("Service worker registration failed", error);
   });
