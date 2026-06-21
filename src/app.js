@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v76-top-scorers";
+const APP_VERSION = "v77-scorer-tables";
 
 const state = {
   data: null,
@@ -723,7 +723,7 @@ function renderTopScorers() {
   if (!container || !updated) return;
 
   const block = state.data.topScorers;
-  const scorers = [...(block?.scorers || [])].slice(0, 10);
+  const scorers = [...(block?.scorers || [])];
   updated.textContent = block?.updatedAt ? `Updated ${fmtCompactDate.format(new Date(block.updatedAt))} Dubai` : "Updated never";
 
   if (!scorers.length) {
@@ -731,27 +731,66 @@ function renderTopScorers() {
     return;
   }
 
-  container.innerHTML = scorers
-    .map((scorer, index) => {
-      const assists = scorer.assists === null || scorer.assists === undefined ? "A -" : `A ${Number(scorer.assists)}`;
-      const penalties = scorer.penalties === null || scorer.penalties === undefined ? "" : `<span>Pens ${Number(scorer.penalties)}</span>`;
-      return `
-        <article class="scorer-row">
-          <div class="scorer-rank">${Number(scorer.rank) || index + 1}</div>
+  const goalRows = [...scorers]
+    .sort((a, b) => Number(b.goals) - Number(a.goals) || Number(b.assists || 0) - Number(a.assists || 0))
+    .slice(0, 20);
+  const assistRows = [...scorers]
+    .filter((scorer) => Number(scorer.assists) > 0)
+    .sort((a, b) => Number(b.assists) - Number(a.assists) || Number(b.goals || 0) - Number(a.goals || 0))
+    .slice(0, 10);
+
+  const renderRows = (rows, statKey, emptyText) => {
+    if (!rows.length) {
+      return `<div class="empty-state">${escapeHtml(emptyText)}</div>`;
+    }
+    return rows
+      .map((scorer, index) => {
+        const statValue = Number(scorer[statKey]) || 0;
+        return `
+        <div class="scorer-table-row">
+          <div><span class="scorer-rank">${index + 1}</span></div>
           <div>
-            <h3 class="scorer-name">${escapeHtml(scorer.player)}</h3>
-            <p class="scorer-team">${teamLabel(scorer.team)}</p>
+            <strong class="scorer-name">${escapeHtml(scorer.player)}</strong>
+            <span class="scorer-team">${teamLabel(scorer.team)}</span>
           </div>
-          <div class="scorer-stats">
-            <strong>${Number(scorer.goals)}</strong>
-            <span>Goals</span>
-            <span>${escapeHtml(assists)}</span>
-            ${penalties}
-          </div>
-        </article>
+          <div class="scorer-stat">${statValue}</div>
+        </div>
       `;
-    })
-    .join("");
+      })
+      .join("");
+  };
+
+  container.innerHTML = `
+    <section class="scorer-table-card">
+      <div class="scorer-table-heading">
+        <p class="eyebrow">Golden boot</p>
+        <h3>Top 20 scorers</h3>
+      </div>
+      <div class="scorer-table" role="table" aria-label="Top 20 scorers">
+        <div class="scorer-table-row scorer-table-head" role="row">
+          <div>#</div>
+          <div>Player</div>
+          <div>Goals</div>
+        </div>
+        ${renderRows(goalRows, "goals", "No goals available yet.")}
+      </div>
+    </section>
+    <section class="scorer-table-card">
+      <div class="scorer-table-heading">
+        <p class="eyebrow">Creator watch</p>
+        <h3>Top assists</h3>
+        <p class="scorer-table-note">${assistRows.length} players with assists</p>
+      </div>
+      <div class="scorer-table" role="table" aria-label="Top 10 assists">
+        <div class="scorer-table-row scorer-table-head" role="row">
+          <div>#</div>
+          <div>Player</div>
+          <div>Assists</div>
+        </div>
+        ${renderRows(assistRows, "assists", "No assists available yet.")}
+      </div>
+    </section>
+  `;
 }
 
 function renderOdds() {
@@ -1249,7 +1288,7 @@ loadData()
 
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
-  const workerUrl = new URL("../sw.js?v=76", import.meta.url);
+  const workerUrl = new URL("../sw.js?v=77", import.meta.url);
   navigator.serviceWorker.register(workerUrl).catch((error) => {
     console.warn("Service worker registration failed", error);
   });

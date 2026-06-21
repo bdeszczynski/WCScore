@@ -332,21 +332,72 @@ h3 {
 }
 
 .scorers-screen {
-  max-width: 760px;
+  max-width: 980px;
   margin: 0 auto;
 }
 
 .scorers-list {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.scorer-row {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 13px 0;
+.scorer-table-card {
+  min-width: 0;
   border-top: 1px solid var(--line);
+}
+
+.scorer-table-heading {
+  padding: 18px 20px 10px;
+}
+
+.scorer-table-heading h3 {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.scorer-table-note {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.scorer-table {
+  display: grid;
+  width: 100%;
+}
+
+.scorer-table-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 60px;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid var(--line);
+}
+
+.scorer-table-row > div {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.scorer-table-head {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scorer-table-row > div:first-child {
+  padding-left: 20px;
+}
+
+.scorer-table-row > div:last-child {
+  padding-right: 20px;
+  text-align: right;
 }
 
 .scorer-rank {
@@ -362,32 +413,37 @@ h3 {
 }
 
 .scorer-name {
-  margin: 0;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
   color: var(--ink);
-  font-size: 1rem;
-  line-height: 1.1;
+  font-size: 0.96rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .scorer-team {
-  margin: 5px 0 0;
+  display: block;
+  margin: 4px 0 0;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 750;
 }
 
-.scorer-stats {
-  display: grid;
-  justify-items: end;
-  gap: 2px;
-  color: var(--muted);
-  font-size: 0.68rem;
-  font-weight: 850;
-  text-transform: uppercase;
+.scorer-team .team-label {
+  gap: 6px;
 }
 
-.scorer-stats strong {
+.scorer-team .flag-icon {
+  width: 24px;
+  height: 18px;
+}
+
+.scorer-stat {
   color: var(--ink);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
+  font-weight: 950;
   line-height: 1;
 }
 
@@ -1703,7 +1759,8 @@ select {
   .dashboard-grid,
   .dashboard-grid.secondary,
   .dashboard-grid.score-detail,
-  .winner-grid {
+  .winner-grid,
+  .scorers-list {
     grid-template-columns: 1fr;
   }
 
@@ -1790,6 +1847,48 @@ select {
     grid-template-columns: 30px minmax(0, 1fr) repeat(3, minmax(38px, auto));
     gap: 8px;
     padding: 12px;
+  }
+
+  .scorer-table-heading {
+    padding: 16px 12px 8px;
+  }
+
+  .scorer-table-heading h3 {
+    font-size: 1.12rem;
+  }
+
+  .scorer-table-row > div {
+    padding: 9px 8px;
+  }
+
+  .scorer-table-row {
+    grid-template-columns: 30px minmax(0, 1fr) 54px;
+  }
+
+  .scorer-table-row > div:first-child {
+    padding-left: 12px;
+  }
+
+  .scorer-table-row > div:last-child {
+    padding-right: 12px;
+  }
+
+  .scorer-rank {
+    width: 26px;
+    height: 26px;
+    font-size: 0.76rem;
+  }
+
+  .scorer-name {
+    font-size: 0.88rem;
+  }
+
+  .scorer-team {
+    font-size: 0.72rem;
+  }
+
+  .scorer-stat {
+    font-size: 1.22rem;
   }
 
   .goal-stats {
