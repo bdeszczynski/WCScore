@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-21T03:00:31.191Z",
+  "updatedAt": "2026-06-21T06:40:05.414Z",
   "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
   "players": [
     {
@@ -657,9 +657,9 @@
       "kickoff": "2026-06-21T04:00:00Z",
       "homeTeam": "Tunisia",
       "awayTeam": "Japan",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 4,
       "winnerAfterPenalties": null,
       "venue": "Estadio BBVA",
       "venueCity": "Guadalupe",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-21T03:00:30.770Z",
+    "updatedAt": "2026-06-21T06:40:04.851Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1318,8 +1318,8 @@
       },
       {
         "team": "Portugal",
-        "decimal": 13.99,
-        "probability": 0.0715,
+        "decimal": 14.39,
+        "probability": 0.0695,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1350,8 +1350,8 @@
       },
       {
         "team": "USA",
-        "decimal": 28.99,
-        "probability": 0.0345,
+        "decimal": 25.97,
+        "probability": 0.0385,
         "bookmaker": "Polymarket market probability",
         "rank": 9
       },
@@ -1372,20 +1372,20 @@
         "startingProbability": 0.018
       },
       {
+        "team": "Japan",
+        "decimal": 51.28,
+        "probability": 0.0195,
+        "bookmaker": "Polymarket market probability",
+        "rank": 12,
+        "startingProbability": 0.016
+      },
+      {
         "team": "Belgium",
         "decimal": 64.52,
         "probability": 0.0155,
         "bookmaker": "Polymarket market probability",
-        "rank": 12,
-        "startingProbability": 0.024
-      },
-      {
-        "team": "Japan",
-        "decimal": 64.52,
-        "probability": 0.0155,
-        "bookmaker": "Polymarket market probability",
         "rank": 13,
-        "startingProbability": 0.016
+        "startingProbability": 0.024
       },
       {
         "team": "Colombia",
@@ -1404,20 +1404,20 @@
         "startingProbability": 0.012
       },
       {
-        "team": "Croatia",
-        "decimal": 153.85,
-        "probability": 0.0065,
-        "bookmaker": "Polymarket market probability",
-        "rank": 16,
-        "startingProbability": 0.011
-      },
-      {
         "team": "Switzerland",
         "decimal": 153.85,
         "probability": 0.0065,
         "bookmaker": "Polymarket market probability",
-        "rank": 17,
+        "rank": 16,
         "startingProbability": 0.015
+      },
+      {
+        "team": "Croatia",
+        "decimal": 181.82,
+        "probability": 0.0055,
+        "bookmaker": "Polymarket market probability",
+        "rank": 17,
+        "startingProbability": 0.011
       },
       {
         "team": "Ivory Coast",
@@ -1500,19 +1500,11 @@
         "startingProbability": 0.0014
       },
       {
-        "team": "Ecuador",
-        "decimal": 666.67,
-        "probability": 0.0015,
-        "bookmaker": "Polymarket market probability",
-        "rank": 28,
-        "startingProbability": 0.012
-      },
-      {
         "team": "Paraguay",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 29,
+        "rank": 28,
         "startingProbability": 0.007
       },
       {
@@ -1520,7 +1512,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 30,
+        "rank": 29,
         "startingProbability": 0.005
       },
       {
@@ -1528,7 +1520,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 31,
+        "rank": 30,
         "startingProbability": 0.003
       },
       {
@@ -1536,7 +1528,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 32,
+        "rank": 31,
         "startingProbability": 0.004
       },
       {
@@ -1544,14 +1536,14 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 33
+        "rank": 32
       },
       {
         "team": "Curaçao",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 34,
+        "rank": 33,
         "startingProbability": 0.0005
       },
       {
@@ -1559,8 +1551,16 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 35,
+        "rank": 34,
         "startingProbability": 0.004
+      },
+      {
+        "team": "Ecuador",
+        "decimal": 2000,
+        "probability": 0.0005,
+        "bookmaker": "Polymarket market probability",
+        "rank": 35,
+        "startingProbability": 0.012
       },
       {
         "team": "Ghana",
@@ -1654,20 +1654,9 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-21T03:00:31.188Z",
+    "updatedAt": "2026-06-21T06:40:05.411Z",
     "type": "bookmaker_match",
     "matches": [
-      {
-        "matchId": "537360",
-        "homeTeam": "Tunisia",
-        "awayTeam": "Japan",
-        "homeProbability": 0.2152,
-        "drawProbability": 0.2843,
-        "awayProbability": 0.5005,
-        "question": "Tunisia vs Japan",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
       {
         "matchId": "537371",
         "homeTeam": "Spain",
@@ -1764,6 +1753,17 @@
         "drawProbability": 0.1537,
         "awayProbability": 0.0765,
         "question": "Portugal vs Uzbekistan",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537411",
+        "homeTeam": "England",
+        "awayTeam": "Ghana",
+        "homeProbability": 0.7019,
+        "drawProbability": 0.1908,
+        "awayProbability": 0.1073,
+        "question": "England vs Ghana",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
       }
