@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-21T09:42:03.224Z",
-  "source": "football-data.org + Polymarket World Cup Winner market + Native Stats match odds",
+  "updatedAt": "2026-06-21T11:38:21.748Z",
+  "source": "football-data.org + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
       "name": "Bruno",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-21T09:42:02.685Z",
+    "updatedAt": "2026-06-21T11:38:20.980Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1333,51 +1333,51 @@
         "startingProbability": 0.105
       },
       {
-        "team": "Netherlands",
-        "decimal": 17.39,
-        "probability": 0.0575,
-        "bookmaker": "Polymarket market probability",
-        "rank": 7,
-        "startingProbability": 0.058
-      },
-      {
         "team": "Germany",
         "decimal": 17.7,
         "probability": 0.0565,
         "bookmaker": "Polymarket market probability",
-        "rank": 8,
+        "rank": 7,
         "startingProbability": 0.067
       },
       {
-        "team": "Japan",
-        "decimal": 24.69,
-        "probability": 0.0405,
+        "team": "Netherlands",
+        "decimal": 17.7,
+        "probability": 0.0565,
         "bookmaker": "Polymarket market probability",
-        "rank": 9,
-        "startingProbability": 0.016
+        "rank": 8,
+        "startingProbability": 0.058
       },
       {
         "team": "USA",
-        "decimal": 25.97,
-        "probability": 0.0385,
+        "decimal": 25.32,
+        "probability": 0.0395,
         "bookmaker": "Polymarket market probability",
-        "rank": 10
+        "rank": 9
       },
       {
         "team": "Norway",
         "decimal": 40.82,
         "probability": 0.0245,
         "bookmaker": "Polymarket market probability",
-        "rank": 11,
+        "rank": 10,
         "startingProbability": 0.024
       },
       {
         "team": "Morocco",
+        "decimal": 42.55,
+        "probability": 0.0235,
+        "bookmaker": "Polymarket market probability",
+        "rank": 11,
+        "startingProbability": 0.018
+      },
+      {
+        "team": "Japan",
         "decimal": 44.44,
         "probability": 0.0225,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
-        "startingProbability": 0.018
+        "startingProbability": 0.016
       },
       {
         "team": "Belgium",
@@ -1397,8 +1397,8 @@
       },
       {
         "team": "Mexico",
-        "decimal": 80,
-        "probability": 0.0125,
+        "decimal": 74.07,
+        "probability": 0.0135,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.012
@@ -1646,7 +1646,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-21T09:42:03.220Z",
+    "updatedAt": "2026-06-21T11:38:21.745Z",
     "type": "bookmaker_match",
     "matches": [
       {
@@ -1764,5 +1764,172 @@
   "commentary": {
     "updatedAt": "2026-06-20T11:39:57.000Z",
     "text": "Prediction: Bruno. VAR-bot has Bruno ahead on points and the tiebreak runway, with Norway and Mexico doing actual work instead of just posing for the team photo. Sara is not cooked: Spain and Netherlands still give her a dangerous late-game route. But right now Bruno has the steering wheel, and Sara’s comeback needs more than vibes and a pretty spreadsheet."
+  },
+  "topScorers": {
+    "source": "football-data.org scorers",
+    "updatedAt": "2026-06-21T11:38:21.221Z",
+    "type": "football_data_scorers",
+    "scorers": [
+      {
+        "rank": 1,
+        "player": "Deniz Undav",
+        "team": "Germany",
+        "goals": 3,
+        "assists": 2,
+        "penalties": null
+      },
+      {
+        "rank": 2,
+        "player": "Jonathan David",
+        "team": "Canada",
+        "goals": 3,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 3,
+        "player": "Lionel Messi",
+        "team": "Argentina",
+        "goals": 3,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 4,
+        "player": "Cody Gakpo",
+        "team": "Netherlands",
+        "goals": 2,
+        "assists": 2,
+        "penalties": null
+      },
+      {
+        "rank": 5,
+        "player": "Vinicius Junior",
+        "team": "Brazil",
+        "goals": 2,
+        "assists": 2,
+        "penalties": null
+      },
+      {
+        "rank": 6,
+        "player": "Ayase Ueda",
+        "team": "Japan",
+        "goals": 2,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 7,
+        "player": "Brian Brobbey",
+        "team": "Netherlands",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 8,
+        "player": "Cyle Larin",
+        "team": "Canada",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 9,
+        "player": "Daichi Kamada",
+        "team": "Japan",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 10,
+        "player": "Elijah Just",
+        "team": "New Zealand",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 11,
+        "player": "Erling Haaland",
+        "team": "Norway",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 12,
+        "player": "Folarin Balogun",
+        "team": "United States",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 13,
+        "player": "Harry Kane",
+        "team": "England",
+        "goals": 2,
+        "assists": null,
+        "penalties": 1
+      },
+      {
+        "rank": 14,
+        "player": "Ismael Saibari",
+        "team": "Morocco",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 15,
+        "player": "Johan Manzambi",
+        "team": "Switzerland",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 16,
+        "player": "Kai Havertz",
+        "team": "Germany",
+        "goals": 2,
+        "assists": null,
+        "penalties": 1
+      },
+      {
+        "rank": 17,
+        "player": "Kylian Mbappé",
+        "team": "France",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 18,
+        "player": "Matheus Cunha",
+        "team": "Brazil",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 19,
+        "player": "Yasin Ayari",
+        "team": "Sweden",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 20,
+        "player": "Julián Quiñones",
+        "team": "Mexico",
+        "goals": 1,
+        "assists": null,
+        "penalties": null
+      }
+    ]
   }
 }
