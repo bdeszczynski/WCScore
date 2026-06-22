@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-22T06:56:46.273Z",
+  "updatedAt": "2026-06-22T11:43:59.234Z",
   "source": "football-data.org + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-22T06:56:44.894Z",
+    "updatedAt": "2026-06-22T11:43:58.315Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1301,44 +1301,44 @@
         "startingProbability": 0.182
       },
       {
+        "team": "Argentina",
+        "decimal": 7.49,
+        "probability": 0.1335,
+        "bookmaker": "Polymarket market probability",
+        "rank": 3,
+        "startingProbability": 0.1
+      },
+      {
         "team": "England",
         "decimal": 7.97,
         "probability": 0.1255,
         "bookmaker": "Polymarket market probability",
-        "rank": 3,
+        "rank": 4,
         "startingProbability": 0.118
       },
       {
-        "team": "Argentina",
-        "decimal": 8.44,
-        "probability": 0.1185,
-        "bookmaker": "Polymarket market probability",
-        "rank": 4,
-        "startingProbability": 0.1
-      },
-      {
         "team": "Portugal",
-        "decimal": 15.04,
-        "probability": 0.0665,
+        "decimal": 14.81,
+        "probability": 0.0675,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
-        "team": "Brazil",
-        "decimal": 17.39,
-        "probability": 0.0575,
+        "team": "Germany",
+        "decimal": 17.7,
+        "probability": 0.0565,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
-        "startingProbability": 0.105
+        "startingProbability": 0.067
       },
       {
-        "team": "Germany",
-        "decimal": 18.35,
-        "probability": 0.0545,
+        "team": "Brazil",
+        "decimal": 18.02,
+        "probability": 0.0555,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
-        "startingProbability": 0.067
+        "startingProbability": 0.105
       },
       {
         "team": "Netherlands",
@@ -1646,7 +1646,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-22T06:56:46.270Z",
+    "updatedAt": "2026-06-22T11:43:59.231Z",
     "type": "bookmaker_match",
     "matches": [
       {
@@ -1767,7 +1767,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-22T06:56:45.756Z",
+    "updatedAt": "2026-06-22T11:43:58.656Z",
     "type": "football_data_scorers",
     "scorers": [
       {
