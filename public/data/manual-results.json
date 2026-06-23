@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-22T11:43:58.258Z",
+  "updatedAt": "2026-06-23T03:00:30.581Z",
   "notes": "Ready-made manual result overrides. API/world-cup.json wins by default. To override a match, set manualOverride to true on that row, edit status/homeGoals/awayGoals/winnerAfterPenalties/note, commit this file, then run Refresh data. Turn manualOverride back to false or remove the row to let API data win again.",
   "matches": [
     {
@@ -611,9 +611,9 @@
       "homeTeam": "Argentina",
       "awayTeam": "Austria",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 2,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "note": ""
     },
@@ -626,9 +626,9 @@
       "homeTeam": "France",
       "awayTeam": "Iraq",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "note": ""
     },
@@ -641,9 +641,9 @@
       "homeTeam": "Norway",
       "awayTeam": "Senegal",
       "manualOverride": false,
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "note": ""
     },
