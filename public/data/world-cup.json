@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-23T03:00:31.535Z",
+  "updatedAt": "2026-06-23T09:29:44.414Z",
   "source": "football-data.org + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
@@ -793,9 +793,9 @@
       "kickoff": "2026-06-23T03:00:00Z",
       "homeTeam": "Jordan",
       "awayTeam": "Algeria",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": "Levi's Stadium",
       "venueCity": "Santa Clara",
@@ -1281,7 +1281,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-23T03:00:30.826Z",
+    "updatedAt": "2026-06-23T09:29:43.547Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1293,20 +1293,20 @@
         "startingProbability": 0.174
       },
       {
+        "team": "Argentina",
+        "decimal": 7.07,
+        "probability": 0.1415,
+        "bookmaker": "Polymarket market probability",
+        "rank": 2,
+        "startingProbability": 0.1
+      },
+      {
         "team": "Spain",
         "decimal": 7.22,
         "probability": 0.1385,
         "bookmaker": "Polymarket market probability",
-        "rank": 2,
-        "startingProbability": 0.182
-      },
-      {
-        "team": "Argentina",
-        "decimal": 7.49,
-        "probability": 0.1335,
-        "bookmaker": "Polymarket market probability",
         "rank": 3,
-        "startingProbability": 0.1
+        "startingProbability": 0.182
       },
       {
         "team": "England",
@@ -1333,20 +1333,20 @@
         "startingProbability": 0.067
       },
       {
-        "team": "Netherlands",
-        "decimal": 18.69,
-        "probability": 0.0535,
-        "bookmaker": "Polymarket market probability",
-        "rank": 7,
-        "startingProbability": 0.058
-      },
-      {
         "team": "Brazil",
         "decimal": 19.8,
         "probability": 0.0505,
         "bookmaker": "Polymarket market probability",
-        "rank": 8,
+        "rank": 7,
         "startingProbability": 0.105
+      },
+      {
+        "team": "Netherlands",
+        "decimal": 21.05,
+        "probability": 0.0475,
+        "bookmaker": "Polymarket market probability",
+        "rank": 8,
+        "startingProbability": 0.058
       },
       {
         "team": "USA",
@@ -1357,32 +1357,32 @@
       },
       {
         "team": "Norway",
-        "decimal": 39.22,
-        "probability": 0.0255,
+        "decimal": 35.09,
+        "probability": 0.0285,
         "bookmaker": "Polymarket market probability",
         "rank": 10,
         "startingProbability": 0.024
       },
       {
         "team": "Morocco",
-        "decimal": 48.78,
-        "probability": 0.0205,
+        "decimal": 51.28,
+        "probability": 0.0195,
         "bookmaker": "Polymarket market probability",
         "rank": 11,
         "startingProbability": 0.018
       },
       {
         "team": "Japan",
-        "decimal": 51.28,
-        "probability": 0.0195,
+        "decimal": 54.05,
+        "probability": 0.0185,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
         "startingProbability": 0.016
       },
       {
         "team": "Colombia",
-        "decimal": 64.52,
-        "probability": 0.0155,
+        "decimal": 68.97,
+        "probability": 0.0145,
         "bookmaker": "Polymarket market probability",
         "rank": 13,
         "startingProbability": 0.024
@@ -1460,11 +1460,19 @@
         "startingProbability": 0.008
       },
       {
-        "team": "South Korea",
+        "team": "Senegal",
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
         "rank": 23,
+        "startingProbability": 0.009
+      },
+      {
+        "team": "South Korea",
+        "decimal": 400,
+        "probability": 0.0025,
+        "bookmaker": "Polymarket market probability",
+        "rank": 24,
         "startingProbability": 0.002
       },
       {
@@ -1472,7 +1480,7 @@
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 24,
+        "rank": 25,
         "startingProbability": 0.01
       },
       {
@@ -1480,7 +1488,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 25,
+        "rank": 26,
         "startingProbability": 0.0014
       },
       {
@@ -1488,7 +1496,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 26,
+        "rank": 27,
         "startingProbability": 0.012
       },
       {
@@ -1496,7 +1504,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 27,
+        "rank": 28,
         "startingProbability": 0.003
       },
       {
@@ -1504,7 +1512,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 28,
+        "rank": 29,
         "startingProbability": 0.007
       },
       {
@@ -1512,16 +1520,8 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 29,
-        "startingProbability": 0.005
-      },
-      {
-        "team": "Senegal",
-        "decimal": 666.67,
-        "probability": 0.0015,
-        "bookmaker": "Polymarket market probability",
         "rank": 30,
-        "startingProbability": 0.009
+        "startingProbability": 0.005
       },
       {
         "team": "Uruguay",
@@ -1587,19 +1587,11 @@
         "startingProbability": 0.001
       },
       {
-        "team": "Jordan",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 39,
-        "startingProbability": 0.0005
-      },
-      {
         "team": "New Zealand",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 40,
+        "rank": 39,
         "startingProbability": 0.001
       },
       {
@@ -1607,7 +1599,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 41,
+        "rank": 40,
         "startingProbability": 0.001
       },
       {
@@ -1615,7 +1607,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 42,
+        "rank": 41,
         "startingProbability": 0.001
       },
       {
@@ -1623,7 +1615,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 43,
+        "rank": 42,
         "startingProbability": 0.001
       },
       {
@@ -1631,7 +1623,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 44,
+        "rank": 43,
         "startingProbability": 0.0012
       },
       {
@@ -1639,27 +1631,16 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 45,
+        "rank": 44,
         "startingProbability": 0.001
       }
     ]
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-23T03:00:31.532Z",
+    "updatedAt": "2026-06-23T09:29:44.411Z",
     "type": "bookmaker_match",
     "matches": [
-      {
-        "matchId": "537400",
-        "homeTeam": "Jordan",
-        "awayTeam": "Algeria",
-        "homeProbability": 0.2007,
-        "drawProbability": 0.2578,
-        "awayProbability": 0.5415,
-        "question": "Jordan vs Algeria",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
       {
         "matchId": "537405",
         "homeTeam": "Portugal",
@@ -1758,6 +1739,17 @@
         "question": "Czechia vs Mexico",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
+      },
+      {
+        "matchId": "537332",
+        "homeTeam": "South Africa",
+        "awayTeam": "South Korea",
+        "homeProbability": 0.3109,
+        "drawProbability": 0.2914,
+        "awayProbability": 0.3977,
+        "question": "South Africa vs South Korea",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
       }
     ]
   },
@@ -1767,7 +1759,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-23T03:00:31.011Z",
+    "updatedAt": "2026-06-23T09:29:43.833Z",
     "type": "football_data_scorers",
     "scorers": [
       {
