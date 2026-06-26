@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="public/icons/icon-192-v27.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="public/icons/apple-touch-icon-v27.png" />
-    <link rel="stylesheet" href="styles.css?v=77" />
+    <link rel="stylesheet" href="styles.css?v=78" />
   </head>
   <body>
     <main class="app-shell">
@@ -166,9 +166,10 @@
             </div>
             <select id="match-filter" aria-label="Match filter">
               <option value="tracked">Tracked teams</option>
-              <option value="all">All loaded</option>
+              <option value="all">All matches</option>
               <option value="finished">Finished</option>
               <option value="upcoming" selected>Upcoming</option>
+              <option value="knockout">Knockout</option>
             </select>
           </div>
           <div class="match-list" id="match-list"></div>
@@ -189,6 +190,6 @@
       </section>
     </main>
 
-    <script type="module" src="src/app.js?v=77"></script>
+    <script type="module" src="src/app.js?v=78"></script>
   </body>
 </html>

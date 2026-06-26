@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v77-scorer-tables";
+const APP_VERSION = "v78-knockout-placeholders";
 
 const state = {
   data: null,
@@ -64,6 +64,16 @@ const ROUND_OF_16 = [
   { match: 94, from: [81, 82] },
   { match: 95, from: [86, 88] },
   { match: 96, from: [85, 87] },
+];
+const LATER_KNOCKOUT_ROUNDS = [
+  { match: 97, stage: "QUARTER_FINALS", slots: ["Winner Match 89", "Winner Match 90"], dateWindow: "9-11 Jul 2026" },
+  { match: 98, stage: "QUARTER_FINALS", slots: ["Winner Match 93", "Winner Match 94"], dateWindow: "9-11 Jul 2026" },
+  { match: 99, stage: "QUARTER_FINALS", slots: ["Winner Match 91", "Winner Match 92"], dateWindow: "9-11 Jul 2026" },
+  { match: 100, stage: "QUARTER_FINALS", slots: ["Winner Match 95", "Winner Match 96"], dateWindow: "9-11 Jul 2026" },
+  { match: 101, stage: "SEMI_FINALS", slots: ["Winner Match 97", "Winner Match 98"], dateWindow: "14-15 Jul 2026" },
+  { match: 102, stage: "SEMI_FINALS", slots: ["Winner Match 99", "Winner Match 100"], dateWindow: "14-15 Jul 2026" },
+  { match: 103, stage: "THIRD_PLACE", slots: ["Loser Match 101", "Loser Match 102"], dateWindow: "18 Jul 2026" },
+  { match: 104, stage: "FINAL", slots: ["Winner Match 101", "Winner Match 102"], dateWindow: "19 Jul 2026" },
 ];
 
 const selectedTeamNames = new Set();
@@ -300,14 +310,65 @@ function matchNumber(match) {
   return null;
 }
 
-function knockoutMatchesByNumber() {
+function knockoutMatchesByNumber(matches = state.data.matches || []) {
   const byNumber = new Map();
-  for (const match of state.data.matches || []) {
+  for (const match of matches) {
     if (stageKind(match.stage) === "group") continue;
     const number = matchNumber(match);
     if (number) byNumber.set(number, match);
   }
   return byNumber;
+}
+
+function slotDescription(slot) {
+  if (typeof slot === "string") return slot;
+  if (slot.group && slot.position === 1) return `Winner Group ${slot.group}`;
+  if (slot.group && slot.position === 2) return `Runner-up Group ${slot.group}`;
+  if (slot.third) return `Best 3rd Group ${slot.third.join("/")}`;
+  return "Team TBC";
+}
+
+function knockoutPlaceholder(match, stage, slots, dateWindow) {
+  return {
+    id: `placeholder-${match}`,
+    matchNumber: match,
+    stage,
+    group: null,
+    kickoff: null,
+    dateWindow,
+    homeTeam: slots[0],
+    awayTeam: slots[1],
+    status: "scheduled",
+    homeGoals: null,
+    awayGoals: null,
+    winnerAfterPenalties: null,
+    venue: null,
+    venueCity: null,
+    venueCountry: null,
+    venueWikiUrl: null,
+    placeholder: true,
+  };
+}
+
+function knockoutPlaceholders() {
+  const r32 = ROUND_OF_32.map((match) =>
+    knockoutPlaceholder(match.match, "ROUND_OF_32", match.slots.map((slot) => slotDescription(slot)), "28 Jun - 3 Jul 2026"),
+  );
+  const r16 = ROUND_OF_16.map((match) =>
+    knockoutPlaceholder(match.match, "ROUND_OF_16", match.from.map((matchNo) => `Winner Match ${matchNo}`), "4-7 Jul 2026"),
+  );
+  return [
+    ...r32,
+    ...r16,
+    ...LATER_KNOCKOUT_ROUNDS.map((match) => knockoutPlaceholder(match.match, match.stage, match.slots, match.dateWindow)),
+  ];
+}
+
+function displayMatches() {
+  const matches = state.data.matches || [];
+  const actualKnockouts = knockoutMatchesByNumber(matches);
+  const placeholders = knockoutPlaceholders().filter((match) => !actualKnockouts.has(match.matchNumber));
+  return [...matches, ...placeholders];
 }
 
 function knockoutWinner(match) {
@@ -901,17 +962,24 @@ function matchIncludesTrackedTeam(match) {
 }
 
 function getVisibleMatches() {
-  return state.data.matches
+  return displayMatches()
     .filter((match) => {
       if (state.matchFilter === "tracked") return matchIncludesTrackedTeam(match);
       if (state.matchFilter === "finished") return isFinished(match);
       if (state.matchFilter === "upcoming") return !isFinished(match);
+      if (state.matchFilter === "knockout") return stageKind(match.stage) !== "group";
       return true;
     })
-    .sort((a, b) => String(a.kickoff || "").localeCompare(String(b.kickoff || "")));
+    .sort((a, b) => {
+      if (a.kickoff && b.kickoff) return String(a.kickoff).localeCompare(String(b.kickoff));
+      if (a.kickoff) return -1;
+      if (b.kickoff) return 1;
+      return (matchNumber(a) || 999) - (matchNumber(b) || 999);
+    });
 }
 
 function formatKickoff(match) {
+  if (match.dateWindow) return escapeHtml(match.dateWindow);
   if (!match.kickoff) return "Time TBC";
   const date = new Date(match.kickoff);
   if (Number.isNaN(date.getTime())) return escapeHtml(match.kickoff);
@@ -956,24 +1024,26 @@ function renderMatches() {
       const homeTracked = matchIncludesTrackedTeam({ homeTeam: match.homeTeam, awayTeam: "" });
       const awayTracked = matchIncludesTrackedTeam({ homeTeam: match.awayTeam, awayTeam: "" });
       const score = isFinished(match) ? `${match.homeGoals} - ${match.awayGoals}` : "vs";
+      const marker = match.placeholder ? "Bracket slot" : match.resultSource === "manual" ? "Manual result" : "";
       return `
-        <article class="match-card">
+        <article class="match-card ${match.placeholder ? "placeholder" : ""}">
           <div class="match-teams">
             <div class="match-team">
-              <strong>${teamLabel(match.homeTeam, homeTracked)}${!isFinished(match) ? matchTeamMarketBadge(match, "home") : ""}</strong>
+              <strong>${teamLabel(match.homeTeam, homeTracked)}${!match.placeholder && !isFinished(match) ? matchTeamMarketBadge(match, "home") : ""}</strong>
               <span class="match-score">${isFinished(match) ? match.homeGoals : ""}</span>
             </div>
             <div class="match-team">
-              <strong>${teamLabel(match.awayTeam, awayTracked)}${!isFinished(match) ? matchTeamMarketBadge(match, "away") : ""}</strong>
+              <strong>${teamLabel(match.awayTeam, awayTracked)}${!match.placeholder && !isFinished(match) ? matchTeamMarketBadge(match, "away") : ""}</strong>
               <span class="match-score">${isFinished(match) ? match.awayGoals : ""}</span>
             </div>
           </div>
           <div class="match-meta">
+            ${match.matchNumber ? `<div>Match ${escapeHtml(match.matchNumber)}</div>` : ""}
             <div>${escapeHtml(formatStageLabel(match.stage))}</div>
             <div>${isFinished(match) ? score : formatKickoff(match)}</div>
             ${renderVenue(match)}
             ${match.winnerAfterPenalties ? `<div>${escapeHtml(match.winnerAfterPenalties)} won pens</div>` : ""}
-            ${match.resultSource === "manual" ? `<div class="match-source">Manual result</div>` : ""}
+            ${marker ? `<div class="match-source">${escapeHtml(marker)}</div>` : ""}
           </div>
         </article>
       `;

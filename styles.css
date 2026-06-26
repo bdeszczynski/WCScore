@@ -1484,6 +1484,10 @@ select {
   padding: 14px 16px;
 }
 
+.match-card.placeholder {
+  background: rgba(255, 255, 255, 0.52);
+}
+
 .match-teams {
   display: grid;
   gap: 7px;

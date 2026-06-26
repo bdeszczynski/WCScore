@@ -196,6 +196,7 @@ describe("app render smoke test", () => {
       assert.match(adminHtml, /actions\/workflows\/deploy-pages\.yml/);
       assert.match(adminHtml, /Update game results/);
       assert.match(adminHtml, /edit\/master\/public\/data\/manual-results\.json/);
+      assert.match(html, /<option value="knockout">Knockout<\/option>/);
       assert.match(serviceWorker, /admin\.html/);
       assert.match(serviceWorker, /quiz\.js\?v=3/);
       assert.match(serviceWorker, /flower-sprite-v1\.jpg/);
@@ -236,6 +237,9 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
       assert.match(document.querySelector("#match-list").innerHTML, /venue-link/);
       assert.match(document.querySelector("#match-list").innerHTML, /venue-host-flag/);
+      assert.match(document.querySelector("#match-list").innerHTML, /Bracket slot/);
+      assert.match(document.querySelector("#match-list").innerHTML, /ROUND OF 32/);
+      assert.match(document.querySelector("#match-list").innerHTML, /Runner-up Group A/);
       document.viewButtons[1].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
       assert.match(document.querySelector("#app-story").innerHTML, /Prediction: Sara/);
