@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-26T03:00:30.823Z",
+  "updatedAt": "2026-06-26T04:53:11.277Z",
   "source": "football-data.org + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
@@ -1048,9 +1048,9 @@
       "kickoff": "2026-06-26T02:00:00Z",
       "homeTeam": "Turkey",
       "awayTeam": "United States",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": "SoFi Stadium",
       "venueCity": "Inglewood",
@@ -1065,9 +1065,9 @@
       "kickoff": "2026-06-26T02:00:00Z",
       "homeTeam": "Paraguay",
       "awayTeam": "Australia",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": "Levi's Stadium",
       "venueCity": "Santa Clara",
@@ -1281,21 +1281,21 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-26T03:00:29.964Z",
+    "updatedAt": "2026-06-26T04:53:09.956Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 5.42,
-        "probability": 0.1845,
+        "decimal": 5.39,
+        "probability": 0.1855,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 6.83,
-        "probability": 0.1465,
+        "decimal": 6.78,
+        "probability": 0.1475,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
@@ -1334,16 +1334,16 @@
       },
       {
         "team": "Brazil",
-        "decimal": 18.35,
-        "probability": 0.0545,
+        "decimal": 18.02,
+        "probability": 0.0555,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.105
       },
       {
         "team": "Germany",
-        "decimal": 22.99,
-        "probability": 0.0435,
+        "decimal": 22.47,
+        "probability": 0.0445,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.067
@@ -1357,8 +1357,8 @@
       },
       {
         "team": "Norway",
-        "decimal": 35.09,
-        "probability": 0.0285,
+        "decimal": 32.79,
+        "probability": 0.0305,
         "bookmaker": "Polymarket market probability",
         "rank": 10,
         "startingProbability": 0.024
@@ -1380,20 +1380,20 @@
         "startingProbability": 0.018
       },
       {
-        "team": "Mexico",
+        "team": "Japan",
         "decimal": 80,
         "probability": 0.0125,
         "bookmaker": "Polymarket market probability",
         "rank": 13,
-        "startingProbability": 0.012
+        "startingProbability": 0.016
       },
       {
-        "team": "Japan",
-        "decimal": 86.96,
-        "probability": 0.0115,
+        "team": "Mexico",
+        "decimal": 80,
+        "probability": 0.0125,
         "bookmaker": "Polymarket market probability",
         "rank": 14,
-        "startingProbability": 0.016
+        "startingProbability": 0.012
       },
       {
         "team": "Belgium",
@@ -1421,8 +1421,8 @@
       },
       {
         "team": "Croatia",
-        "decimal": 285.71,
-        "probability": 0.0035,
+        "decimal": 222.22,
+        "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
         "rank": 18,
         "startingProbability": 0.011
@@ -1468,19 +1468,11 @@
         "startingProbability": 0.009
       },
       {
-        "team": "Sweden",
-        "decimal": 400,
-        "probability": 0.0025,
-        "bookmaker": "Polymarket market probability",
-        "rank": 24,
-        "startingProbability": 0.01
-      },
-      {
         "team": "Australia",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 25,
+        "rank": 24,
         "startingProbability": 0.002
       },
       {
@@ -1488,7 +1480,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 26,
+        "rank": 25,
         "startingProbability": 0.004
       },
       {
@@ -1496,8 +1488,16 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 27,
+        "rank": 26,
         "startingProbability": 0.007
+      },
+      {
+        "team": "Sweden",
+        "decimal": 666.67,
+        "probability": 0.0015,
+        "bookmaker": "Polymarket market probability",
+        "rank": 27,
+        "startingProbability": 0.01
       },
       {
         "team": "Uruguay",
@@ -1606,7 +1606,7 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-26T03:00:30.820Z",
+    "updatedAt": "2026-06-26T04:53:11.273Z",
     "type": "bookmaker_match",
     "matches": [
       {
@@ -1727,7 +1727,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-26T03:00:30.196Z",
+    "updatedAt": "2026-06-26T04:53:10.619Z",
     "type": "football_data_scorers",
     "scorers": [
       {
