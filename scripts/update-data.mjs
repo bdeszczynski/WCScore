@@ -798,6 +798,10 @@ export function mergeMatchMetadata(matches, metadataMatches) {
   });
 }
 
+export function matchesMissingVenueMetadata(matches) {
+  return matches.filter((match) => !match.venue || !match.venueCountry || !match.venueWikiUrl);
+}
+
 export function applyManualResultOverrides(matches, manualResults = {}) {
   const overrides = Array.isArray(manualResults?.matches) ? manualResults.matches : [];
   if (!overrides.length) return matches;
@@ -1165,6 +1169,13 @@ async function main() {
   if (matches?.length) {
     sources.push("football-data.org");
     matches = mergeMatchMetadata(matches, current.matches || []);
+    if (matchesMissingVenueMetadata(matches).length) {
+      const wikipediaMatches = await fetchWikipediaMatches();
+      if (wikipediaMatches.length) {
+        matches = mergeMatchMetadata(matches, [...(current.matches || []), ...wikipediaMatches]);
+        sources.push("Wikipedia venue metadata");
+      }
+    }
   } else {
     footballDataMatchOdds = [];
     matches = await fetchWikipediaMatches();

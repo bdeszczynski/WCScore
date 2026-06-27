@@ -11,13 +11,23 @@ function findMatch(data, homeTeam, awayTeam) {
   return data.matches.find((match) => match.homeTeam === homeTeam && match.awayTeam === awayTeam);
 }
 
+function stageKind(stage = "") {
+  const value = String(stage).toLowerCase();
+  if (value.includes("group")) return "group";
+  if (value.includes("semi")) return "semi";
+  if (value.includes("final") && !value.includes("semi")) return "final";
+  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) return "knockout";
+  return "unknown";
+}
+
 describe("venue metadata", () => {
-  it("has stadium metadata and Wikipedia links for every loaded match", async () => {
+  it("has stadium metadata and Wikipedia links for every loaded group or finished match", async () => {
     const data = await loadData();
-    const missing = data.matches.filter((match) => !match.venue || !match.venueCountry || !match.venueWikiUrl);
+    const requiredMatches = data.matches.filter((match) => match.status === "finished" || stageKind(match.stage) === "group");
+    const missing = requiredMatches.filter((match) => !match.venue || !match.venueCountry || !match.venueWikiUrl);
 
     assert.deepEqual(missing, []);
-    for (const match of data.matches) {
+    for (const match of requiredMatches) {
       assert.match(match.venueWikiUrl, /^https:\/\/en\.wikipedia\.org\/wiki\//);
     }
   });

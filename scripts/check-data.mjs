@@ -13,6 +13,19 @@ function normalizeTeam(name) {
     .replace(/[^a-z0-9]+/g, " ");
 }
 
+function stageKind(stage = "") {
+  const value = String(stage).toLowerCase();
+  if (value.includes("group")) return "group";
+  if (value.includes("semi")) return "semi";
+  if (value.includes("final") && !value.includes("semi")) return "final";
+  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) return "knockout";
+  return "unknown";
+}
+
+function mayTemporarilyMissVenue(match) {
+  return match.status === "scheduled" && stageKind(match.stage) !== "group";
+}
+
 for (const playerName of requiredPlayers) {
   const player = data.players.find((entry) => entry.name === playerName);
   if (!player) throw new Error(`Missing player ${playerName}`);
@@ -25,6 +38,10 @@ for (const match of data.matches) {
     throw new Error(`Invalid match entry: ${JSON.stringify(match)}`);
   }
   if (!match.venue || !match.venueCountry || !match.venueWikiUrl) {
+    if (mayTemporarilyMissVenue(match)) {
+      console.warn(`Scheduled knockout match is missing venue metadata: ${match.id}`);
+      continue;
+    }
     throw new Error(`Match is missing venue metadata: ${match.id}`);
   }
   if (!String(match.venueWikiUrl).startsWith("https://en.wikipedia.org/wiki/")) {

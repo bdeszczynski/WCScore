@@ -4,6 +4,7 @@ import {
   applyManualResultOverrides,
   generateVarBotCommentary,
   getFootballDataToken,
+  matchesMissingVenueMetadata,
   parseFootballDataMatchOdds,
   parseFootballDataScorers,
   parseNativeStatsMatchOdds,
@@ -529,6 +530,30 @@ describe("parseFootballDataScorers", () => {
       { rank: 1, player: "Kylian Mbappe", team: "France", goals: 5, assists: 2, penalties: 1 },
       { rank: 2, player: "Bruno Test", team: "Portugal", goals: 3, assists: null, penalties: null },
     ]);
+  });
+});
+
+describe("matchesMissingVenueMetadata", () => {
+  it("identifies new API matches that still need stadium metadata", () => {
+    const missing = matchesMissingVenueMetadata([
+      {
+        id: "known",
+        venue: "Estadio Azteca",
+        venueCountry: "Mexico",
+        venueWikiUrl: "https://en.wikipedia.org/wiki/Estadio_Azteca",
+      },
+      {
+        id: "537417",
+        stage: "ROUND_OF_32",
+        homeTeam: "Runner-up Group A",
+        awayTeam: "Runner-up Group B",
+      },
+    ]);
+
+    assert.deepEqual(
+      missing.map((match) => match.id),
+      ["537417"],
+    );
   });
 });
 
