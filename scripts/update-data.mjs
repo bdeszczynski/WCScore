@@ -163,6 +163,36 @@ function isSameTeam(a, b) {
   return normalizeTeam(a) === normalizeTeam(b);
 }
 
+const KNOWN_ROUND_OF_32_MATCHUPS = [
+  [73, "South Africa", "Canada"],
+  [74, "Germany", "Paraguay"],
+  [75, "Netherlands", "Morocco"],
+  [76, "Brazil", "Japan"],
+  [77, "France", "Sweden"],
+  [78, "Ivory Coast", "Norway"],
+  [79, "Mexico", "Ecuador"],
+  [80, "England", "Congo DR"],
+  [81, "United States", "Bosnia-Herzegovina"],
+  [82, "Belgium", "Senegal"],
+  [83, "Portugal", "Croatia"],
+  [84, "Spain", "Austria"],
+  [85, "Switzerland", "Algeria"],
+  [86, "Argentina", "Cape Verde Islands"],
+  [87, "Colombia", "Ghana"],
+  [88, "Australia", "Egypt"],
+];
+const knownRoundOf32MatchNumbers = new Map(
+  KNOWN_ROUND_OF_32_MATCHUPS.flatMap(([matchNumber, homeTeam, awayTeam]) => [
+    [`${normalizeTeam(homeTeam)}|${normalizeTeam(awayTeam)}`, matchNumber],
+    [`${normalizeTeam(awayTeam)}|${normalizeTeam(homeTeam)}`, matchNumber],
+  ]),
+);
+
+function knownKnockoutMatchNumber(match) {
+  if (!String(match.stage || "").toLowerCase().includes("32")) return null;
+  return knownRoundOf32MatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`) || null;
+}
+
 function americanToDecimal(american) {
   const value = Number(american);
   if (!Number.isFinite(value)) return null;
@@ -738,7 +768,7 @@ export async function fetchWikipediaMatches() {
   return matches;
 }
 
-function normalizeFootballDataMatch(match) {
+export function normalizeFootballDataMatch(match) {
   const homeTeam = match.homeTeam?.name;
   const awayTeam = match.awayTeam?.name;
   if (!homeTeam || !awayTeam) return null;
@@ -756,7 +786,7 @@ function normalizeFootballDataMatch(match) {
     id: String(match.id || `${match.utcDate}-${homeTeam}-${awayTeam}`),
     stage: match.stage || match.group || "World Cup",
     group: match.group || null,
-    matchNumber: Number.isFinite(match.matchday) ? match.matchday : null,
+    matchNumber: Number.isFinite(match.matchday) ? match.matchday : knownKnockoutMatchNumber({ stage: match.stage, homeTeam, awayTeam }),
     kickoff: match.utcDate || null,
     homeTeam,
     awayTeam,

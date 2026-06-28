@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v78-knockout-placeholders";
+const APP_VERSION = "v79-knockout-fixtures";
 
 const state = {
   data: null,
@@ -55,6 +55,30 @@ const ROUND_OF_32 = [
   { match: 87, slots: [{ group: "K", position: 1 }, { third: ["D", "E", "I", "J", "L"] }] },
   { match: 88, slots: [{ group: "D", position: 2 }, { group: "G", position: 2 }] },
 ];
+const KNOWN_ROUND_OF_32_MATCHUPS = [
+  [73, "South Africa", "Canada"],
+  [74, "Germany", "Paraguay"],
+  [75, "Netherlands", "Morocco"],
+  [76, "Brazil", "Japan"],
+  [77, "France", "Sweden"],
+  [78, "Ivory Coast", "Norway"],
+  [79, "Mexico", "Ecuador"],
+  [80, "England", "Congo DR"],
+  [81, "United States", "Bosnia-Herzegovina"],
+  [82, "Belgium", "Senegal"],
+  [83, "Portugal", "Croatia"],
+  [84, "Spain", "Austria"],
+  [85, "Switzerland", "Algeria"],
+  [86, "Argentina", "Cape Verde Islands"],
+  [87, "Colombia", "Ghana"],
+  [88, "Australia", "Egypt"],
+];
+const knownRoundOf32MatchNumbers = new Map(
+  KNOWN_ROUND_OF_32_MATCHUPS.flatMap(([match, homeTeam, awayTeam]) => [
+    [`${normalizeTeam(homeTeam)}|${normalizeTeam(awayTeam)}`, match],
+    [`${normalizeTeam(awayTeam)}|${normalizeTeam(homeTeam)}`, match],
+  ]),
+);
 const ROUND_OF_16 = [
   { match: 89, from: [73, 75] },
   { match: 90, from: [74, 77] },
@@ -306,6 +330,10 @@ function matchNumber(match) {
   for (const value of [match.matchNumber, match.matchday, match.number]) {
     const number = Number(value);
     if (Number.isFinite(number)) return number;
+  }
+  if (String(match.stage || "").toLowerCase().includes("32")) {
+    const knownMatch = knownRoundOf32MatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`);
+    if (knownMatch) return knownMatch;
   }
   return null;
 }

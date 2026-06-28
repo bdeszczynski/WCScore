@@ -233,13 +233,11 @@ describe("app render smoke test", () => {
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
       assert.match(document.querySelector("#match-list").innerHTML, /match-market-chance/);
-      assert.match(document.querySelector("#match-list").innerHTML, /GROUP STAGE/);
+      assert.match(document.querySelector("#match-list").innerHTML, /LAST 32/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
-      assert.match(document.querySelector("#match-list").innerHTML, /venue-link/);
-      assert.match(document.querySelector("#match-list").innerHTML, /venue-host-flag/);
+      assert.match(document.querySelector("#match-list").innerHTML, /Match 73/);
       assert.match(document.querySelector("#match-list").innerHTML, /Bracket slot/);
-      assert.match(document.querySelector("#match-list").innerHTML, /ROUND OF 32/);
-      assert.match(document.querySelector("#match-list").innerHTML, /Runner-up Group A/);
+      assert.match(document.querySelector("#match-list").innerHTML, /South Africa/);
       document.viewButtons[1].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
       assert.match(document.querySelector("#app-story").innerHTML, /Prediction: Sara/);

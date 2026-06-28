@@ -5,6 +5,7 @@ import {
   generateVarBotCommentary,
   getFootballDataToken,
   matchesMissingVenueMetadata,
+  normalizeFootballDataMatch,
   parseFootballDataMatchOdds,
   parseFootballDataScorers,
   parseNativeStatsMatchOdds,
@@ -502,6 +503,32 @@ describe("parseFootballDataMatchOdds", () => {
 
   it("returns null when football-data has no odds values", () => {
     assert.equal(parseFootballDataMatchOdds({ odds: { homeWin: null, draw: null, awayWin: null } }, match), null);
+  });
+});
+
+describe("normalizeFootballDataMatch", () => {
+  it("assigns official match numbers to known Round of 32 fixtures", () => {
+    const rows = [
+      ["LAST_32", "South Africa", "Canada", 73],
+      ["LAST_32", "Brazil", "Japan", 76],
+      ["LAST_32", "Colombia", "Ghana", 87],
+      ["LAST_32", "Australia", "Egypt", 88],
+    ].map(([stage, homeTeam, awayTeam]) =>
+      normalizeFootballDataMatch({
+        id: `${homeTeam}-${awayTeam}`,
+        stage,
+        utcDate: "2026-06-28T19:00:00Z",
+        status: "TIMED",
+        homeTeam: { name: homeTeam },
+        awayTeam: { name: awayTeam },
+        score: { fullTime: {}, penalties: {} },
+      }),
+    );
+
+    assert.deepEqual(
+      rows.map((match) => match.matchNumber),
+      [73, 76, 87, 88],
+    );
   });
 });
 
