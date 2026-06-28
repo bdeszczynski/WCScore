@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-27T14:10:16.289Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
+  "updatedAt": "2026-06-28T03:01:18.463Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1184,9 +1184,9 @@
       "kickoff": "2026-06-27T21:00:00Z",
       "homeTeam": "Panama",
       "awayTeam": "England",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": "MetLife Stadium",
       "venueCity": "East Rutherford",
@@ -1201,9 +1201,9 @@
       "kickoff": "2026-06-27T21:00:00Z",
       "homeTeam": "Croatia",
       "awayTeam": "Ghana",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 2,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "Lincoln Financial Field",
       "venueCity": "Philadelphia",
@@ -1218,9 +1218,9 @@
       "kickoff": "2026-06-27T23:30:00Z",
       "homeTeam": "Colombia",
       "awayTeam": "Portugal",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": "Hard Rock Stadium",
       "venueCity": "Miami Gardens",
@@ -1235,9 +1235,9 @@
       "kickoff": "2026-06-27T23:30:00Z",
       "homeTeam": "Congo DR",
       "awayTeam": "Uzbekistan",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": "Mercedes-Benz Stadium",
       "venueCity": "Atlanta",
@@ -1349,51 +1349,51 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-27T14:10:13.797Z",
+    "updatedAt": "2026-06-28T03:01:15.004Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 4.51,
-        "probability": 0.2215,
+        "decimal": 4.23,
+        "probability": 0.2365,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.36,
-        "probability": 0.1865,
+        "decimal": 4.51,
+        "probability": 0.2215,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 8.37,
-        "probability": 0.1195,
+        "decimal": 9.39,
+        "probability": 0.1065,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 9.76,
-        "probability": 0.1025,
+        "decimal": 9.57,
+        "probability": 0.1045,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
-        "team": "Portugal",
-        "decimal": 12.42,
-        "probability": 0.0805,
+        "team": "Brazil",
+        "decimal": 17.7,
+        "probability": 0.0565,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
-        "team": "Brazil",
+        "team": "Portugal",
         "decimal": 17.7,
         "probability": 0.0565,
         "bookmaker": "Polymarket market probability",
@@ -1401,51 +1401,51 @@
         "startingProbability": 0.105
       },
       {
-        "team": "Germany",
-        "decimal": 23.53,
-        "probability": 0.0425,
+        "team": "Netherlands",
+        "decimal": 22.99,
+        "probability": 0.0435,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
-        "startingProbability": 0.067
-      },
-      {
-        "team": "Netherlands",
-        "decimal": 23.53,
-        "probability": 0.0425,
-        "bookmaker": "Polymarket market probability",
-        "rank": 8,
         "startingProbability": 0.058
       },
       {
-        "team": "Norway",
-        "decimal": 40.82,
-        "probability": 0.0245,
+        "team": "Germany",
+        "decimal": 27.4,
+        "probability": 0.0365,
+        "bookmaker": "Polymarket market probability",
+        "rank": 8,
+        "startingProbability": 0.067
+      },
+      {
+        "team": "Colombia",
+        "decimal": 42.55,
+        "probability": 0.0235,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.024
       },
       {
-        "team": "USA",
-        "decimal": 42.55,
-        "probability": 0.0235,
+        "team": "Norway",
+        "decimal": 44.44,
+        "probability": 0.0225,
         "bookmaker": "Polymarket market probability",
-        "rank": 10
+        "rank": 10,
+        "startingProbability": 0.024
+      },
+      {
+        "team": "USA",
+        "decimal": 46.51,
+        "probability": 0.0215,
+        "bookmaker": "Polymarket market probability",
+        "rank": 11
       },
       {
         "team": "Japan",
         "decimal": 68.97,
         "probability": 0.0145,
         "bookmaker": "Polymarket market probability",
-        "rank": 11,
-        "startingProbability": 0.016
-      },
-      {
-        "team": "Morocco",
-        "decimal": 68.97,
-        "probability": 0.0145,
-        "bookmaker": "Polymarket market probability",
         "rank": 12,
-        "startingProbability": 0.018
+        "startingProbability": 0.016
       },
       {
         "team": "Belgium",
@@ -1456,17 +1456,17 @@
         "startingProbability": 0.024
       },
       {
-        "team": "Colombia",
-        "decimal": 80,
-        "probability": 0.0125,
+        "team": "Morocco",
+        "decimal": 74.07,
+        "probability": 0.0135,
         "bookmaker": "Polymarket market probability",
         "rank": 14,
-        "startingProbability": 0.024
+        "startingProbability": 0.018
       },
       {
         "team": "Mexico",
-        "decimal": 80,
-        "probability": 0.0125,
+        "decimal": 86.96,
+        "probability": 0.0115,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.012
@@ -1488,35 +1488,27 @@
         "startingProbability": 0.012
       },
       {
-        "team": "Croatia",
-        "decimal": 222.22,
-        "probability": 0.0045,
-        "bookmaker": "Polymarket market probability",
-        "rank": 18,
-        "startingProbability": 0.011
-      },
-      {
         "team": "Senegal",
         "decimal": 222.22,
         "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
-        "rank": 19,
+        "rank": 18,
         "startingProbability": 0.009
       },
       {
-        "team": "Canada",
+        "team": "Croatia",
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 20,
-        "startingProbability": 0.005
+        "rank": 19,
+        "startingProbability": 0.011
       },
       {
         "team": "Ivory Coast",
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 21,
+        "rank": 20,
         "startingProbability": 0.004
       },
       {
@@ -1524,7 +1516,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 22,
+        "rank": 21,
         "startingProbability": 0.002
       },
       {
@@ -1532,7 +1524,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 23,
+        "rank": 22,
         "startingProbability": 0.007
       },
       {
@@ -1540,22 +1532,23 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 24,
+        "rank": 23,
         "startingProbability": 0.004
       },
       {
-        "team": "Cape Verde",
+        "team": "Canada",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 25
+        "rank": 24,
+        "startingProbability": 0.005
       },
       {
         "team": "Egypt",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 26,
+        "rank": 25,
         "startingProbability": 0.008
       },
       {
@@ -1563,7 +1556,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 27,
+        "rank": 26,
         "startingProbability": 0.003
       },
       {
@@ -1571,7 +1564,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 28,
+        "rank": 27,
         "startingProbability": 0.01
       },
       {
@@ -1579,8 +1572,15 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 29,
+        "rank": 28,
         "startingProbability": 0.003
+      },
+      {
+        "team": "Cape Verde",
+        "decimal": 2000,
+        "probability": 0.0005,
+        "bookmaker": "Polymarket market probability",
+        "rank": 29
       },
       {
         "team": "Congo DR",
@@ -1607,19 +1607,11 @@
         "startingProbability": 0.007
       },
       {
-        "team": "Scotland",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 33,
-        "startingProbability": 0.005
-      },
-      {
         "team": "South Africa",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 34,
+        "rank": 33,
         "startingProbability": 0.0012
       },
       {
@@ -1627,7 +1619,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 35,
+        "rank": 34,
         "startingProbability": 0.002
       },
       {
@@ -1635,7 +1627,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 36,
+        "rank": 35,
         "startingProbability": 0.001
       }
     ]
@@ -1719,7 +1711,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-27T14:10:15.763Z",
+    "updatedAt": "2026-06-28T03:01:15.819Z",
     "type": "football_data_scorers",
     "scorers": [
       {
@@ -1804,6 +1796,14 @@
       },
       {
         "rank": 11,
+        "player": "Harry Kane",
+        "team": "England",
+        "goals": 3,
+        "assists": null,
+        "penalties": 1
+      },
+      {
+        "rank": 12,
         "player": "Ismael Saibari",
         "team": "Morocco",
         "goals": 3,
@@ -1811,7 +1811,7 @@
         "penalties": null
       },
       {
-        "rank": 12,
+        "rank": 13,
         "player": "Jonathan David",
         "team": "Canada",
         "goals": 3,
@@ -1819,7 +1819,7 @@
         "penalties": null
       },
       {
-        "rank": 13,
+        "rank": 14,
         "player": "Matheus Cunha",
         "team": "Brazil",
         "goals": 3,
@@ -1827,7 +1827,15 @@
         "penalties": null
       },
       {
-        "rank": 14,
+        "rank": 15,
+        "player": "Yoane Wissa",
+        "team": "Congo DR",
+        "goals": 3,
+        "assists": null,
+        "penalties": 1
+      },
+      {
+        "rank": 16,
         "player": "Crysencio Summerville",
         "team": "Netherlands",
         "goals": 2,
@@ -1835,7 +1843,7 @@
         "penalties": null
       },
       {
-        "rank": 15,
+        "rank": 17,
         "player": "Cyle Larin",
         "team": "Canada",
         "goals": 2,
@@ -1843,15 +1851,7 @@
         "penalties": null
       },
       {
-        "rank": 16,
-        "player": "Daichi Kamada",
-        "team": "Japan",
-        "goals": 2,
-        "assists": null,
-        "penalties": null
-      },
-      {
-        "rank": 17,
+        "rank": 18,
         "player": "Folarin Balogun",
         "team": "United States",
         "goals": 2,
@@ -1859,7 +1859,7 @@
         "penalties": null
       },
       {
-        "rank": 18,
+        "rank": 19,
         "player": "Julián Quiñones",
         "team": "Mexico",
         "goals": 2,
@@ -1867,20 +1867,12 @@
         "penalties": null
       },
       {
-        "rank": 19,
+        "rank": 20,
         "player": "Kai Havertz",
         "team": "Germany",
         "goals": 2,
         "assists": null,
         "penalties": 1
-      },
-      {
-        "rank": 20,
-        "player": "Yasin Ayari",
-        "team": "Sweden",
-        "goals": 2,
-        "assists": null,
-        "penalties": null
       }
     ]
   }
