@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-28T04:34:26.983Z",
+  "updatedAt": "2026-06-28T06:34:17.113Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1313,6 +1313,19 @@
       "venueWikiUrl": null
     },
     {
+      "id": "537415",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-06-29T20:30:00Z",
+      "homeTeam": "Germany",
+      "awayTeam": "Paraguay",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
       "id": "537418",
       "stage": "LAST_32",
       "group": null,
@@ -1330,6 +1343,71 @@
       "venueWikiUrl": null
     },
     {
+      "id": "537424",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-06-30T17:00:00Z",
+      "homeTeam": "Ivory Coast",
+      "awayTeam": "Norway",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537416",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-06-30T21:00:00Z",
+      "homeTeam": "France",
+      "awayTeam": "Sweden",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537425",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-01T01:00:00Z",
+      "homeTeam": "Mexico",
+      "awayTeam": "Ecuador",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537426",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-01T16:00:00Z",
+      "homeTeam": "England",
+      "awayTeam": "Congo DR",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537422",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-01T20:00:00Z",
+      "homeTeam": "Belgium",
+      "awayTeam": "Senegal",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
       "id": "537421",
       "stage": "LAST_32",
       "group": null,
@@ -1345,41 +1423,119 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537420",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-02T19:00:00Z",
+      "homeTeam": "Spain",
+      "awayTeam": "Austria",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537419",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-02T23:00:00Z",
+      "homeTeam": "Portugal",
+      "awayTeam": "Croatia",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537429",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-03T03:00:00Z",
+      "homeTeam": "Switzerland",
+      "awayTeam": "Algeria",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537428",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-03T18:00:00Z",
+      "homeTeam": "Australia",
+      "awayTeam": "Egypt",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537427",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-03T22:00:00Z",
+      "homeTeam": "Argentina",
+      "awayTeam": "Cape Verde Islands",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537430",
+      "stage": "LAST_32",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-04T01:30:00Z",
+      "homeTeam": "Colombia",
+      "awayTeam": "Ghana",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-28T04:34:24.430Z",
+    "updatedAt": "2026-06-28T06:34:09.358Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 4.21,
-        "probability": 0.2375,
+        "decimal": 4.36,
+        "probability": 0.2295,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 4.89,
-        "probability": 0.2045,
+        "decimal": 4.71,
+        "probability": 0.2125,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 9.39,
-        "probability": 0.1065,
+        "decimal": 9.22,
+        "probability": 0.1085,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 9.57,
-        "probability": 0.1045,
+        "decimal": 9.66,
+        "probability": 0.1035,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
@@ -1394,16 +1550,16 @@
       },
       {
         "team": "Portugal",
-        "decimal": 18.02,
-        "probability": 0.0555,
+        "decimal": 18.69,
+        "probability": 0.0535,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
         "team": "Netherlands",
-        "decimal": 23.53,
-        "probability": 0.0425,
+        "decimal": 22.73,
+        "probability": 0.044,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.058
@@ -1418,18 +1574,10 @@
       },
       {
         "team": "Colombia",
-        "decimal": 42.55,
-        "probability": 0.0235,
+        "decimal": 40.82,
+        "probability": 0.0245,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
-        "startingProbability": 0.024
-      },
-      {
-        "team": "Norway",
-        "decimal": 44.44,
-        "probability": 0.0225,
-        "bookmaker": "Polymarket market probability",
-        "rank": 10,
         "startingProbability": 0.024
       },
       {
@@ -1437,23 +1585,31 @@
         "decimal": 46.51,
         "probability": 0.0215,
         "bookmaker": "Polymarket market probability",
-        "rank": 11
+        "rank": 10
       },
       {
-        "team": "Japan",
-        "decimal": 68.97,
-        "probability": 0.0145,
+        "team": "Norway",
+        "decimal": 48.78,
+        "probability": 0.0205,
         "bookmaker": "Polymarket market probability",
-        "rank": 12,
-        "startingProbability": 0.016
+        "rank": 11,
+        "startingProbability": 0.024
       },
       {
         "team": "Belgium",
         "decimal": 74.07,
         "probability": 0.0135,
         "bookmaker": "Polymarket market probability",
-        "rank": 13,
+        "rank": 12,
         "startingProbability": 0.024
+      },
+      {
+        "team": "Japan",
+        "decimal": 74.07,
+        "probability": 0.0135,
+        "bookmaker": "Polymarket market probability",
+        "rank": 13,
+        "startingProbability": 0.016
       },
       {
         "team": "Morocco",
@@ -1613,22 +1769,6 @@
         "bookmaker": "Polymarket market probability",
         "rank": 33,
         "startingProbability": 0.0012
-      },
-      {
-        "team": "South Korea",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 34,
-        "startingProbability": 0.002
-      },
-      {
-        "team": "Uzbekistan",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 35,
-        "startingProbability": 0.001
       }
     ]
   },
@@ -1711,7 +1851,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-28T04:34:25.009Z",
+    "updatedAt": "2026-06-28T06:34:10.971Z",
     "type": "football_data_scorers",
     "scorers": [
       {
