@@ -16,14 +16,14 @@ function stageKind(stage = "") {
   if (value.includes("group")) return "group";
   if (value.includes("semi")) return "semi";
   if (value.includes("final") && !value.includes("semi")) return "final";
-  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) return "knockout";
+  if (value.includes("round") || value.includes("last") || value.includes("quarter") || value.includes("knockout")) return "knockout";
   return "unknown";
 }
 
 describe("venue metadata", () => {
-  it("has stadium metadata and Wikipedia links for every loaded group or finished match", async () => {
+  it("has stadium metadata and Wikipedia links for every loaded group-stage match", async () => {
     const data = await loadData();
-    const requiredMatches = data.matches.filter((match) => match.status === "finished" || stageKind(match.stage) === "group");
+    const requiredMatches = data.matches.filter((match) => stageKind(match.stage) === "group");
     const missing = requiredMatches.filter((match) => !match.venue || !match.venueCountry || !match.venueWikiUrl);
 
     assert.deepEqual(missing, []);

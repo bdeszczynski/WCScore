@@ -15,7 +15,7 @@ export function stageKind(stage = "") {
   if (value.includes("group")) return "group";
   if (value.includes("semi")) return "semi";
   if (value.includes("final") && !value.includes("semi")) return "final";
-  if (value.includes("round") || value.includes("quarter") || value.includes("knockout")) {
+  if (value.includes("round") || value.includes("last") || value.includes("quarter") || value.includes("knockout")) {
     return "knockout";
   }
   return "unknown";

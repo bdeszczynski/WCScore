@@ -8,7 +8,7 @@ import {
   isSameTeam,
   normalizeTeam,
   stageKind,
-} from "./scoring.js?v=31";
+} from "./scoring.js?v=32";
 import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 

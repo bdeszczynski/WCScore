@@ -5,7 +5,7 @@ const APP_SHELL = [
   "./admin.html",
   "./styles.css?v=79",
   "./src/app.js?v=79",
-  "./src/scoring.js?v=31",
+  "./src/scoring.js?v=32",
   "./src/flags.js?v=34",
   "./src/quiz.js?v=3",
   "./public/images/flower-sprite-v1.jpg",

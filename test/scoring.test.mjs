@@ -8,7 +8,14 @@ import {
   getPlayerBonusSelections,
   isFinished,
   scoreMatchForTeam,
+  stageKind,
 } from "../src/scoring.js";
+
+describe("stageKind", () => {
+  it("treats football-data LAST_32 as a knockout stage", () => {
+    assert.equal(stageKind("LAST_32"), "knockout");
+  });
+});
 
 describe("isFinished", () => {
   it("treats missing future knockout slots as unfinished", () => {
