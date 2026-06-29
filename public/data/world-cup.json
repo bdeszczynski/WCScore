@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-29T06:31:25.123Z",
+  "updatedAt": "2026-06-29T10:47:14.191Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1553,13 +1553,13 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-29T06:31:19.007Z",
+    "updatedAt": "2026-06-29T10:47:07.000Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 4.36,
-        "probability": 0.2295,
+        "decimal": 4.3,
+        "probability": 0.2325,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
@@ -1590,16 +1590,16 @@
       },
       {
         "team": "Portugal",
-        "decimal": 15.75,
-        "probability": 0.0635,
+        "decimal": 16.26,
+        "probability": 0.0615,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Brazil",
-        "decimal": 17.7,
-        "probability": 0.0565,
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
@@ -1622,8 +1622,8 @@
       },
       {
         "team": "Colombia",
-        "decimal": 37.74,
-        "probability": 0.0265,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.024
@@ -1669,8 +1669,8 @@
       },
       {
         "team": "Japan",
-        "decimal": 95.24,
-        "probability": 0.0105,
+        "decimal": 86.96,
+        "probability": 0.0115,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.016
@@ -1748,19 +1748,11 @@
         "startingProbability": 0.007
       },
       {
-        "team": "Bosnia-Herzegovina",
-        "decimal": 666.67,
-        "probability": 0.0015,
-        "bookmaker": "Polymarket market probability",
-        "rank": 25,
-        "startingProbability": 0.004
-      },
-      {
         "team": "Egypt",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 26,
+        "rank": 25,
         "startingProbability": 0.008
       },
       {
@@ -1768,7 +1760,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 27,
+        "rank": 26,
         "startingProbability": 0.003
       },
       {
@@ -1776,8 +1768,16 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 28,
+        "rank": 27,
         "startingProbability": 0.01
+      },
+      {
+        "team": "Bosnia-Herzegovina",
+        "decimal": 2000,
+        "probability": 0.0005,
+        "bookmaker": "Polymarket market probability",
+        "rank": 28,
+        "startingProbability": 0.004
       },
       {
         "team": "Cape Verde",
@@ -1883,7 +1883,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-29T06:31:20.901Z",
+    "updatedAt": "2026-06-29T10:47:08.254Z",
     "type": "football_data_scorers",
     "scorers": [
       {
