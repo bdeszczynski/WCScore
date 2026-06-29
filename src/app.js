@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v79-knockout-fixtures";
+const APP_VERSION = "v80-ladder-scores";
 
 const state = {
   data: null,
@@ -444,6 +444,16 @@ function flagChip(row, extraClass = "") {
     : "";
 }
 
+function ladderScore(match) {
+  if (!isFinished(match || {})) return `<span class="versus-dot"></span>`;
+  const penaltyNote = match.winnerAfterPenalties ? `<span class="ladder-score-note">pens</span>` : "";
+  return `
+    <span class="ladder-score" aria-label="Score ${escapeHtml(`${match.homeGoals} to ${match.awayGoals}`)}">
+      ${escapeHtml(match.homeGoals)}-${escapeHtml(match.awayGoals)}${penaltyNote}
+    </span>
+  `;
+}
+
 function renderR32Ladder(cards = r32Cards()) {
   return cards
     .map(
@@ -452,7 +462,7 @@ function renderR32Ladder(cards = r32Cards()) {
           <div class="ladder-match-no">${card.match}</div>
           <div class="ladder-versus">
             <div class="ladder-slot">${card.teams[0].map((team) => flagChip(team, team.inThirdEight === false ? "out" : "")).join("")}</div>
-            <span class="versus-dot"></span>
+            ${ladderScore(card.actualMatch)}
             <div class="ladder-slot">${card.teams[1].map((team) => flagChip(team, team.inThirdEight === false ? "out" : "")).join("")}</div>
           </div>
         </article>
@@ -477,7 +487,7 @@ function renderR16Ladder(cards = r32Cards()) {
         <div class="ladder-versus">
           <div class="ladder-source">W${match.from[0]}</div>
           <div class="ladder-slot">${pools[0].map((team) => flagChip(team)).join("")}</div>
-          <span class="versus-dot"></span>
+          ${ladderScore(actual)}
           <div class="ladder-source">W${match.from[1]}</div>
           <div class="ladder-slot">${pools[1].map((team) => flagChip(team)).join("")}</div>
         </div>

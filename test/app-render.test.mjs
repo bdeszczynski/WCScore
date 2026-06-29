@@ -130,6 +130,13 @@ describe("app render smoke test", () => {
     const appJs = await readFile(new URL("../src/app.js", import.meta.url), "utf8");
     const serviceWorker = await readFile(new URL("../sw.js", import.meta.url), "utf8");
     const data = JSON.parse(await readFile(new URL("../public/data/world-cup.json", import.meta.url), "utf8"));
+    const round32Match = data.matches.find((match) => match.matchNumber === 73);
+    Object.assign(round32Match, {
+      status: "finished",
+      homeGoals: 0,
+      awayGoals: 1,
+      winnerAfterPenalties: null,
+    });
     data.commentary = {
       updatedAt: "2026-06-17T08:00:00.000Z",
       text: "Prediction: Sara. VAR-bot sees Spain warming up while Bruno starts negotiating with goal difference.",
@@ -224,6 +231,8 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#winner-picks").innerHTML, /Selected team probability divided by total loaded Polymarket probability/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-card/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-flag/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /ladder-score/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /0-1/);
       assert.ok(document.querySelectorAll("[data-ladder-round]").length >= 7);
       document.querySelector(".ladder-heading").dispatch("click", document.ladderButtons[1]);
       assert.equal(document.querySelector("#knockout-ladder").dataset.round, "round16");
@@ -235,9 +244,8 @@ describe("app render smoke test", () => {
       assert.match(document.querySelector("#match-list").innerHTML, /match-market-chance/);
       assert.match(document.querySelector("#match-list").innerHTML, /LAST 32/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
-      assert.match(document.querySelector("#match-list").innerHTML, /Match 73/);
-      assert.match(document.querySelector("#match-list").innerHTML, /Bracket slot/);
-      assert.match(document.querySelector("#match-list").innerHTML, /South Africa/);
+      assert.match(document.querySelector("#match-list").innerHTML, /Match 76/);
+      assert.match(document.querySelector("#match-list").innerHTML, /Brazil/);
       document.viewButtons[1].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
       assert.match(document.querySelector("#app-story").innerHTML, /Prediction: Sara/);
