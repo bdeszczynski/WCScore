@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-30T03:01:14.271Z",
+  "updatedAt": "2026-06-30T03:58:19.661Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1337,9 +1337,9 @@
       "kickoff": "2026-06-30T01:00:00Z",
       "homeTeam": "Netherlands",
       "awayTeam": "Morocco",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 4,
+      "awayGoals": 3,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1553,21 +1553,21 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-06-30T03:01:08.264Z",
+    "updatedAt": "2026-06-30T03:58:13.934Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 3.78,
-        "probability": 0.2645,
+        "decimal": 3.74,
+        "probability": 0.2675,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 4.94,
-        "probability": 0.2025,
+        "decimal": 5.04,
+        "probability": 0.1985,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
@@ -1582,8 +1582,8 @@
       },
       {
         "team": "England",
-        "decimal": 9.95,
-        "probability": 0.1005,
+        "decimal": 9.85,
+        "probability": 0.1015,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
@@ -1598,19 +1598,19 @@
       },
       {
         "team": "Portugal",
-        "decimal": 18.35,
-        "probability": 0.0545,
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
-        "team": "Netherlands",
-        "decimal": 30.3,
-        "probability": 0.033,
+        "team": "Morocco",
+        "decimal": 20.83,
+        "probability": 0.048,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
-        "startingProbability": 0.058
+        "startingProbability": 0.018
       },
       {
         "team": "Colombia",
@@ -1622,8 +1622,8 @@
       },
       {
         "team": "USA",
-        "decimal": 40.82,
-        "probability": 0.0245,
+        "decimal": 36.36,
+        "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
         "rank": 9
       },
@@ -1636,12 +1636,12 @@
         "startingProbability": 0.024
       },
       {
-        "team": "Morocco",
-        "decimal": 47.62,
-        "probability": 0.021,
+        "team": "Mexico",
+        "decimal": 68.97,
+        "probability": 0.0145,
         "bookmaker": "Polymarket market probability",
         "rank": 11,
-        "startingProbability": 0.018
+        "startingProbability": 0.012
       },
       {
         "team": "Belgium",
@@ -1652,19 +1652,11 @@
         "startingProbability": 0.024
       },
       {
-        "team": "Mexico",
-        "decimal": 74.07,
-        "probability": 0.0135,
-        "bookmaker": "Polymarket market probability",
-        "rank": 13,
-        "startingProbability": 0.012
-      },
-      {
         "team": "Switzerland",
         "decimal": 117.65,
         "probability": 0.0085,
         "bookmaker": "Polymarket market probability",
-        "rank": 14,
+        "rank": 13,
         "startingProbability": 0.015
       },
       {
@@ -1672,7 +1664,7 @@
         "decimal": 181.82,
         "probability": 0.0055,
         "bookmaker": "Polymarket market probability",
-        "rank": 15,
+        "rank": 14,
         "startingProbability": 0.012
       },
       {
@@ -1680,7 +1672,7 @@
         "decimal": 222.22,
         "probability": 0.0045,
         "bookmaker": "Polymarket market probability",
-        "rank": 16,
+        "rank": 15,
         "startingProbability": 0.009
       },
       {
@@ -1688,7 +1680,7 @@
         "decimal": 285.71,
         "probability": 0.0035,
         "bookmaker": "Polymarket market probability",
-        "rank": 17,
+        "rank": 16,
         "startingProbability": 0.011
       },
       {
@@ -1696,7 +1688,7 @@
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 18,
+        "rank": 17,
         "startingProbability": 0.005
       },
       {
@@ -1704,7 +1696,7 @@
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 19,
+        "rank": 18,
         "startingProbability": 0.004
       },
       {
@@ -1712,7 +1704,7 @@
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 20,
+        "rank": 19,
         "startingProbability": 0.007
       },
       {
@@ -1720,7 +1712,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 21,
+        "rank": 20,
         "startingProbability": 0.003
       },
       {
@@ -1728,7 +1720,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 22,
+        "rank": 21,
         "startingProbability": 0.002
       },
       {
@@ -1736,7 +1728,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 23,
+        "rank": 22,
         "startingProbability": 0.007
       },
       {
@@ -1744,7 +1736,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 24,
+        "rank": 23,
         "startingProbability": 0.008
       },
       {
@@ -1752,7 +1744,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 25,
+        "rank": 24,
         "startingProbability": 0.01
       },
       {
@@ -1760,7 +1752,7 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 26,
+        "rank": 25,
         "startingProbability": 0.004
       },
       {
@@ -1768,14 +1760,14 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 27
+        "rank": 26
       },
       {
         "team": "Congo DR",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 28,
+        "rank": 27,
         "startingProbability": 0.0014
       },
       {
@@ -1783,8 +1775,16 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 29,
+        "rank": 28,
         "startingProbability": 0.003
+      },
+      {
+        "team": "Netherlands",
+        "decimal": 2000,
+        "probability": 0.0005,
+        "bookmaker": "Polymarket market probability",
+        "rank": 29,
+        "startingProbability": 0.058
       }
     ]
   },
@@ -1867,7 +1867,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-06-30T03:01:10.352Z",
+    "updatedAt": "2026-06-30T03:58:15.017Z",
     "type": "football_data_scorers",
     "scorers": [
       {
