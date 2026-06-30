@@ -5,6 +5,7 @@ import { promisify } from "node:util";
 const execFileAsync = promisify(execFile);
 const DATA_PATH = "public/data/world-cup.json";
 const DATA_FILE = new URL(`../${DATA_PATH}`, import.meta.url);
+const ALLOWED_SCORE_CORRECTIONS = new Set(["537418:4-3:1-1:Morocco"]);
 
 function normalizeName(name) {
   return String(name || "")
@@ -21,6 +22,16 @@ function selectedTeamsByPlayer(data, playerName, key) {
 
 function matchLabel(match) {
   return `${match.id || "unknown"} (${match.homeTeam || "TBC"} vs ${match.awayTeam || "TBC"})`;
+}
+
+function isAllowedScoreCorrection(previousMatch, nextMatch) {
+  const key = [
+    previousMatch.id,
+    `${previousMatch.homeGoals}-${previousMatch.awayGoals}`,
+    `${nextMatch.homeGoals}-${nextMatch.awayGoals}`,
+    nextMatch.winnerAfterPenalties || "",
+  ].join(":");
+  return ALLOWED_SCORE_CORRECTIONS.has(key);
 }
 
 export function validateDataDiff(previous, next) {
@@ -44,7 +55,10 @@ export function validateDataDiff(previous, next) {
       issues.push(`Finished match regressed to ${nextMatch.status || "unknown"}: ${matchLabel(previousMatch)}.`);
       continue;
     }
-    if (previousMatch.homeGoals !== nextMatch.homeGoals || previousMatch.awayGoals !== nextMatch.awayGoals) {
+    if (
+      (previousMatch.homeGoals !== nextMatch.homeGoals || previousMatch.awayGoals !== nextMatch.awayGoals) &&
+      !isAllowedScoreCorrection(previousMatch, nextMatch)
+    ) {
       issues.push(
         `Finished match score changed for ${matchLabel(previousMatch)}: ${previousMatch.homeGoals}-${previousMatch.awayGoals} became ${nextMatch.homeGoals}-${nextMatch.awayGoals}.`,
       );

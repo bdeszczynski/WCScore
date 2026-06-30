@@ -530,6 +530,28 @@ describe("normalizeFootballDataMatch", () => {
       [73, 76, 87, 88],
     );
   });
+
+  it("keeps the drawn match score and penalty winner for shootouts", () => {
+    const match = normalizeFootballDataMatch({
+      id: 537418,
+      stage: "LAST_32",
+      matchday: 75,
+      utcDate: "2026-06-30T01:00:00Z",
+      status: "FINISHED",
+      homeTeam: { name: "Netherlands" },
+      awayTeam: { name: "Morocco" },
+      score: {
+        regularTime: { home: 1, away: 1 },
+        fullTime: { home: 4, away: 3 },
+        penalties: { home: 2, away: 3 },
+      },
+    });
+
+    assert.equal(match.status, "finished");
+    assert.equal(match.homeGoals, 1);
+    assert.equal(match.awayGoals, 1);
+    assert.equal(match.winnerAfterPenalties, "Morocco");
+  });
 });
 
 describe("parseFootballDataScorers", () => {

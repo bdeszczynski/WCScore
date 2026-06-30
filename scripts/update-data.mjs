@@ -773,10 +773,19 @@ export function normalizeFootballDataMatch(match) {
   const awayTeam = match.awayTeam?.name;
   if (!homeTeam || !awayTeam) return null;
   const fullTime = match.score?.fullTime || {};
+  const regularTime = match.score?.regularTime || {};
+  const extraTime = match.score?.extraTime || {};
   const penalties = match.score?.penalties || {};
-  const finished = match.status === "FINISHED" && Number.isFinite(fullTime.home) && Number.isFinite(fullTime.away);
+  const hasPenaltyScore = Number.isFinite(penalties.home) && Number.isFinite(penalties.away);
+  const matchScore =
+    hasPenaltyScore && Number.isFinite(regularTime.home) && Number.isFinite(regularTime.away)
+      ? regularTime
+      : hasPenaltyScore && Number.isFinite(extraTime.home) && Number.isFinite(extraTime.away)
+        ? extraTime
+        : fullTime;
+  const finished = match.status === "FINISHED" && Number.isFinite(matchScore.home) && Number.isFinite(matchScore.away);
   const winnerAfterPenalties =
-    Number.isFinite(penalties.home) && Number.isFinite(penalties.away) && penalties.home !== penalties.away
+    hasPenaltyScore && penalties.home !== penalties.away
       ? penalties.home > penalties.away
         ? homeTeam
         : awayTeam
@@ -791,8 +800,8 @@ export function normalizeFootballDataMatch(match) {
     homeTeam,
     awayTeam,
     status: finished ? "finished" : "scheduled",
-    homeGoals: finished ? fullTime.home : null,
-    awayGoals: finished ? fullTime.away : null,
+    homeGoals: finished ? matchScore.home : null,
+    awayGoals: finished ? matchScore.away : null,
     winnerAfterPenalties,
     ...parseVenue(match.venue || ""),
   };

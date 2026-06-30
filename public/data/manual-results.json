@@ -1135,12 +1135,12 @@
       "kickoff": "2026-06-30T01:00:00Z",
       "homeTeam": "Netherlands",
       "awayTeam": "Morocco",
-      "manualOverride": false,
+      "manualOverride": true,
       "status": "finished",
-      "homeGoals": 4,
-      "awayGoals": 3,
-      "winnerAfterPenalties": null,
-      "note": ""
+      "homeGoals": 1,
+      "awayGoals": 1,
+      "winnerAfterPenalties": "Morocco",
+      "note": "Corrected knockout result: Morocco advanced on penalties after a 1-1 draw."
     },
     {
       "id": "537424",

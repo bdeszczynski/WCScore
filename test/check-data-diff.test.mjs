@@ -71,6 +71,40 @@ describe("validateDataDiff", () => {
     assert.match(validateDataDiff(data(), next).join("\n"), /score changed/);
   });
 
+  it("allows the known Netherlands vs Morocco shootout score correction", () => {
+    const previous = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "537418",
+          stage: "LAST_32",
+          homeTeam: "Netherlands",
+          awayTeam: "Morocco",
+          status: "finished",
+          homeGoals: 4,
+          awayGoals: 3,
+        },
+      ],
+    });
+    const next = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "537418",
+          stage: "LAST_32",
+          homeTeam: "Netherlands",
+          awayTeam: "Morocco",
+          status: "finished",
+          homeGoals: 1,
+          awayGoals: 1,
+          winnerAfterPenalties: "Morocco",
+        },
+      ],
+    });
+
+    assert.deepEqual(validateDataDiff(previous, next), []);
+  });
+
   it("fails when a selected team is removed from player picks", () => {
     const next = data();
     next.players[0].pointsTeams = next.players[0].pointsTeams.filter((team) => team.name !== "Japan");
