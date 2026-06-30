@@ -72,7 +72,7 @@ describe("scoreMatchForTeam", () => {
     assert.equal(scoreMatchForTeam(finished, "Brazil"), null);
   });
 
-  it("adds one extra point for a knockout penalty loss after the match draw point", () => {
+  it("scores knockout penalty winners as wins and penalty losers with one consolation point", () => {
     const match = {
       stage: "Round of 16",
       status: "finished",
@@ -84,19 +84,19 @@ describe("scoreMatchForTeam", () => {
     };
 
     assert.deepEqual(scoreMatchForTeam(match, "Brazil"), {
-      points: 1,
-      win: 0,
-      draw: 1,
+      points: 3,
+      win: 1,
+      draw: 0,
       loss: 0,
       gf: 1,
       ga: 1,
       penaltyBonus: 0,
     });
     assert.deepEqual(scoreMatchForTeam(match, "Japan"), {
-      points: 2,
+      points: 1,
       win: 0,
-      draw: 1,
-      loss: 0,
+      draw: 0,
+      loss: 1,
       gf: 1,
       ga: 1,
       penaltyBonus: 1,
@@ -110,7 +110,7 @@ describe("aggregateTeam", () => {
       {
         stage: "Group A",
         status: "finished",
-        homeTeam: "Mexico",
+        homeTeam: "Morocco",
         awayTeam: "Japan",
         homeGoals: 2,
         awayGoals: 0,
@@ -118,33 +118,33 @@ describe("aggregateTeam", () => {
       {
         stage: "Round of 16",
         status: "finished",
-        homeTeam: "Mexico",
-        awayTeam: "Brazil",
+        homeTeam: "Netherlands",
+        awayTeam: "Morocco",
         homeGoals: 1,
         awayGoals: 1,
-        winnerAfterPenalties: "Brazil",
+        winnerAfterPenalties: "Morocco",
       },
       {
         stage: "Group A",
         status: "scheduled",
-        homeTeam: "Mexico",
+        homeTeam: "Morocco",
         awayTeam: "Norway",
         homeGoals: null,
         awayGoals: null,
       },
     ];
 
-    assert.deepEqual(aggregateTeam(matches, "Mexico", "Bruno"), {
-      teamName: "Mexico",
+    assert.deepEqual(aggregateTeam(matches, "Morocco", "Bruno"), {
+      teamName: "Morocco",
       owner: "Bruno",
-      points: 5,
-      win: 1,
-      draw: 1,
+      points: 6,
+      win: 2,
+      draw: 0,
       loss: 0,
       gf: 3,
       ga: 1,
       gd: 2,
-      penaltyBonus: 1,
+      penaltyBonus: 0,
       played: 2,
     });
   });

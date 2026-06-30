@@ -17,7 +17,8 @@ Points teams:
 
 - Win: 3 points
 - Draw: 1 point
-- Knockout penalty loss: 1 extra point
+- Knockout penalty shootout win: 3 points
+- Knockout penalty shootout loss: 1 point
 - Ranking tiebreakers shown in the interface: goal difference, then goals scored
 
 Winner selections:
@@ -117,7 +118,7 @@ Tests use Node's built-in `node:test` runner and `node:assert/strict`; no extra 
 
 - Group wins score 3 points and draws score 1 point.
 - Unfinished matches and unrelated teams are ignored.
-- Knockout penalty losers receive the draw point plus 1 extra penalty-loss point.
+- Knockout penalty winners receive 3 points; knockout penalty losers receive 1 consolation point.
 - Team totals aggregate points, played matches, goals for, goals against, goal difference, and penalty bonuses.
 - Remaining group matches count only unfinished group-stage games for selected teams.
 - Semi-final qualification gives 3 bonus points.

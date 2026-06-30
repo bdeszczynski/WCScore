@@ -1,11 +1,11 @@
-const CACHE_NAME = "wc-score-v80";
+const CACHE_NAME = "wc-score-v81";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./admin.html",
-  "./styles.css?v=80",
-  "./src/app.js?v=80",
-  "./src/scoring.js?v=32",
+  "./styles.css?v=81",
+  "./src/app.js?v=81",
+  "./src/scoring.js?v=33",
   "./src/flags.js?v=34",
   "./src/quiz.js?v=3",
   "./public/images/flower-sprite-v1.jpg",

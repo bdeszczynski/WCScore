@@ -33,10 +33,9 @@ export function scoreMatchForTeam(match, teamName) {
 
   const gf = isHome ? match.homeGoals : match.awayGoals;
   const ga = isHome ? match.awayGoals : match.homeGoals;
-  const penaltyLost =
-    stageKind(match.stage) !== "group" &&
-    match.winnerAfterPenalties &&
-    !isSameTeam(match.winnerAfterPenalties, teamName);
+  const penaltyWinner = stageKind(match.stage) !== "group" && match.winnerAfterPenalties;
+  const penaltyWon = penaltyWinner && isSameTeam(match.winnerAfterPenalties, teamName);
+  const penaltyLost = penaltyWinner && !penaltyWon;
 
   let points = 0;
   let win = 0;
@@ -44,7 +43,12 @@ export function scoreMatchForTeam(match, teamName) {
   let loss = 0;
   let penaltyBonus = 0;
 
-  if (gf > ga) {
+  if (penaltyWon) {
+    points = 3;
+    win = 1;
+  } else if (penaltyLost) {
+    loss = 1;
+  } else if (gf > ga) {
     points = 3;
     win = 1;
   } else if (gf === ga) {
