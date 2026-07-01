@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-01T07:27:21.918Z",
+  "updatedAt": "2026-07-01T08:27:19.012Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1563,7 +1563,11 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537375",
@@ -1576,7 +1580,11 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537377",
@@ -1589,12 +1597,16 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-01T07:27:16.819Z",
+    "updatedAt": "2026-07-01T08:27:14.462Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1639,47 +1651,47 @@
       },
       {
         "team": "Portugal",
-        "decimal": 18.18,
-        "probability": 0.055,
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
         "team": "Morocco",
-        "decimal": 32.79,
-        "probability": 0.0305,
+        "decimal": 33.9,
+        "probability": 0.0295,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.018
       },
       {
         "team": "Colombia",
-        "decimal": 35.09,
-        "probability": 0.0285,
+        "decimal": 36.36,
+        "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.024
       },
       {
         "team": "Mexico",
-        "decimal": 36.36,
-        "probability": 0.0275,
+        "decimal": 37.74,
+        "probability": 0.0265,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.012
       },
       {
         "team": "USA",
-        "decimal": 42.55,
-        "probability": 0.0235,
+        "decimal": 40.82,
+        "probability": 0.0245,
         "bookmaker": "Polymarket market probability",
         "rank": 10
       },
       {
         "team": "Norway",
-        "decimal": 54.05,
-        "probability": 0.0185,
+        "decimal": 57.14,
+        "probability": 0.0175,
         "bookmaker": "Polymarket market probability",
         "rank": 11,
         "startingProbability": 0.024
@@ -1710,8 +1722,8 @@
       },
       {
         "team": "Croatia",
-        "decimal": 222.22,
-        "probability": 0.0045,
+        "decimal": 285.71,
+        "probability": 0.0035,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.011
@@ -1725,19 +1737,11 @@
         "startingProbability": 0.005
       },
       {
-        "team": "Paraguay",
-        "decimal": 400,
-        "probability": 0.0025,
-        "bookmaker": "Polymarket market probability",
-        "rank": 17,
-        "startingProbability": 0.007
-      },
-      {
         "team": "Algeria",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 18,
+        "rank": 17,
         "startingProbability": 0.003
       },
       {
@@ -1745,7 +1749,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 19,
+        "rank": 18,
         "startingProbability": 0.002
       },
       {
@@ -1753,7 +1757,7 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 20,
+        "rank": 19,
         "startingProbability": 0.007
       },
       {
@@ -1761,8 +1765,16 @@
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 21,
+        "rank": 20,
         "startingProbability": 0.008
+      },
+      {
+        "team": "Paraguay",
+        "decimal": 666.67,
+        "probability": 0.0015,
+        "bookmaker": "Polymarket market probability",
+        "rank": 21,
+        "startingProbability": 0.007
       },
       {
         "team": "Bosnia-Herzegovina",
@@ -1871,12 +1883,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-06-20T11:39:57.000Z",
-    "text": "Prediction: Bruno. VAR-bot has Bruno ahead on points and the tiebreak runway, with Norway and Mexico doing actual work instead of just posing for the team photo. Sara is not cooked: Spain and Netherlands still give her a dangerous late-game route. But right now Bruno has the steering wheel, and Sara’s comeback needs more than vibes and a pretty spreadsheet."
+    "updatedAt": "2026-07-01T08:27:23.918Z",
+    "text": "Prediction: Bruno. Bruno leads 36 to 25 and wins the tie-breaker on combined point-team goal difference (16 vs 12)"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-01T07:27:18.072Z",
+    "updatedAt": "2026-07-01T08:27:15.419Z",
     "type": "football_data_scorers",
     "scorers": [
       {
