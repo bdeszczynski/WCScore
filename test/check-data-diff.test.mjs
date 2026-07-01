@@ -105,6 +105,74 @@ describe("validateDataDiff", () => {
     assert.deepEqual(validateDataDiff(previous, next), []);
   });
 
+  it("allows generic shootout aggregate scores to become drawn match scores with a penalty winner", () => {
+    const previous = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "537415",
+          stage: "LAST_32",
+          homeTeam: "Germany",
+          awayTeam: "Paraguay",
+          status: "finished",
+          homeGoals: 4,
+          awayGoals: 5,
+        },
+      ],
+    });
+    const next = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "537415",
+          stage: "LAST_32",
+          homeTeam: "Germany",
+          awayTeam: "Paraguay",
+          status: "finished",
+          homeGoals: 1,
+          awayGoals: 1,
+          winnerAfterPenalties: "Paraguay",
+        },
+      ],
+    });
+
+    assert.deepEqual(validateDataDiff(previous, next), []);
+  });
+
+  it("still blocks score rewrites that are not consistent with a shootout correction", () => {
+    const previous = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "bad-shootout",
+          stage: "LAST_32",
+          homeTeam: "Germany",
+          awayTeam: "Paraguay",
+          status: "finished",
+          homeGoals: 4,
+          awayGoals: 5,
+        },
+      ],
+    });
+    const next = data({
+      matches: [
+        ...baseMatches,
+        {
+          id: "bad-shootout",
+          stage: "LAST_32",
+          homeTeam: "Germany",
+          awayTeam: "Paraguay",
+          status: "finished",
+          homeGoals: 1,
+          awayGoals: 1,
+          winnerAfterPenalties: "Germany",
+        },
+      ],
+    });
+
+    assert.match(validateDataDiff(previous, next).join("\n"), /score changed/);
+  });
+
   it("fails when a selected team is removed from player picks", () => {
     const next = data();
     next.players[0].pointsTeams = next.players[0].pointsTeams.filter((team) => team.name !== "Japan");

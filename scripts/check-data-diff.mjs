@@ -24,6 +24,13 @@ function matchLabel(match) {
   return `${match.id || "unknown"} (${match.homeTeam || "TBC"} vs ${match.awayTeam || "TBC"})`;
 }
 
+function resultWinner(match) {
+  if (!Number.isFinite(match?.homeGoals) || !Number.isFinite(match?.awayGoals)) return "";
+  if (match.homeGoals > match.awayGoals) return match.homeTeam || "";
+  if (match.awayGoals > match.homeGoals) return match.awayTeam || "";
+  return "";
+}
+
 function isAllowedScoreCorrection(previousMatch, nextMatch) {
   const key = [
     previousMatch.id,
@@ -31,7 +38,15 @@ function isAllowedScoreCorrection(previousMatch, nextMatch) {
     `${nextMatch.homeGoals}-${nextMatch.awayGoals}`,
     nextMatch.winnerAfterPenalties || "",
   ].join(":");
-  return ALLOWED_SCORE_CORRECTIONS.has(key);
+  if (ALLOWED_SCORE_CORRECTIONS.has(key)) return true;
+
+  const nextIsShootoutCorrection =
+    nextMatch.winnerAfterPenalties &&
+    nextMatch.homeGoals === nextMatch.awayGoals &&
+    resultWinner(previousMatch) &&
+    normalizeName(resultWinner(previousMatch)) === normalizeName(nextMatch.winnerAfterPenalties);
+
+  return Boolean(nextIsShootoutCorrection);
 }
 
 export function validateDataDiff(previous, next) {
