@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-01T08:27:19.012Z",
+  "updatedAt": "2026-07-01T09:37:23.261Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1606,7 +1606,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-01T08:27:14.462Z",
+    "updatedAt": "2026-07-01T09:37:18.733Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1619,16 +1619,16 @@
       },
       {
         "team": "Argentina",
-        "decimal": 5.45,
-        "probability": 0.1835,
+        "decimal": 5.28,
+        "probability": 0.1895,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 9.85,
-        "probability": 0.1015,
+        "decimal": 9.66,
+        "probability": 0.1035,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
@@ -1651,42 +1651,42 @@
       },
       {
         "team": "Portugal",
-        "decimal": 17.39,
-        "probability": 0.0575,
+        "decimal": 16,
+        "probability": 0.0625,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
-      },
-      {
-        "team": "Morocco",
-        "decimal": 33.9,
-        "probability": 0.0295,
-        "bookmaker": "Polymarket market probability",
-        "rank": 7,
-        "startingProbability": 0.018
       },
       {
         "team": "Colombia",
         "decimal": 36.36,
         "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
-        "rank": 8,
+        "rank": 7,
         "startingProbability": 0.024
       },
       {
         "team": "Mexico",
-        "decimal": 37.74,
-        "probability": 0.0265,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
-        "rank": 9,
+        "rank": 8,
         "startingProbability": 0.012
       },
       {
         "team": "USA",
-        "decimal": 40.82,
-        "probability": 0.0245,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
-        "rank": 10
+        "rank": 9
+      },
+      {
+        "team": "Morocco",
+        "decimal": 42.55,
+        "probability": 0.0235,
+        "bookmaker": "Polymarket market probability",
+        "rank": 10,
+        "startingProbability": 0.018
       },
       {
         "team": "Norway",
@@ -1883,24 +1883,16 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-01T08:27:23.918Z",
-    "text": "Prediction: Bruno. Bruno leads 36 to 25 and wins the tie-breaker on combined point-team goal difference (16 vs 12). But Brazil remains the point generator for Sara if they can go further than others. They can eliminate Japan, Norway and Mexico on route to semis."
+    "updatedAt": "2026-07-01T09:37:28.268Z",
+    "text": "Prediction: Bruno. Bruno sits clear on 36 vs Sara 25, with the tie-breakers favoring him on combined points, plus a superior GD (16) and GF (33) to Sara’s 12 and 23. Bruno’s point-teams include Mexico, Norway, Morocco, Japan; Sara’s include Brazil, Switzerland, Egypt, South Korea. Winner-pick upside eyes France (0.3275) and Portugal (0.0625) for Bruno, while Sara’s Spain (0.1035) looms. Risk: a Brazil surge among Sar"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-01T08:27:15.419Z",
+    "updatedAt": "2026-07-01T09:37:19.608Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
-        "player": "Kylian Mbappé",
-        "team": "France",
-        "goals": 6,
-        "assists": 2,
-        "penalties": null
-      },
-      {
-        "rank": 2,
         "player": "Lionel Messi",
         "team": "Argentina",
         "goals": 6,
@@ -1908,27 +1900,35 @@
         "penalties": null
       },
       {
-        "rank": 3,
-        "player": "Erling Haaland",
-        "team": "Norway",
-        "goals": 5,
-        "assists": null,
-        "penalties": null
-      },
-      {
-        "rank": 4,
-        "player": "Ousmane Dembélé",
+        "rank": 2,
+        "player": "Kylian Mbappé",
         "team": "France",
         "goals": 4,
         "assists": 2,
         "penalties": null
       },
       {
-        "rank": 5,
+        "rank": 3,
+        "player": "Ousmane Dembélé",
+        "team": "France",
+        "goals": 4,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 4,
         "player": "Vinicius Junior",
         "team": "Brazil",
         "goals": 4,
         "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 5,
+        "player": "Erling Haaland",
+        "team": "Norway",
+        "goals": 4,
+        "assists": null,
         "penalties": null
       },
       {
@@ -1965,14 +1965,6 @@
       },
       {
         "rank": 10,
-        "player": "Julián Quiñones",
-        "team": "Mexico",
-        "goals": 3,
-        "assists": 1,
-        "penalties": null
-      },
-      {
-        "rank": 11,
         "player": "Brian Brobbey",
         "team": "Netherlands",
         "goals": 3,
@@ -1980,7 +1972,7 @@
         "penalties": null
       },
       {
-        "rank": 12,
+        "rank": 11,
         "player": "Elijah Just",
         "team": "New Zealand",
         "goals": 3,
@@ -1988,7 +1980,7 @@
         "penalties": null
       },
       {
-        "rank": 13,
+        "rank": 12,
         "player": "Harry Kane",
         "team": "England",
         "goals": 3,
@@ -1996,7 +1988,7 @@
         "penalties": 1
       },
       {
-        "rank": 14,
+        "rank": 13,
         "player": "Ismael Saibari",
         "team": "Morocco",
         "goals": 3,
@@ -2004,7 +1996,7 @@
         "penalties": null
       },
       {
-        "rank": 15,
+        "rank": 14,
         "player": "Jonathan David",
         "team": "Canada",
         "goals": 3,
@@ -2012,7 +2004,7 @@
         "penalties": null
       },
       {
-        "rank": 16,
+        "rank": 15,
         "player": "Kai Havertz",
         "team": "Germany",
         "goals": 3,
@@ -2020,7 +2012,7 @@
         "penalties": 1
       },
       {
-        "rank": 17,
+        "rank": 16,
         "player": "Matheus Cunha",
         "team": "Brazil",
         "goals": 3,
@@ -2028,7 +2020,7 @@
         "penalties": null
       },
       {
-        "rank": 18,
+        "rank": 17,
         "player": "Yoane Wissa",
         "team": "Congo DR",
         "goals": 3,
@@ -2036,7 +2028,7 @@
         "penalties": 1
       },
       {
-        "rank": 19,
+        "rank": 18,
         "player": "Cyle Larin",
         "team": "Canada",
         "goals": 2,
@@ -2044,8 +2036,16 @@
         "penalties": null
       },
       {
+        "rank": 19,
+        "player": "Folarin Balogun",
+        "team": "United States",
+        "goals": 2,
+        "assists": null,
+        "penalties": null
+      },
+      {
         "rank": 20,
-        "player": "Raúl Jiménez",
+        "player": "Julián Quiñones",
         "team": "Mexico",
         "goals": 2,
         "assists": null,
