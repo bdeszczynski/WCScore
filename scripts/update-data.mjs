@@ -17,6 +17,7 @@ const POLYMARKET_MARKETS_URL = "https://gamma-api.polymarket.com/markets";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const OPENAI_COMMENTARY_TIMEOUT_MS = 12000;
 const OPENAI_COMMENTARY_MAX_CHARS = 420;
+const OPENAI_COMMENTARY_MAX_OUTPUT_TOKENS = 600;
 const PUBLIC_ODDS_TEAMS = [
   "France",
   "Spain",
@@ -347,7 +348,10 @@ function buildCommentaryFacts(data) {
   const finishedMatches = (data.matches || [])
     .filter((match) => match.status === "finished")
     .slice(-8)
-    .map((match) => `${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}`);
+    .map((match) => {
+      const pens = match.winnerAfterPenalties ? `, ${match.winnerAfterPenalties} won penalties` : "";
+      return `${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}${pens}`;
+    });
   const topTeams = players.flatMap((player) => player.pointTeams.map((team) => ({ ...team, owner: player.name }))).sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
     if (b.gd !== a.gd) return b.gd - a.gd;
@@ -359,7 +363,8 @@ function buildCommentaryFacts(data) {
     updatedAt: data.updatedAt,
     rules: {
       pointTeamScoring: "Selected points teams score 3 challenge points for a win and 1 for a draw in every round they play.",
-      knockoutPenaltyLoss: "In knockout rounds, a selected points team that loses on penalties gets 1 extra challenge point.",
+      knockoutPenaltyShootouts:
+        "In knockout rounds, a selected points team that wins on penalties gets 3 challenge points. A selected points team that loses on penalties gets 1 consolation point.",
       challengeTieBreakers: "If Bruno and Sara have equal total challenge points, leader is decided by combined points-team goal difference, then combined points-team goals for. If still equal, they are tied.",
       winnerPickBonus:
         "Selected winner picks do not score ordinary match points for the challenge. Any selected team, including points teams and winner picks, gives its owner 3 bonus points for reaching the semi-finals and 7 bonus points for winning the World Cup.",
@@ -418,7 +423,7 @@ async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}
       body: JSON.stringify({
         model: "gpt-5-nano",
         reasoning: { effort: "low" },
-        max_output_tokens: 260,
+        max_output_tokens: OPENAI_COMMENTARY_MAX_OUTPUT_TOKENS,
         input: [
           {
             role: "developer",
@@ -434,6 +439,7 @@ async function requestOpenAiCommentary(facts, { apiKey, fetchImpl = fetch } = {}
     });
     if (!response.ok) throw new Error(`OpenAI commentary request failed: ${response.status}`);
     const text = cleanCommentaryText(extractResponseText(await response.json()));
+    if (!text) throw new Error("OpenAI commentary request returned no text");
     return text ? { updatedAt: new Date().toISOString(), text } : null;
   } finally {
     clearTimeout(timeout);
@@ -444,7 +450,13 @@ export async function generateVarBotCommentary(data, currentCommentary, options 
   const apiKey = options.apiKey ?? process.env.OPENAI_API_KEY;
   if (!apiKey) return currentCommentary || null;
   try {
-    return (await requestOpenAiCommentary(buildCommentaryFacts(data), { apiKey, fetchImpl: options.fetchImpl })) || currentCommentary || null;
+    const commentary = await requestOpenAiCommentary(buildCommentaryFacts(data), { apiKey, fetchImpl: options.fetchImpl });
+    if (commentary) {
+      if (!options.silent) console.log(`VAR-bot commentary refreshed at ${commentary.updatedAt}`);
+      return commentary;
+    }
+    if (!options.silent) console.warn("VAR-bot commentary skipped: no commentary returned");
+    return currentCommentary || null;
   } catch (error) {
     if (!options.silent) console.warn(`VAR-bot commentary skipped: ${error.message}`);
     return currentCommentary || null;

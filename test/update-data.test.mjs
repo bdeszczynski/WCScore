@@ -268,9 +268,43 @@ describe("generateVarBotCommentary", () => {
     assert.deepEqual(commentary, previous);
   });
 
+  it("keeps previous commentary when the LLM response has no text", async () => {
+    const previous = { updatedAt: "2026-06-16T00:00:00.000Z", text: "Previous recap" };
+    const commentary = await generateVarBotCommentary(sampleCommentaryData, previous, {
+      apiKey: "test-key",
+      silent: true,
+      fetchImpl: async () => ({
+        ok: true,
+        json: async () => ({ output: [] }),
+      }),
+    });
+
+    assert.deepEqual(commentary, previous);
+  });
+
+  it("feeds current penalty shootout scoring rules to VAR-bot", async () => {
+    await generateVarBotCommentary(sampleCommentaryData, null, {
+      apiKey: "test-key",
+      silent: true,
+      fetchImpl: async (_url, request) => {
+        const payload = JSON.parse(request.body);
+        const facts = JSON.parse(payload.input[1].content);
+        assert.match(facts.rules.knockoutPenaltyShootouts, /wins on penalties gets 3/);
+        assert.match(facts.rules.knockoutPenaltyShootouts, /loses on penalties gets 1/);
+        return {
+          ok: true,
+          json: async () => ({
+            output_text: "Prediction: Bruno. Morocco's penalty swagger has VAR-bot leaning Bruno, while Sara needs Spain to stop admiring the scenery.",
+          }),
+        };
+      },
+    });
+  });
+
   it("stores short VAR-bot commentary from a successful LLM response", async () => {
     const commentary = await generateVarBotCommentary(sampleCommentaryData, null, {
       apiKey: "test-key",
+      silent: true,
       fetchImpl: async (_url, request) => {
         const payload = JSON.parse(request.body);
         assert.match(payload.input[0].content, /VAR-bot says pundit verdict/);
@@ -279,6 +313,7 @@ describe("generateVarBotCommentary", () => {
         assert.match(payload.input[0].content, /trash-talk line/);
         assert.match(payload.input[0].content, /comeback path/);
         assert.match(payload.input[1].content, /winnerPickBonus/);
+        assert.match(payload.input[1].content, /wins on penalties gets 3/);
         return {
           ok: true,
           json: async () => ({
