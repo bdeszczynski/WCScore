@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-02T03:01:15.860Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-02T08:48:13.744Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
       "name": "Bruno",
@@ -1387,7 +1387,7 @@
       "stage": "LAST_32",
       "group": null,
       "matchNumber": 79,
-      "kickoff": "2026-07-01T01:00:00Z",
+      "kickoff": "2026-07-01T02:00:00Z",
       "homeTeam": "Mexico",
       "awayTeam": "Ecuador",
       "status": "finished",
@@ -1602,17 +1602,43 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537378",
+      "stage": "LAST_16",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-06T00:00:00Z",
+      "homeTeam": "Mexico",
+      "awayTeam": "England",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
+      "id": "537380",
+      "stage": "LAST_16",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-07T00:00:00Z",
+      "homeTeam": "United States",
+      "awayTeam": "Belgium",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-02T03:01:12.288Z",
+    "updatedAt": "2026-07-02T08:48:12.079Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.81,
-        "probability": 0.3555,
+        "decimal": 2.84,
+        "probability": 0.3515,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
@@ -1627,32 +1653,32 @@
       },
       {
         "team": "Spain",
-        "decimal": 9.95,
-        "probability": 0.1005,
+        "decimal": 10.05,
+        "probability": 0.0995,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 12.27,
-        "probability": 0.0815,
+        "decimal": 12.12,
+        "probability": 0.0825,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Brazil",
-        "decimal": 15.5,
-        "probability": 0.0645,
+        "decimal": 15.27,
+        "probability": 0.0655,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Portugal",
-        "decimal": 17.09,
-        "probability": 0.0585,
+        "decimal": 17.24,
+        "probability": 0.058,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
@@ -1667,31 +1693,31 @@
       },
       {
         "team": "USA",
-        "decimal": 32.79,
-        "probability": 0.0305,
+        "decimal": 36.36,
+        "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
         "rank": 8
       },
       {
         "team": "Colombia",
-        "decimal": 37.74,
-        "probability": 0.0265,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.024
       },
       {
         "team": "Morocco",
-        "decimal": 40.82,
-        "probability": 0.0245,
+        "decimal": 39.22,
+        "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
         "rank": 10,
         "startingProbability": 0.018
       },
       {
         "team": "Norway",
-        "decimal": 48.78,
-        "probability": 0.0205,
+        "decimal": 51.28,
+        "probability": 0.0195,
         "bookmaker": "Polymarket market probability",
         "rank": 11,
         "startingProbability": 0.024
@@ -1753,11 +1779,19 @@
         "startingProbability": 0.008
       },
       {
-        "team": "Paraguay",
+        "team": "Ghana",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
         "rank": 19,
+        "startingProbability": 0.003
+      },
+      {
+        "team": "Paraguay",
+        "decimal": 666.67,
+        "probability": 0.0015,
+        "bookmaker": "Polymarket market probability",
+        "rank": 20,
         "startingProbability": 0.007
       },
       {
@@ -1765,16 +1799,8 @@
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 20,
-        "startingProbability": 0.003
-      },
-      {
-        "team": "Bosnia-Herzegovina",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
         "rank": 21,
-        "startingProbability": 0.004
+        "startingProbability": 0.003
       },
       {
         "team": "Cape Verde",
@@ -1782,97 +1808,89 @@
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
         "rank": 22
-      },
-      {
-        "team": "Ghana",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 23,
-        "startingProbability": 0.003
       }
     ]
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-06-27T14:10:16.286Z",
+    "updatedAt": "2026-07-02T08:48:13.741Z",
     "type": "bookmaker_match",
     "matches": [
       {
-        "matchId": "537413",
-        "homeTeam": "Panama",
-        "awayTeam": "England",
-        "homeProbability": 0.05,
-        "drawProbability": 0.1394,
-        "awayProbability": 0.8107,
-        "question": "Panama vs England",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537414",
-        "homeTeam": "Croatia",
-        "awayTeam": "Ghana",
-        "homeProbability": 0.5003,
-        "drawProbability": 0.2804,
-        "awayProbability": 0.2193,
-        "question": "Croatia vs Ghana",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537407",
-        "homeTeam": "Colombia",
-        "awayTeam": "Portugal",
-        "homeProbability": 0.2858,
-        "drawProbability": 0.2822,
-        "awayProbability": 0.4321,
-        "question": "Colombia vs Portugal",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537408",
-        "homeTeam": "Congo DR",
-        "awayTeam": "Uzbekistan",
-        "homeProbability": 0.4445,
-        "drawProbability": 0.2935,
-        "awayProbability": 0.2619,
-        "question": "Congo DR vs Uzbekistan",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537401",
-        "homeTeam": "Jordan",
-        "awayTeam": "Argentina",
-        "homeProbability": 0.0474,
-        "drawProbability": 0.1421,
-        "awayProbability": 0.8105,
-        "question": "Jordan vs Argentina",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537402",
-        "homeTeam": "Algeria",
+        "matchId": "537420",
+        "homeTeam": "Spain",
         "awayTeam": "Austria",
-        "homeProbability": 0.3107,
-        "drawProbability": 0.2867,
-        "awayProbability": 0.4026,
-        "question": "Algeria vs Austria",
+        "homeProbability": 0.7205,
+        "drawProbability": 0.1902,
+        "awayProbability": 0.0893,
+        "question": "Spain vs Austria",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537419",
+        "homeTeam": "Portugal",
+        "awayTeam": "Croatia",
+        "homeProbability": 0.4964,
+        "drawProbability": 0.2847,
+        "awayProbability": 0.2189,
+        "question": "Portugal vs Croatia",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537429",
+        "homeTeam": "Switzerland",
+        "awayTeam": "Algeria",
+        "homeProbability": 0.5824,
+        "drawProbability": 0.2434,
+        "awayProbability": 0.1742,
+        "question": "Switzerland vs Algeria",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537428",
+        "homeTeam": "Australia",
+        "awayTeam": "Egypt",
+        "homeProbability": 0.2824,
+        "drawProbability": 0.3206,
+        "awayProbability": 0.397,
+        "question": "Australia vs Egypt",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537427",
+        "homeTeam": "Argentina",
+        "awayTeam": "Cape Verde Islands",
+        "homeProbability": 0.8152,
+        "drawProbability": 0.1292,
+        "awayProbability": 0.0555,
+        "question": "Argentina vs Cape Verde Islands",
+        "url": "https://native-stats.org/competition/WC/",
+        "volume": null
+      },
+      {
+        "matchId": "537430",
+        "homeTeam": "Colombia",
+        "awayTeam": "Ghana",
+        "homeProbability": 0.5345,
+        "drawProbability": 0.2807,
+        "awayProbability": 0.1848,
+        "question": "Colombia vs Ghana",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
       }
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-02T03:01:21.805Z",
-    "text": "Prediction: Bruno. Bruno leads 36 to 25 on points; tiebreakers favor him with higher combined gd (16 vs 12) and gf (33 vs 23). Bruno’s point-teams Morocco/Japan/Norway/Mexico stack a 10/4,5/4,9/4,12/4 path with strong gd8 and 0 ga in Mexico. Sara’s Swiss/Brazil/Egypt/Korea trails, but her Netherlands 8 and Spain 7 pick-trackers keep a pulse. Winner-pick upside: France 12 vs Spain 7; market probs hint Bruno edge. Risk"
+    "updatedAt": "2026-07-02T08:48:18.776Z",
+    "text": "Prediction: Bruno. Bruno leads 36 to Sara’s 25, and the tiebreakers favor Bruno on combined goal difference (16 vs 12) and goals for (33 vs 23). Selected teams tilt Bruno: Morocco, Japan, Norway, Mexico; Sara’s picks: Switzerland, Brazil, Egypt, South Korea. Winner-pick upside favors France for Bruno (market ~0.3515) over Spain (Sara ~0.0995) and the like. Risk: a late swing from Sara’s Netherlands/Spain path could t"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-02T03:01:12.824Z",
+    "updatedAt": "2026-07-02T08:48:13.329Z",
     "type": "football_data_scorers",
     "scorers": [
       {

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-02T03:01:12.084Z",
+  "updatedAt": "2026-07-02T08:48:11.917Z",
   "notes": "Ready-made manual result overrides. API/world-cup.json wins by default. To override a match, set manualOverride to true on that row, edit status/homeGoals/awayGoals/winnerAfterPenalties/note, commit this file, then run Refresh data. Turn manualOverride back to false or remove the row to let API data win again.",
   "matches": [
     {
@@ -1177,7 +1177,7 @@
       "matchNumber": 79,
       "stage": "LAST_32",
       "group": null,
-      "kickoff": "2026-07-01T01:00:00Z",
+      "kickoff": "2026-07-01T02:00:00Z",
       "homeTeam": "Mexico",
       "awayTeam": "Ecuador",
       "manualOverride": false,
@@ -1360,6 +1360,36 @@
       "kickoff": "2026-07-05T20:00:00Z",
       "homeTeam": "Brazil",
       "awayTeam": "Norway",
+      "manualOverride": false,
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null,
+      "note": ""
+    },
+    {
+      "id": "537378",
+      "matchNumber": null,
+      "stage": "LAST_16",
+      "group": null,
+      "kickoff": "2026-07-06T00:00:00Z",
+      "homeTeam": "Mexico",
+      "awayTeam": "England",
+      "manualOverride": false,
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null,
+      "note": ""
+    },
+    {
+      "id": "537380",
+      "matchNumber": null,
+      "stage": "LAST_16",
+      "group": null,
+      "kickoff": "2026-07-07T00:00:00Z",
+      "homeTeam": "United States",
+      "awayTeam": "Belgium",
       "manualOverride": false,
       "status": "scheduled",
       "homeGoals": null,
