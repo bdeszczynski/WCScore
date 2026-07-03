@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-03T03:01:14.850Z",
+  "updatedAt": "2026-07-03T08:55:15.591Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
   "players": [
     {
@@ -1492,9 +1492,9 @@
       "kickoff": "2026-07-03T03:00:00Z",
       "homeTeam": "Switzerland",
       "awayTeam": "Algeria",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 2,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1640,61 +1640,61 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-03T03:01:13.083Z",
+    "updatedAt": "2026-07-03T08:55:14.772Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.92,
-        "probability": 0.3425,
+        "decimal": 2.99,
+        "probability": 0.3345,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.12,
-        "probability": 0.1955,
+        "decimal": 5.22,
+        "probability": 0.1915,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 8.1,
-        "probability": 0.1235,
+        "decimal": 8.16,
+        "probability": 0.1225,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 13.07,
-        "probability": 0.0765,
+        "decimal": 13.79,
+        "probability": 0.0725,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Portugal",
-        "decimal": 15.5,
-        "probability": 0.0645,
+        "decimal": 15.87,
+        "probability": 0.063,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Brazil",
-        "decimal": 15.75,
-        "probability": 0.0635,
+        "decimal": 16,
+        "probability": 0.0625,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
         "team": "Mexico",
-        "decimal": 27.4,
-        "probability": 0.0365,
+        "decimal": 31.75,
+        "probability": 0.0315,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.012
@@ -1707,20 +1707,20 @@
         "rank": 8
       },
       {
-        "team": "Colombia",
-        "decimal": 40.82,
-        "probability": 0.0245,
-        "bookmaker": "Polymarket market probability",
-        "rank": 9,
-        "startingProbability": 0.024
-      },
-      {
         "team": "Morocco",
         "decimal": 42.55,
         "probability": 0.0235,
         "bookmaker": "Polymarket market probability",
-        "rank": 10,
+        "rank": 9,
         "startingProbability": 0.018
+      },
+      {
+        "team": "Colombia",
+        "decimal": 44.44,
+        "probability": 0.0225,
+        "bookmaker": "Polymarket market probability",
+        "rank": 10,
+        "startingProbability": 0.024
       },
       {
         "team": "Norway",
@@ -1740,8 +1740,8 @@
       },
       {
         "team": "Switzerland",
-        "decimal": 181.82,
-        "probability": 0.0055,
+        "decimal": 117.65,
+        "probability": 0.0085,
         "bookmaker": "Polymarket market probability",
         "rank": 13,
         "startingProbability": 0.015
@@ -1779,41 +1779,25 @@
         "startingProbability": 0.007
       },
       {
-        "team": "Algeria",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 18,
-        "startingProbability": 0.003
-      },
-      {
         "team": "Cape Verde",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 19
-      },
-      {
-        "team": "Croatia",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 20,
-        "startingProbability": 0.011
+        "rank": 18
       },
       {
         "team": "Ghana",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 21,
+        "rank": 19,
         "startingProbability": 0.003
       }
     ]
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-07-03T03:01:14.847Z",
+    "updatedAt": "2026-07-03T08:55:15.588Z",
     "type": "bookmaker_match",
     "matches": [
       {
@@ -1852,12 +1836,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-03T03:01:20.728Z",
-    "text": "Prediction: Bruno. Bruno leads on points and is ahead on tiebreaker by combined goal difference (16 vs 12). His top point team Mexico (12) plus strong gd (8) and gf (8) tilt the math, while Sara trails with Brazil (10) and Switzerland (7) as best performers. Market picks: France 0.3425, Spain 0.1235. Risk: a Sara surge if Brazil or Spain catch fire and shift gd/gf totals. Comeback path: Sara piles on Netherlands inta"
+    "updatedAt": "2026-07-03T08:55:21.816Z",
+    "text": "Prediction: Bruno. Bruno leads 36 vs 28, and tiebreakers tilt his way: GD 16 to 14, GF 33 to 25. Selected teams favor Bruno’s edge with Mexico (12 points) anchoring his push, while Sara’s top teams Switzerland/Brazil sit on 10 each. Winner-pick upside weighs Bruno as France 0.3345 and Portugal 0.063; Sara’s Spain 0.1225. Risk: a late surge by Sara’s Brazil/Switzerland could nibble on goal-difference. Comeback path: a"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-03T03:01:14.365Z",
+    "updatedAt": "2026-07-03T08:55:15.180Z",
     "type": "football_data_scorers",
     "scorers": [
       {
@@ -1934,16 +1918,16 @@
       },
       {
         "rank": 10,
-        "player": "Cody Gakpo",
-        "team": "Netherlands",
+        "player": "Johan Manzambi",
+        "team": "Switzerland",
         "goals": 3,
-        "assists": 1,
+        "assists": 2,
         "penalties": null
       },
       {
         "rank": 11,
-        "player": "Johan Manzambi",
-        "team": "Switzerland",
+        "player": "Cody Gakpo",
+        "team": "Netherlands",
         "goals": 3,
         "assists": 1,
         "penalties": null
