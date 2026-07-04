@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-03T18:35:15.436Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
+  "updatedAt": "2026-07-04T03:01:19.760Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1509,9 +1509,9 @@
       "kickoff": "2026-07-03T18:00:00Z",
       "homeTeam": "Australia",
       "awayTeam": "Egypt",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1526,9 +1526,9 @@
       "kickoff": "2026-07-03T22:00:00Z",
       "homeTeam": "Argentina",
       "awayTeam": "Cape Verde Islands",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1640,87 +1640,87 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-03T18:35:12.834Z",
+    "updatedAt": "2026-07-04T03:01:15.763Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 3,
-        "probability": 0.3335,
+        "decimal": 2.88,
+        "probability": 0.3475,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.17,
-        "probability": 0.1935,
+        "decimal": 5.9,
+        "probability": 0.1695,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 7.72,
-        "probability": 0.1295,
+        "decimal": 7.6,
+        "probability": 0.1315,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 13.99,
-        "probability": 0.0715,
+        "decimal": 14.39,
+        "probability": 0.0695,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Brazil",
-        "decimal": 14.81,
-        "probability": 0.0675,
+        "decimal": 16,
+        "probability": 0.0625,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Portugal",
-        "decimal": 17.09,
-        "probability": 0.0585,
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
         "team": "Mexico",
-        "decimal": 32.79,
-        "probability": 0.0305,
+        "decimal": 29.85,
+        "probability": 0.0335,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.012
+      },
+      {
+        "team": "Colombia",
+        "decimal": 32.79,
+        "probability": 0.0305,
+        "bookmaker": "Polymarket market probability",
+        "rank": 8,
+        "startingProbability": 0.024
       },
       {
         "team": "Morocco",
         "decimal": 39.22,
         "probability": 0.0255,
         "bookmaker": "Polymarket market probability",
-        "rank": 8,
+        "rank": 9,
         "startingProbability": 0.018
       },
       {
         "team": "USA",
-        "decimal": 39.22,
-        "probability": 0.0255,
+        "decimal": 40.82,
+        "probability": 0.0245,
         "bookmaker": "Polymarket market probability",
-        "rank": 9
-      },
-      {
-        "team": "Colombia",
-        "decimal": 42.55,
-        "probability": 0.0235,
-        "bookmaker": "Polymarket market probability",
-        "rank": 10,
-        "startingProbability": 0.024
+        "rank": 10
       },
       {
         "team": "Norway",
@@ -1732,16 +1732,16 @@
       },
       {
         "team": "Belgium",
-        "decimal": 80,
-        "probability": 0.0125,
+        "decimal": 95.24,
+        "probability": 0.0105,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
         "startingProbability": 0.024
       },
       {
         "team": "Switzerland",
-        "decimal": 117.65,
-        "probability": 0.0085,
+        "decimal": 105.26,
+        "probability": 0.0095,
         "bookmaker": "Polymarket market probability",
         "rank": 13,
         "startingProbability": 0.015
@@ -1756,8 +1756,8 @@
       },
       {
         "team": "Egypt",
-        "decimal": 666.67,
-        "probability": 0.0015,
+        "decimal": 400,
+        "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
         "rank": 15,
         "startingProbability": 0.008
@@ -1771,26 +1771,18 @@
         "startingProbability": 0.007
       },
       {
-        "team": "Australia",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 17,
-        "startingProbability": 0.002
-      },
-      {
         "team": "Cape Verde",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 18
+        "rank": 17
       },
       {
         "team": "Ghana",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 19,
+        "rank": 18,
         "startingProbability": 0.003
       }
     ]
@@ -1830,23 +1822,23 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-03T18:35:15.043Z",
+    "updatedAt": "2026-07-04T03:01:17.673Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
-        "player": "Kylian Mbappé",
-        "team": "France",
-        "goals": 6,
-        "assists": 2,
+        "player": "Lionel Messi",
+        "team": "Argentina",
+        "goals": 7,
+        "assists": 1,
         "penalties": null
       },
       {
         "rank": 2,
-        "player": "Lionel Messi",
-        "team": "Argentina",
+        "player": "Kylian Mbappé",
+        "team": "France",
         "goals": 6,
-        "assists": null,
+        "assists": 2,
         "penalties": null
       },
       {
