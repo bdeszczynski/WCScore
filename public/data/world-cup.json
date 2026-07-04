@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-04T03:01:19.760Z",
+  "updatedAt": "2026-07-04T05:45:21.255Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1543,9 +1543,9 @@
       "kickoff": "2026-07-04T01:30:00Z",
       "homeTeam": "Colombia",
       "awayTeam": "Ghana",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1640,29 +1640,29 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-04T03:01:15.763Z",
+    "updatedAt": "2026-07-04T05:45:17.276Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.88,
-        "probability": 0.3475,
+        "decimal": 2.91,
+        "probability": 0.3435,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.9,
-        "probability": 0.1695,
+        "decimal": 5.8,
+        "probability": 0.1725,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 7.6,
-        "probability": 0.1315,
+        "decimal": 8.1,
+        "probability": 0.1235,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
@@ -1685,8 +1685,8 @@
       },
       {
         "team": "Portugal",
-        "decimal": 17.39,
-        "probability": 0.0575,
+        "decimal": 16.26,
+        "probability": 0.0615,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
@@ -1701,8 +1701,8 @@
       },
       {
         "team": "Colombia",
-        "decimal": 32.79,
-        "probability": 0.0305,
+        "decimal": 31.75,
+        "probability": 0.0315,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.024
@@ -1724,16 +1724,16 @@
       },
       {
         "team": "Norway",
-        "decimal": 57.14,
-        "probability": 0.0175,
+        "decimal": 60.61,
+        "probability": 0.0165,
         "bookmaker": "Polymarket market probability",
         "rank": 11,
         "startingProbability": 0.024
       },
       {
         "team": "Belgium",
-        "decimal": 95.24,
-        "probability": 0.0105,
+        "decimal": 86.96,
+        "probability": 0.0115,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
         "startingProbability": 0.024
@@ -1771,18 +1771,11 @@
         "startingProbability": 0.007
       },
       {
-        "team": "Cape Verde",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 17
-      },
-      {
         "team": "Ghana",
         "decimal": 2000,
         "probability": 0.0005,
         "bookmaker": "Polymarket market probability",
-        "rank": 18,
+        "rank": 17,
         "startingProbability": 0.003
       }
     ]
@@ -1817,12 +1810,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-03T08:55:21.816Z",
-    "text": "Prediction: Bruno. Bruno leads 36 vs 28, and tiebreakers tilt his way: GD 16 to 14, GF 33 to 25. Selected teams favor Bruno’s edge with Mexico (12 points) anchoring his push, while Sara’s top teams Switzerland/Brazil sit on 10 each. Winner-pick upside weighs Bruno as France 0.3345 and Portugal 0.063; Sara’s Spain 0.1225. Risk: a late surge by Sara’s Brazil/Switzerland could nibble on goal-difference. Comeback path: a"
+    "updatedAt": "2026-07-04T05:45:26.873Z",
+    "text": "Prediction: Bruno. Bruno leads 36 points to 29, with a 16 gd and 33 gf vs Sara’s 14 gd and 26 gf, so tiebreakers favor Bruno. Bruno’s point-teams (Mexico 12 est. from 4) and Sara’s (Brazil 10, Switzerland 10) shape a narrow path; Bruno’s winner-picks France (0.3435) or Portugal (0.0615) edge Sara’s Spain (0.1235) or Netherlands. Risk: a"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-04T03:01:17.673Z",
+    "updatedAt": "2026-07-04T05:45:19.083Z",
     "type": "football_data_scorers",
     "scorers": [
       {
