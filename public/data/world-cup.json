@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-04T08:30:20.415Z",
+  "updatedAt": "2026-07-05T03:01:09.829Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1560,9 +1560,9 @@
       "kickoff": "2026-07-04T17:00:00Z",
       "homeTeam": "Canada",
       "awayTeam": "Morocco",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 3,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1577,9 +1577,9 @@
       "kickoff": "2026-07-04T21:00:00Z",
       "homeTeam": "Paraguay",
       "awayTeam": "France",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1631,7 +1631,11 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537380",
@@ -1661,7 +1665,11 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537382",
@@ -1674,50 +1682,54 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-04T08:30:17.046Z",
+    "updatedAt": "2026-07-05T03:01:06.649Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.82,
-        "probability": 0.3545,
+        "decimal": 2.8,
+        "probability": 0.3575,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.8,
-        "probability": 0.1725,
+        "decimal": 5.97,
+        "probability": 0.1675,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 8.1,
-        "probability": 0.1235,
+        "decimal": 7.97,
+        "probability": 0.1255,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 13.07,
-        "probability": 0.0765,
+        "decimal": 14.81,
+        "probability": 0.0675,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Brazil",
-        "decimal": 16,
-        "probability": 0.0625,
+        "decimal": 15.5,
+        "probability": 0.0645,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
@@ -1732,16 +1744,16 @@
       },
       {
         "team": "Mexico",
-        "decimal": 29.85,
-        "probability": 0.0335,
+        "decimal": 28.99,
+        "probability": 0.0345,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.012
       },
       {
         "team": "Colombia",
-        "decimal": 32.79,
-        "probability": 0.0305,
+        "decimal": 31.75,
+        "probability": 0.0315,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.024
@@ -1756,8 +1768,8 @@
       },
       {
         "team": "USA",
-        "decimal": 40.82,
-        "probability": 0.0245,
+        "decimal": 42.55,
+        "probability": 0.0235,
         "bookmaker": "Polymarket market probability",
         "rank": 10
       },
@@ -1771,8 +1783,8 @@
       },
       {
         "team": "Belgium",
-        "decimal": 86.96,
-        "probability": 0.0115,
+        "decimal": 80,
+        "probability": 0.0125,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
         "startingProbability": 0.024
@@ -1786,28 +1798,12 @@
         "startingProbability": 0.015
       },
       {
-        "team": "Canada",
-        "decimal": 400,
-        "probability": 0.0025,
-        "bookmaker": "Polymarket market probability",
-        "rank": 14,
-        "startingProbability": 0.005
-      },
-      {
         "team": "Egypt",
-        "decimal": 400,
-        "probability": 0.0025,
-        "bookmaker": "Polymarket market probability",
-        "rank": 15,
-        "startingProbability": 0.008
-      },
-      {
-        "team": "Paraguay",
         "decimal": 666.67,
         "probability": 0.0015,
         "bookmaker": "Polymarket market probability",
-        "rank": 16,
-        "startingProbability": 0.007
+        "rank": 14,
+        "startingProbability": 0.008
       }
     ]
   },
@@ -1841,28 +1837,28 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-04T08:30:27.568Z",
-    "text": "Prediction: Bruno. Bruno leads 36 to 31, and his combined points-team GD (16) and GF (33) edge Sara (14, 26) on tiebreakers. Bruno’s selected teams: Mexico (gd8, gf8) tops the pile, with Morocco 10 and Norway 9 backing him; Sara’s Switzerland 10 and Brazil 10 trail in GDs. Winner picks: France (market 0.3545) and Portugal (0.0595) tilt Bruno’s favor. Risk: Sara could surge if Brazil or Switzerland fire; comeback path"
+    "updatedAt": "2026-07-05T03:01:15.608Z",
+    "text": "Prediction: Bruno. Bruno leads on points (39 vs 31) and is ahead on goal-difference (19 vs 14) with tiebreakers favoring him. Bruno’s top point-teams include Mexico (gd8, gf8) and Morocco (gd6, gf10); Sara’s best are Brazil (gd7, gf9) and Switzerland (gd6, gf9). Winner-pick odds tilt Bruno’s way (France 0.3575, Portugal 0.0595) signal market edge. Risk: a sharp rebound from Sara’s Brazil/Switzerland pair could shift "
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-04T08:30:17.973Z",
+    "updatedAt": "2026-07-05T03:01:07.841Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
-        "player": "Lionel Messi",
-        "team": "Argentina",
+        "player": "Kylian Mbappé",
+        "team": "France",
         "goals": 7,
-        "assists": 1,
-        "penalties": null
+        "assists": 2,
+        "penalties": 1
       },
       {
         "rank": 2,
-        "player": "Kylian Mbappé",
-        "team": "France",
-        "goals": 6,
-        "assists": 2,
+        "player": "Lionel Messi",
+        "team": "Argentina",
+        "goals": 7,
+        "assists": null,
         "penalties": null
       },
       {
