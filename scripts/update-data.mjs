@@ -182,16 +182,25 @@ const KNOWN_ROUND_OF_32_MATCHUPS = [
   [87, "Colombia", "Ghana"],
   [88, "Australia", "Egypt"],
 ];
-const knownRoundOf32MatchNumbers = new Map(
-  KNOWN_ROUND_OF_32_MATCHUPS.flatMap(([matchNumber, homeTeam, awayTeam]) => [
+const KNOWN_ROUND_OF_16_MATCHUPS = [
+  [89, "Canada", "Morocco"],
+  [90, "Paraguay", "France"],
+  [91, "Brazil", "Norway"],
+  [92, "Mexico", "England"],
+  [93, "Portugal", "Spain"],
+  [94, "United States", "Belgium"],
+  [95, "Argentina", "Egypt"],
+  [96, "Switzerland", "Colombia"],
+];
+const knownKnockoutMatchNumbers = new Map(
+  [...KNOWN_ROUND_OF_32_MATCHUPS, ...KNOWN_ROUND_OF_16_MATCHUPS].flatMap(([matchNumber, homeTeam, awayTeam]) => [
     [`${normalizeTeam(homeTeam)}|${normalizeTeam(awayTeam)}`, matchNumber],
     [`${normalizeTeam(awayTeam)}|${normalizeTeam(homeTeam)}`, matchNumber],
   ]),
 );
 
 function knownKnockoutMatchNumber(match) {
-  if (!String(match.stage || "").toLowerCase().includes("32")) return null;
-  return knownRoundOf32MatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`) || null;
+  return knownKnockoutMatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`) || null;
 }
 
 function americanToDecimal(american) {

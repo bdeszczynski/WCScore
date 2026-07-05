@@ -13,7 +13,7 @@ import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v81-penalty-win-scoring";
+const APP_VERSION = "v83-scorers-only-ladder-path";
 
 const state = {
   data: null,
@@ -73,8 +73,18 @@ const KNOWN_ROUND_OF_32_MATCHUPS = [
   [87, "Colombia", "Ghana"],
   [88, "Australia", "Egypt"],
 ];
-const knownRoundOf32MatchNumbers = new Map(
-  KNOWN_ROUND_OF_32_MATCHUPS.flatMap(([match, homeTeam, awayTeam]) => [
+const KNOWN_ROUND_OF_16_MATCHUPS = [
+  [89, "Canada", "Morocco"],
+  [90, "Paraguay", "France"],
+  [91, "Brazil", "Norway"],
+  [92, "Mexico", "England"],
+  [93, "Portugal", "Spain"],
+  [94, "United States", "Belgium"],
+  [95, "Argentina", "Egypt"],
+  [96, "Switzerland", "Colombia"],
+];
+const knownKnockoutMatchNumbers = new Map(
+  [...KNOWN_ROUND_OF_32_MATCHUPS, ...KNOWN_ROUND_OF_16_MATCHUPS].flatMap(([match, homeTeam, awayTeam]) => [
     [`${normalizeTeam(homeTeam)}|${normalizeTeam(awayTeam)}`, match],
     [`${normalizeTeam(awayTeam)}|${normalizeTeam(homeTeam)}`, match],
   ]),
@@ -89,16 +99,19 @@ const ROUND_OF_16 = [
   { match: 95, from: [86, 88] },
   { match: 96, from: [85, 87] },
 ];
-const LATER_KNOCKOUT_ROUNDS = [
-  { match: 97, stage: "QUARTER_FINALS", slots: ["Winner Match 89", "Winner Match 90"], dateWindow: "9-11 Jul 2026" },
-  { match: 98, stage: "QUARTER_FINALS", slots: ["Winner Match 93", "Winner Match 94"], dateWindow: "9-11 Jul 2026" },
-  { match: 99, stage: "QUARTER_FINALS", slots: ["Winner Match 91", "Winner Match 92"], dateWindow: "9-11 Jul 2026" },
-  { match: 100, stage: "QUARTER_FINALS", slots: ["Winner Match 95", "Winner Match 96"], dateWindow: "9-11 Jul 2026" },
-  { match: 101, stage: "SEMI_FINALS", slots: ["Winner Match 97", "Winner Match 98"], dateWindow: "14-15 Jul 2026" },
-  { match: 102, stage: "SEMI_FINALS", slots: ["Winner Match 99", "Winner Match 100"], dateWindow: "14-15 Jul 2026" },
-  { match: 103, stage: "THIRD_PLACE", slots: ["Loser Match 101", "Loser Match 102"], dateWindow: "18 Jul 2026" },
-  { match: 104, stage: "FINAL", slots: ["Winner Match 101", "Winner Match 102"], dateWindow: "19 Jul 2026" },
+const QUARTER_FINALS = [
+  { match: 97, stage: "QUARTER_FINALS", from: [89, 90], dateWindow: "9-11 Jul 2026" },
+  { match: 98, stage: "QUARTER_FINALS", from: [93, 94], dateWindow: "9-11 Jul 2026" },
+  { match: 99, stage: "QUARTER_FINALS", from: [91, 92], dateWindow: "9-11 Jul 2026" },
+  { match: 100, stage: "QUARTER_FINALS", from: [95, 96], dateWindow: "9-11 Jul 2026" },
 ];
+const SEMI_FINALS = [
+  { match: 101, stage: "SEMI_FINALS", from: [97, 98], dateWindow: "14-15 Jul 2026" },
+  { match: 102, stage: "SEMI_FINALS", from: [99, 100], dateWindow: "14-15 Jul 2026" },
+];
+const THIRD_PLACE_MATCH = [{ match: 103, stage: "THIRD_PLACE", from: [101, 102], sourcePrefix: "L", dateWindow: "18 Jul 2026" }];
+const FINAL_MATCH = [{ match: 104, stage: "FINAL", from: [101, 102], dateWindow: "19 Jul 2026" }];
+const LATER_KNOCKOUT_ROUNDS = [...QUARTER_FINALS, ...SEMI_FINALS, ...THIRD_PLACE_MATCH, ...FINAL_MATCH];
 
 const selectedTeamNames = new Set();
 let leaderConfettiShown = false;
@@ -331,10 +344,8 @@ function matchNumber(match) {
     const number = Number(value);
     if (Number.isFinite(number)) return number;
   }
-  if (String(match.stage || "").toLowerCase().includes("32")) {
-    const knownMatch = knownRoundOf32MatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`);
-    if (knownMatch) return knownMatch;
-  }
+  const knownMatch = knownKnockoutMatchNumbers.get(`${normalizeTeam(match.homeTeam)}|${normalizeTeam(match.awayTeam)}`);
+  if (knownMatch) return knownMatch;
   return null;
 }
 
@@ -388,7 +399,14 @@ function knockoutPlaceholders() {
   return [
     ...r32,
     ...r16,
-    ...LATER_KNOCKOUT_ROUNDS.map((match) => knockoutPlaceholder(match.match, match.stage, match.slots, match.dateWindow)),
+    ...LATER_KNOCKOUT_ROUNDS.map((match) =>
+      knockoutPlaceholder(
+        match.match,
+        match.stage,
+        match.from.map((matchNo) => `${match.sourcePrefix || "Winner"} Match ${matchNo}`),
+        match.dateWindow,
+      ),
+    ),
   ];
 }
 
@@ -404,6 +422,14 @@ function knockoutWinner(match) {
   if (match.winnerAfterPenalties) return match.winnerAfterPenalties;
   if (match.homeGoals > match.awayGoals) return match.homeTeam;
   if (match.awayGoals > match.homeGoals) return match.awayTeam;
+  return null;
+}
+
+function knockoutLoser(match) {
+  const winner = knockoutWinner(match);
+  if (!winner) return null;
+  if (isSameTeam(match.homeTeam, winner)) return match.awayTeam;
+  if (isSameTeam(match.awayTeam, winner)) return match.homeTeam;
   return null;
 }
 
@@ -494,6 +520,80 @@ function renderR16Ladder(cards = r32Cards()) {
       </article>
     `;
   }).join("");
+}
+
+function r16Cards(cards = r32Cards()) {
+  const byMatch = new Map(cards.map((card) => [card.match, card]));
+  const actualMatches = knockoutMatchesByNumber();
+  return ROUND_OF_16.map((match) => {
+    const actualMatch = actualMatches.get(match.match) || null;
+    return {
+      ...match,
+      actualMatch,
+      teams:
+        actualMatchTeams(actualMatch) ||
+        match.from.map((matchNo) => {
+          const source = byMatch.get(matchNo);
+          const winner = knockoutWinner(source?.actualMatch);
+          return winner ? [{ teamName: winner, slotLabel: `Winner ${matchNo}`, actual: true, winner: true }] : uniqueTeams(source?.teams || []);
+        }),
+    };
+  });
+}
+
+function sourceTeams(sourceCard, sourcePrefix = "W") {
+  if (!sourceCard) return [];
+  const resolvedTeam = sourcePrefix === "L" ? knockoutLoser(sourceCard.actualMatch) : knockoutWinner(sourceCard.actualMatch);
+  if (resolvedTeam) return [{ teamName: resolvedTeam, slotLabel: `${sourcePrefix}${sourceCard.match}`, actual: true, winner: sourcePrefix !== "L" }];
+  return uniqueTeams(sourceCard.teams || []).map((team) => ({ ...team, slotLabel: team.slotLabel || `${sourcePrefix}${sourceCard.match}` }));
+}
+
+function cardsFromSources(rounds, sourceCards, sourcePrefix = "W") {
+  const sourceByMatch = new Map(sourceCards.map((card) => [card.match, card]));
+  const actualMatches = knockoutMatchesByNumber();
+  return rounds.map((match) => {
+    const actualMatch = actualMatches.get(match.match) || null;
+    return {
+      ...match,
+      actualMatch,
+      teams: actualMatchTeams(actualMatch) || match.from.map((matchNo) => sourceTeams(sourceByMatch.get(matchNo), sourcePrefix)),
+    };
+  });
+}
+
+function qfCards() {
+  return cardsFromSources(QUARTER_FINALS, r16Cards());
+}
+
+function sfCards() {
+  return cardsFromSources(SEMI_FINALS, qfCards());
+}
+
+function finalCards() {
+  return cardsFromSources(FINAL_MATCH, sfCards());
+}
+
+function thirdMatchCards() {
+  return cardsFromSources(THIRD_PLACE_MATCH, sfCards(), "L");
+}
+
+function renderSourceLadder(cards, cardClass = "") {
+  return cards
+    .map(
+      (card) => `
+        <article class="ladder-card ${cardClass} ${card.actualMatch ? "actual" : ""} ${isFinished(card.actualMatch || {}) ? "finished" : ""}">
+          <div class="ladder-match-no">${card.match}</div>
+          <div class="ladder-versus">
+            <div class="ladder-source">${card.sourcePrefix || "W"}${card.from[0]}</div>
+            <div class="ladder-slot">${(card.teams[0] || []).map((team) => flagChip(team)).join("")}</div>
+            ${ladderScore(card.actualMatch)}
+            <div class="ladder-source">${card.sourcePrefix || "W"}${card.from[1]}</div>
+            <div class="ladder-slot">${(card.teams[1] || []).map((team) => flagChip(team)).join("")}</div>
+          </div>
+        </article>
+      `,
+    )
+    .join("");
 }
 
 function renderThirdPlaceLadder() {
@@ -833,18 +933,14 @@ function renderTopScorers() {
   const goalRows = [...scorers]
     .sort((a, b) => Number(b.goals) - Number(a.goals) || Number(b.assists || 0) - Number(a.assists || 0))
     .slice(0, 20);
-  const assistRows = [...scorers]
-    .filter((scorer) => Number(scorer.assists) > 0)
-    .sort((a, b) => Number(b.assists) - Number(a.assists) || Number(b.goals || 0) - Number(a.goals || 0))
-    .slice(0, 10);
 
-  const renderRows = (rows, statKey, emptyText) => {
+  const renderRows = (rows, emptyText) => {
     if (!rows.length) {
       return `<div class="empty-state">${escapeHtml(emptyText)}</div>`;
     }
     return rows
       .map((scorer, index) => {
-        const statValue = Number(scorer[statKey]) || 0;
+        const goals = Number(scorer.goals) || 0;
         return `
         <div class="scorer-table-row">
           <div><span class="scorer-rank">${index + 1}</span></div>
@@ -852,7 +948,7 @@ function renderTopScorers() {
             <strong class="scorer-name">${escapeHtml(scorer.player)}</strong>
             <span class="scorer-team">${teamLabel(scorer.team)}</span>
           </div>
-          <div class="scorer-stat">${statValue}</div>
+          <div class="scorer-stat">${goals}</div>
         </div>
       `;
       })
@@ -871,22 +967,7 @@ function renderTopScorers() {
           <div>Player</div>
           <div>Goals</div>
         </div>
-        ${renderRows(goalRows, "goals", "No goals available yet.")}
-      </div>
-    </section>
-    <section class="scorer-table-card">
-      <div class="scorer-table-heading">
-        <p class="eyebrow">Creator watch</p>
-        <h3>Top assists</h3>
-        <p class="scorer-table-note">${assistRows.length} players with assists</p>
-      </div>
-      <div class="scorer-table" role="table" aria-label="Top 10 assists">
-        <div class="scorer-table-row scorer-table-head" role="row">
-          <div>#</div>
-          <div>Player</div>
-          <div>Assists</div>
-        </div>
-        ${renderRows(assistRows, "assists", "No assists available yet.")}
+        ${renderRows(goalRows, "No goals available yet.")}
       </div>
     </section>
   `;
@@ -1100,8 +1181,16 @@ function renderLadder(round = state.ladderRound) {
         ? renderThirdPlaceLadder()
         : activeRound === "round32"
           ? renderR32Ladder()
-          : `<div class="ladder-coming-soon">Coming soon</div>`;
-  container.className = `ladder-board ${activeRound === "third" ? "third-board" : ""} ${!["round32", "round16", "third"].includes(activeRound) ? "soon-board" : ""}`;
+          : activeRound === "qf"
+            ? renderSourceLadder(qfCards(), "future-card")
+            : activeRound === "sf"
+              ? renderSourceLadder(sfCards(), "future-card")
+              : activeRound === "thirdMatch"
+                ? renderSourceLadder(thirdMatchCards(), "future-card final-card")
+                : activeRound === "final"
+                  ? renderSourceLadder(finalCards(), "future-card final-card")
+                  : `<div class="ladder-coming-soon">Coming soon</div>`;
+  container.className = `ladder-board ${activeRound === "third" ? "third-board" : ""} ${!["round32", "round16", "third", "qf", "sf", "thirdMatch", "final"].includes(activeRound) ? "soon-board" : ""}`;
   container.dataset.round = activeRound;
   container.innerHTML = content || `<div class="empty-state">No ladder data loaded yet.</div>`;
 }

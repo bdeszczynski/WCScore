@@ -548,6 +548,8 @@ describe("normalizeFootballDataMatch", () => {
       ["LAST_32", "Brazil", "Japan", 76],
       ["LAST_32", "Colombia", "Ghana", 87],
       ["LAST_32", "Australia", "Egypt", 88],
+      ["LAST_16", "Canada", "Morocco", 89],
+      ["LAST_16", "Switzerland", "Colombia", 96],
     ].map(([stage, homeTeam, awayTeam]) =>
       normalizeFootballDataMatch({
         id: `${homeTeam}-${awayTeam}`,
@@ -562,7 +564,7 @@ describe("normalizeFootballDataMatch", () => {
 
     assert.deepEqual(
       rows.map((match) => match.matchNumber),
-      [73, 76, 87, 88],
+      [73, 76, 87, 88, 89, 96],
     );
   });
 

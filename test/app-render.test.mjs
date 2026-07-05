@@ -69,7 +69,7 @@ class FakeElement {
 }
 
 function createFakeDocument() {
-  const ladderButtons = ["round32", "round16", "third", "qf", "sf", "thirdMatch", "final"].map(
+  const ladderButtons = ["round32", "round16", "qf", "sf", "thirdMatch", "final", "third"].map(
     (round) => new FakeElement({ ladderRound: round }),
   );
   ladderButtons[0].classList.toggle("active", true);
@@ -137,6 +137,59 @@ describe("app render smoke test", () => {
       awayGoals: 1,
       winnerAfterPenalties: null,
     });
+    data.matches.push(
+      {
+        id: "test-qf-97",
+        stage: "QUARTER_FINALS",
+        group: null,
+        matchNumber: 97,
+        kickoff: "2026-07-09T19:00:00Z",
+        homeTeam: "Morocco",
+        awayTeam: "France",
+        status: "finished",
+        homeGoals: 2,
+        awayGoals: 1,
+        winnerAfterPenalties: null,
+        venue: null,
+        venueCity: null,
+        venueCountry: null,
+        venueWikiUrl: null,
+      },
+      {
+        id: "test-sf-101",
+        stage: "SEMI_FINALS",
+        group: null,
+        matchNumber: 101,
+        kickoff: "2026-07-14T19:00:00Z",
+        homeTeam: "Morocco",
+        awayTeam: "Spain",
+        status: "finished",
+        homeGoals: 1,
+        awayGoals: 1,
+        winnerAfterPenalties: "Spain",
+        venue: null,
+        venueCity: null,
+        venueCountry: null,
+        venueWikiUrl: null,
+      },
+      {
+        id: "test-final-104",
+        stage: "FINAL",
+        group: null,
+        matchNumber: 104,
+        kickoff: "2026-07-19T19:00:00Z",
+        homeTeam: "Spain",
+        awayTeam: "Argentina",
+        status: "scheduled",
+        homeGoals: null,
+        awayGoals: null,
+        winnerAfterPenalties: null,
+        venue: null,
+        venueCity: null,
+        venueCountry: null,
+        venueWikiUrl: null,
+      },
+    );
     data.commentary = {
       updatedAt: "2026-06-17T08:00:00.000Z",
       text: "Prediction: Sara. VAR-bot sees Spain warming up while Bruno starts negotiating with goal difference.",
@@ -222,6 +275,7 @@ describe("app render smoke test", () => {
       assert.doesNotMatch(document.querySelector("#winner-standings").innerHTML, /Brazil/);
       assert.match(document.querySelector("#top-scorers-list").innerHTML, /Kylian Mbappe/);
       assert.match(document.querySelector("#top-scorers-list").innerHTML, /Goals/);
+      assert.doesNotMatch(document.querySelector("#top-scorers-list").innerHTML, /Top assists/);
       assert.match(document.querySelector("#top-scorers-updated").textContent, /Updated/);
       assert.match(document.querySelector("#odds-list").innerHTML, /odds-row/);
       assert.match(document.querySelector("#winner-picks").innerHTML, /chance-line/);
@@ -238,11 +292,28 @@ describe("app render smoke test", () => {
       assert.equal(document.querySelector("#knockout-ladder").dataset.round, "round16");
       assert.match(document.querySelector("#knockout-ladder").innerHTML, /round16-card/);
       assert.match(document.querySelector("#knockout-ladder").innerHTML, />89</);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /0-3/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /0-1/);
+      document.querySelector(".ladder-heading").dispatch("click", document.ladderButtons[2]);
+      assert.equal(document.querySelector("#knockout-ladder").dataset.round, "qf");
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, />97</);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /future-card/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /2-1/);
+      assert.doesNotMatch(document.querySelector("#knockout-ladder").innerHTML, /Coming soon/);
+      document.querySelector(".ladder-heading").dispatch("click", document.ladderButtons[3]);
+      assert.equal(document.querySelector("#knockout-ladder").dataset.round, "sf");
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, />101</);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /1-1/);
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, /pens/);
+      document.querySelector(".ladder-heading").dispatch("click", document.ladderButtons[5]);
+      assert.equal(document.querySelector("#knockout-ladder").dataset.round, "final");
+      assert.match(document.querySelector("#knockout-ladder").innerHTML, />104</);
+      assert.doesNotMatch(document.querySelector("#knockout-ladder").innerHTML, /Coming soon/);
       assert.notEqual(document.querySelector("#odds-source").textContent, "Loading");
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
       assert.match(document.querySelector("#match-list").innerHTML, /match-market-chance/);
-      assert.match(document.querySelector("#match-list").innerHTML, /LAST 32/);
+      assert.match(document.querySelector("#match-list").innerHTML, /LAST 16/);
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
       assert.match(document.querySelector("#match-list").innerHTML, new RegExp(`Match ${upcoming.matchNumber}`));
       assert.match(document.querySelector("#match-list").innerHTML, new RegExp(upcoming.homeTeam));
