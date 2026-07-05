@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-05T03:01:09.829Z",
+  "updatedAt": "2026-07-05T08:46:21.491Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1687,17 +1687,30 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537383",
+      "stage": "QUARTER_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-09T20:00:00Z",
+      "homeTeam": "France",
+      "awayTeam": "Morocco",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-05T03:01:06.649Z",
+    "updatedAt": "2026-07-05T08:46:17.589Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.8,
-        "probability": 0.3575,
+        "decimal": 2.81,
+        "probability": 0.3565,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
@@ -1728,24 +1741,24 @@
       },
       {
         "team": "Brazil",
-        "decimal": 15.5,
-        "probability": 0.0645,
+        "decimal": 15.04,
+        "probability": 0.0665,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Portugal",
-        "decimal": 16.81,
-        "probability": 0.0595,
+        "decimal": 16.53,
+        "probability": 0.0605,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.105
       },
       {
         "team": "Mexico",
-        "decimal": 28.99,
-        "probability": 0.0345,
+        "decimal": 29.85,
+        "probability": 0.0335,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.012
@@ -1760,16 +1773,16 @@
       },
       {
         "team": "Morocco",
-        "decimal": 39.22,
-        "probability": 0.0255,
+        "decimal": 35.09,
+        "probability": 0.0285,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.018
       },
       {
         "team": "USA",
-        "decimal": 42.55,
-        "probability": 0.0235,
+        "decimal": 40.82,
+        "probability": 0.0245,
         "bookmaker": "Polymarket market probability",
         "rank": 10
       },
@@ -1783,8 +1796,8 @@
       },
       {
         "team": "Belgium",
-        "decimal": 80,
-        "probability": 0.0125,
+        "decimal": 74.07,
+        "probability": 0.0135,
         "bookmaker": "Polymarket market probability",
         "rank": 12,
         "startingProbability": 0.024
@@ -1842,7 +1855,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-05T03:01:07.841Z",
+    "updatedAt": "2026-07-05T08:46:19.179Z",
     "type": "football_data_scorers",
     "scorers": [
       {

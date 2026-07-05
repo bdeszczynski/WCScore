@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-05T03:01:06.599Z",
+  "updatedAt": "2026-07-05T08:46:17.521Z",
   "notes": "Ready-made manual result overrides. API/world-cup.json wins by default. To override a match, set manualOverride to true on that row, edit status/homeGoals/awayGoals/winnerAfterPenalties/note, commit this file, then run Refresh data. Turn manualOverride back to false or remove the row to let API data win again.",
   "matches": [
     {
@@ -1435,6 +1435,21 @@
       "kickoff": "2026-07-07T20:00:00Z",
       "homeTeam": "Switzerland",
       "awayTeam": "Colombia",
+      "manualOverride": false,
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null,
+      "note": ""
+    },
+    {
+      "id": "537383",
+      "matchNumber": null,
+      "stage": "QUARTER_FINALS",
+      "group": null,
+      "kickoff": "2026-07-09T20:00:00Z",
+      "homeTeam": "France",
+      "awayTeam": "Morocco",
       "manualOverride": false,
       "status": "scheduled",
       "homeGoals": null,
