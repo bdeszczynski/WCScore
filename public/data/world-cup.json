@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-05T08:46:21.491Z",
+  "updatedAt": "2026-07-06T03:01:10.367Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1594,9 +1594,9 @@
       "kickoff": "2026-07-05T20:00:00Z",
       "homeTeam": "Brazil",
       "awayTeam": "Norway",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1608,7 +1608,7 @@
       "stage": "LAST_16",
       "group": null,
       "matchNumber": 92,
-      "kickoff": "2026-07-06T00:00:00Z",
+      "kickoff": "2026-07-06T01:00:00Z",
       "homeTeam": "Mexico",
       "awayTeam": "England",
       "status": "scheduled",
@@ -1699,26 +1699,30 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-05T08:46:17.589Z",
+    "updatedAt": "2026-07-06T03:01:06.106Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.81,
-        "probability": 0.3565,
+        "decimal": 2.94,
+        "probability": 0.3405,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.97,
-        "probability": 0.1675,
+        "decimal": 5.83,
+        "probability": 0.1715,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
@@ -1733,89 +1737,81 @@
       },
       {
         "team": "England",
-        "decimal": 14.81,
-        "probability": 0.0675,
+        "decimal": 8.62,
+        "probability": 0.116,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
-        "team": "Brazil",
-        "decimal": 15.04,
-        "probability": 0.0665,
+        "team": "Portugal",
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
-        "team": "Portugal",
-        "decimal": 16.53,
-        "probability": 0.0605,
+        "team": "Norway",
+        "decimal": 20.2,
+        "probability": 0.0495,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
-        "startingProbability": 0.105
+        "startingProbability": 0.024
       },
       {
-        "team": "Mexico",
+        "team": "Colombia",
         "decimal": 29.85,
         "probability": 0.0335,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
-        "startingProbability": 0.012
-      },
-      {
-        "team": "Colombia",
-        "decimal": 31.75,
-        "probability": 0.0315,
-        "bookmaker": "Polymarket market probability",
-        "rank": 8,
         "startingProbability": 0.024
       },
       {
+        "team": "USA",
+        "decimal": 30.77,
+        "probability": 0.0325,
+        "bookmaker": "Polymarket market probability",
+        "rank": 8
+      },
+      {
         "team": "Morocco",
-        "decimal": 35.09,
-        "probability": 0.0285,
+        "decimal": 37.74,
+        "probability": 0.0265,
         "bookmaker": "Polymarket market probability",
         "rank": 9,
         "startingProbability": 0.018
       },
       {
-        "team": "USA",
-        "decimal": 40.82,
-        "probability": 0.0245,
-        "bookmaker": "Polymarket market probability",
-        "rank": 10
-      },
-      {
-        "team": "Norway",
-        "decimal": 60.61,
-        "probability": 0.0165,
-        "bookmaker": "Polymarket market probability",
-        "rank": 11,
-        "startingProbability": 0.024
-      },
-      {
         "team": "Belgium",
-        "decimal": 74.07,
-        "probability": 0.0135,
+        "decimal": 80,
+        "probability": 0.0125,
         "bookmaker": "Polymarket market probability",
-        "rank": 12,
+        "rank": 10,
         "startingProbability": 0.024
       },
       {
         "team": "Switzerland",
-        "decimal": 117.65,
-        "probability": 0.0085,
+        "decimal": 105.26,
+        "probability": 0.0095,
         "bookmaker": "Polymarket market probability",
-        "rank": 13,
+        "rank": 11,
         "startingProbability": 0.015
       },
       {
-        "team": "Egypt",
-        "decimal": 666.67,
-        "probability": 0.0015,
+        "team": "Mexico",
+        "decimal": 125,
+        "probability": 0.008,
         "bookmaker": "Polymarket market probability",
-        "rank": 14,
+        "rank": 12,
+        "startingProbability": 0.012
+      },
+      {
+        "team": "Egypt",
+        "decimal": 400,
+        "probability": 0.0025,
+        "bookmaker": "Polymarket market probability",
+        "rank": 13,
         "startingProbability": 0.008
       }
     ]
@@ -1855,7 +1851,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-05T08:46:19.179Z",
+    "updatedAt": "2026-07-06T03:01:08.348Z",
     "type": "football_data_scorers",
     "scorers": [
       {
@@ -1868,6 +1864,14 @@
       },
       {
         "rank": 2,
+        "player": "Erling Haaland",
+        "team": "Norway",
+        "goals": 7,
+        "assists": null,
+        "penalties": null
+      },
+      {
+        "rank": 3,
         "player": "Lionel Messi",
         "team": "Argentina",
         "goals": 7,
@@ -1875,20 +1879,12 @@
         "penalties": null
       },
       {
-        "rank": 3,
-        "player": "Erling Haaland",
-        "team": "Norway",
-        "goals": 5,
-        "assists": null,
-        "penalties": null
-      },
-      {
         "rank": 4,
         "player": "Harry Kane",
         "team": "England",
-        "goals": 5,
-        "assists": null,
-        "penalties": 1
+        "goals": 6,
+        "assists": 1,
+        "penalties": 2
       },
       {
         "rank": 5,
@@ -1908,6 +1904,22 @@
       },
       {
         "rank": 7,
+        "player": "Jude Bellingham",
+        "team": "England",
+        "goals": 4,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 8,
+        "player": "Julián Quiñones",
+        "team": "Mexico",
+        "goals": 4,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 9,
         "player": "Mikel Oyarzabal",
         "team": "Spain",
         "goals": 4,
@@ -1915,7 +1927,7 @@
         "penalties": null
       },
       {
-        "rank": 8,
+        "rank": 10,
         "player": "Vinicius Junior",
         "team": "Brazil",
         "goals": 4,
@@ -1923,7 +1935,7 @@
         "penalties": null
       },
       {
-        "rank": 9,
+        "rank": 11,
         "player": "Deniz Undav",
         "team": "Germany",
         "goals": 3,
@@ -1931,7 +1943,7 @@
         "penalties": null
       },
       {
-        "rank": 10,
+        "rank": 12,
         "player": "Johan Manzambi",
         "team": "Switzerland",
         "goals": 3,
@@ -1939,31 +1951,7 @@
         "penalties": null
       },
       {
-        "rank": 11,
-        "player": "Cody Gakpo",
-        "team": "Netherlands",
-        "goals": 3,
-        "assists": 1,
-        "penalties": null
-      },
-      {
-        "rank": 12,
-        "player": "Julián Quiñones",
-        "team": "Mexico",
-        "goals": 3,
-        "assists": 1,
-        "penalties": null
-      },
-      {
         "rank": 13,
-        "player": "Brian Brobbey",
-        "team": "Netherlands",
-        "goals": 3,
-        "assists": null,
-        "penalties": null
-      },
-      {
-        "rank": 14,
         "player": "Elijah Just",
         "team": "New Zealand",
         "goals": 3,
@@ -1971,7 +1959,7 @@
         "penalties": null
       },
       {
-        "rank": 15,
+        "rank": 14,
         "player": "Folarin Balogun",
         "team": "United States",
         "goals": 3,
@@ -1979,7 +1967,7 @@
         "penalties": null
       },
       {
-        "rank": 16,
+        "rank": 15,
         "player": "Ismael Saibari",
         "team": "Morocco",
         "goals": 3,
@@ -1987,7 +1975,7 @@
         "penalties": null
       },
       {
-        "rank": 17,
+        "rank": 16,
         "player": "Jonathan David",
         "team": "Canada",
         "goals": 3,
@@ -1995,7 +1983,7 @@
         "penalties": null
       },
       {
-        "rank": 18,
+        "rank": 17,
         "player": "Kai Havertz",
         "team": "Germany",
         "goals": 3,
@@ -2003,12 +1991,20 @@
         "penalties": 1
       },
       {
-        "rank": 19,
+        "rank": 18,
         "player": "Matheus Cunha",
         "team": "Brazil",
         "goals": 3,
         "assists": null,
         "penalties": null
+      },
+      {
+        "rank": 19,
+        "player": "Raúl Jiménez",
+        "team": "Mexico",
+        "goals": 3,
+        "assists": null,
+        "penalties": 1
       },
       {
         "rank": 20,
