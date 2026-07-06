@@ -8,12 +8,12 @@ import {
   isSameTeam,
   normalizeTeam,
   stageKind,
-} from "./scoring.js?v=33";
+} from "./scoring.js?v=34";
 import { flagUrlForTeam } from "./flags.js?v=34";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v83-scorers-only-ladder-path";
+const APP_VERSION = "v84-quarter-final-bonus-fix";
 
 const state = {
   data: null,

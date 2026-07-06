@@ -15,6 +15,12 @@ describe("stageKind", () => {
   it("treats football-data LAST_32 as a knockout stage", () => {
     assert.equal(stageKind("LAST_32"), "knockout");
   });
+
+  it("does not classify quarter-finals as finals", () => {
+    assert.equal(stageKind("QUARTER_FINALS"), "knockout");
+    assert.equal(stageKind("Quarter-finals"), "knockout");
+    assert.equal(stageKind("FINAL"), "final");
+  });
 });
 
 describe("isFinished", () => {
@@ -164,6 +170,16 @@ describe("countRemainingGroupMatches", () => {
 });
 
 describe("bonusStatus", () => {
+  it("does not give semi-final bonus points for reaching a quarter-final", () => {
+    const matches = [{ stage: "QUARTER_FINALS", status: "scheduled", homeTeam: "Morocco", awayTeam: "France" }];
+
+    assert.deepEqual(bonusStatus(matches, "Morocco"), {
+      semiReached: false,
+      wonCup: false,
+      points: 0,
+    });
+  });
+
   it("gives three points for reaching a semi-final", () => {
     const matches = [{ stage: "Semi-finals", status: "scheduled", homeTeam: "Morocco", awayTeam: "France" }];
 
