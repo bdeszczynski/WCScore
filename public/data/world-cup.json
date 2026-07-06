@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-06T03:01:10.367Z",
+  "updatedAt": "2026-07-06T10:07:19.513Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1611,9 +1611,9 @@
       "kickoff": "2026-07-06T01:00:00Z",
       "homeTeam": "Mexico",
       "awayTeam": "England",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 2,
+      "awayGoals": 3,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1704,73 +1704,86 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537385",
+      "stage": "QUARTER_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-11T21:00:00Z",
+      "homeTeam": "Norway",
+      "awayTeam": "England",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-06T03:01:06.106Z",
+    "updatedAt": "2026-07-06T10:07:13.057Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.94,
-        "probability": 0.3405,
+        "decimal": 3.03,
+        "probability": 0.3305,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.83,
-        "probability": 0.1715,
+        "decimal": 5.97,
+        "probability": 0.1675,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
-        "team": "Spain",
-        "decimal": 7.97,
-        "probability": 0.1255,
+        "team": "England",
+        "decimal": 7.12,
+        "probability": 0.1405,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
-        "startingProbability": 0.182
-      },
-      {
-        "team": "England",
-        "decimal": 8.62,
-        "probability": 0.116,
-        "bookmaker": "Polymarket market probability",
-        "rank": 4,
         "startingProbability": 0.118
       },
       {
+        "team": "Spain",
+        "decimal": 7.78,
+        "probability": 0.1285,
+        "bookmaker": "Polymarket market probability",
+        "rank": 4,
+        "startingProbability": 0.182
+      },
+      {
         "team": "Portugal",
-        "decimal": 17.39,
-        "probability": 0.0575,
+        "decimal": 16.81,
+        "probability": 0.0595,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.105
       },
       {
         "team": "Norway",
-        "decimal": 20.2,
-        "probability": 0.0495,
+        "decimal": 21.05,
+        "probability": 0.0475,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.024
       },
       {
         "team": "Colombia",
-        "decimal": 29.85,
-        "probability": 0.0335,
+        "decimal": 31.25,
+        "probability": 0.032,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.024
       },
       {
         "team": "USA",
-        "decimal": 30.77,
-        "probability": 0.0325,
+        "decimal": 32.79,
+        "probability": 0.0305,
         "bookmaker": "Polymarket market probability",
         "rank": 8
       },
@@ -1784,8 +1797,8 @@
       },
       {
         "team": "Belgium",
-        "decimal": 80,
-        "probability": 0.0125,
+        "decimal": 74.07,
+        "probability": 0.0135,
         "bookmaker": "Polymarket market probability",
         "rank": 10,
         "startingProbability": 0.024
@@ -1799,19 +1812,11 @@
         "startingProbability": 0.015
       },
       {
-        "team": "Mexico",
-        "decimal": 125,
-        "probability": 0.008,
-        "bookmaker": "Polymarket market probability",
-        "rank": 12,
-        "startingProbability": 0.012
-      },
-      {
         "team": "Egypt",
         "decimal": 400,
         "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
-        "rank": 13,
+        "rank": 12,
         "startingProbability": 0.008
       }
     ]
@@ -1846,12 +1851,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-05T03:01:15.608Z",
-    "text": "Prediction: Bruno. Bruno leads on points (39 vs 31) and is ahead on goal-difference (19 vs 14) with tiebreakers favoring him. Bruno’s top point-teams include Mexico (gd8, gf8) and Morocco (gd6, gf10); Sara’s best are Brazil (gd7, gf9) and Switzerland (gd6, gf9). Winner-pick odds tilt Bruno’s way (France 0.3575, Portugal 0.0595) signal market edge. Risk: a sharp rebound from Sara’s Brazil/Switzerland pair could shift "
+    "updatedAt": "2026-07-06T10:07:24.797Z",
+    "text": "Prediction: Bruno. Bruno leads 51 vs Sara 31; tiebreakers favor Bruno on combined gd 19 vs 13 and gf 40 vs 27. Bruno’s point-teams: Morocco(13, gd6), Japan(5), Norway(12, gd3), Mexico(12, gd7). Sara’s: Switzerland(10, gd6), Brazil(10, gd6), Egypt(8, gd2),"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-06T03:01:08.348Z",
+    "updatedAt": "2026-07-06T10:07:17.266Z",
     "type": "football_data_scorers",
     "scorers": [
       {
