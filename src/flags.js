@@ -46,6 +46,8 @@ export const COUNTRY_CODES = {
   Switzerland: "CH",
   Tunisia: "TN",
   Turkey: "TR",
+  USA: "US",
+  US: "US",
   "United States": "US",
   Uruguay: "UY",
   Uzbekistan: "UZ",

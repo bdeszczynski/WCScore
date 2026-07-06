@@ -9,11 +9,11 @@ import {
   normalizeTeam,
   stageKind,
 } from "./scoring.js?v=34";
-import { flagUrlForTeam } from "./flags.js?v=34";
+import { flagUrlForTeam } from "./flags.js?v=35";
 import { buildCapitalQuizQuestion, buildFlagQuizOptions, flagQuestionForTeam, pickFlowerReward } from "./quiz.js?v=3";
 
 const DATA_URL = new URL("../public/data/world-cup.json", import.meta.url);
-const APP_VERSION = "v84-quarter-final-bonus-fix";
+const APP_VERSION = "v85-usa-flag-alias";
 
 const state = {
   data: null,

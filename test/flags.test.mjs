@@ -24,6 +24,12 @@ describe("country flags", () => {
     assert.equal(flagUrlForTeam("England"), "https://flagcdn.com/w40/gb-eng.png");
   });
 
+  it("renders the United States flag from match and prediction-market aliases", () => {
+    assert.equal(flagUrlForTeam("United States"), "https://flagcdn.com/w40/us.png");
+    assert.equal(flagUrlForTeam("USA"), "https://flagcdn.com/w40/us.png");
+    assert.equal(flagUrlForTeam("US"), "https://flagcdn.com/w40/us.png");
+  });
+
   it("can request higher-resolution quiz flags without changing inline defaults", () => {
     assert.equal(flagUrlForTeam("Scotland"), "https://flagcdn.com/w40/gb-sct.png");
     assert.equal(flagUrlForTeam("Scotland", 320), "https://flagcdn.com/w320/gb-sct.png");
