@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-07T03:01:09.334Z",
+  "updatedAt": "2026-07-07T09:33:24.523Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1706,6 +1706,19 @@
       "venueWikiUrl": null
     },
     {
+      "id": "537384",
+      "stage": "QUARTER_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-10T19:00:00Z",
+      "homeTeam": "Spain",
+      "awayTeam": "Belgium",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
+    },
+    {
       "id": "537385",
       "stage": "QUARTER_FINALS",
       "group": null,
@@ -1725,69 +1738,69 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-07T03:01:06.264Z",
+    "updatedAt": "2026-07-07T09:33:21.144Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
         "decimal": 3.03,
-        "probability": 0.3295,
+        "probability": 0.3305,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
-        "team": "Spain",
-        "decimal": 5.36,
-        "probability": 0.1865,
+        "team": "Argentina",
+        "decimal": 5.31,
+        "probability": 0.1885,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
-        "startingProbability": 0.182
-      },
-      {
-        "team": "Argentina",
-        "decimal": 5.48,
-        "probability": 0.1825,
-        "bookmaker": "Polymarket market probability",
-        "rank": 3,
         "startingProbability": 0.1
       },
       {
+        "team": "Spain",
+        "decimal": 5.54,
+        "probability": 0.1805,
+        "bookmaker": "Polymarket market probability",
+        "rank": 3,
+        "startingProbability": 0.182
+      },
+      {
         "team": "England",
-        "decimal": 6.73,
-        "probability": 0.1485,
+        "decimal": 6.97,
+        "probability": 0.1435,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Norway",
-        "decimal": 18.02,
-        "probability": 0.0555,
+        "decimal": 17.39,
+        "probability": 0.0575,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.024
       },
       {
         "team": "Colombia",
-        "decimal": 30.77,
-        "probability": 0.0325,
+        "decimal": 29.85,
+        "probability": 0.0335,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.024
       },
       {
         "team": "Morocco",
-        "decimal": 37.74,
-        "probability": 0.0265,
+        "decimal": 36.36,
+        "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
         "rank": 7,
         "startingProbability": 0.018
       },
       {
         "team": "Belgium",
-        "decimal": 42.55,
-        "probability": 0.0235,
+        "decimal": 44.44,
+        "probability": 0.0225,
         "bookmaker": "Polymarket market probability",
         "rank": 8,
         "startingProbability": 0.024
@@ -1802,18 +1815,11 @@
       },
       {
         "team": "Egypt",
-        "decimal": 285.71,
-        "probability": 0.0035,
+        "decimal": 400,
+        "probability": 0.0025,
         "bookmaker": "Polymarket market probability",
         "rank": 10,
         "startingProbability": 0.008
-      },
-      {
-        "team": "USA",
-        "decimal": 2000,
-        "probability": 0.0005,
-        "bookmaker": "Polymarket market probability",
-        "rank": 11
       }
     ]
   },
@@ -1847,12 +1853,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-07T03:01:14.518Z",
-    "text": "Prediction: Bruno. Bruno leads 42 vs Sara 31; tiebreakers favor Bruno on combined goal difference (19 vs 13) and goals for (40 vs 27) if totals tie. Selected teams: Bruno—Morocco, Japan, Norway, Mexico; Sara—Switzerland, Brazil, Egypt, South Korea. Winner-pick upside: Bruno’s France market prob 0.3295; Sara’s Spain 0.1865. Forecast: Bruno to win; Sara can still surge if her picks click and Bruno’s teams stall. Risk p"
+    "updatedAt": "2026-07-07T09:33:30.716Z",
+    "text": "Prediction: Bruno. Bruno leads 42 vs Sara 31, with higher combined goal-difference (19 vs 13) and goals-for (40 vs 27), so tiebreakers favor Bruno. Bruno’s point-teams Morocco, Japan, Norway, Mexico pace his run, while Sara’s Switzerland/Brazil/Egypt/South Korea trail in raw points but still mix, and Bruno’s winner-picks (France) carry 0 ordinary points but 3/7 bonus potential if semis/win. Market odds tilt Bruno’s F"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-07T03:01:07.895Z",
+    "updatedAt": "2026-07-07T09:33:22.803Z",
     "type": "football_data_scorers",
     "scorers": [
       {
