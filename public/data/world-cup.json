@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-08T03:01:23.560Z",
+  "updatedAt": "2026-07-08T08:18:18.911Z",
   "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
@@ -1682,7 +1682,7 @@
       "status": "finished",
       "homeGoals": 0,
       "awayGoals": 0,
-      "winnerAfterPenalties": null,
+      "winnerAfterPenalties": "Switzerland",
       "venue": null,
       "venueCity": null,
       "venueCountry": null,
@@ -1738,11 +1738,24 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537386",
+      "stage": "QUARTER_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-12T01:00:00Z",
+      "homeTeam": "Argentina",
+      "awayTeam": "Switzerland",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "The Sun World Cup winner odds article",
-    "updatedAt": "2026-07-08T03:01:18.268Z",
+    "updatedAt": "2026-07-08T08:18:15.428Z",
     "type": "bookmaker_article",
     "teams": [
       {
@@ -1857,12 +1870,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-07T09:33:30.716Z",
-    "text": "Prediction: Bruno. Bruno leads 42 vs Sara 31, with higher combined goal-difference (19 vs 13) and goals-for (40 vs 27), so tiebreakers favor Bruno. Bruno’s point-teams Morocco, Japan, Norway, Mexico pace his run, while Sara’s Switzerland/Brazil/Egypt/South Korea trail in raw points but still mix, and Bruno’s winner-picks (France) carry 0 ordinary points but 3/7 bonus potential if semis/win. Market odds tilt Bruno’s F"
+    "updatedAt": "2026-07-08T08:18:23.360Z",
+    "text": "Prediction: Bruno. Bruno leads 42 to 34, with gd 19 vs 12 and 40 gf vs 29. Tiebreakers favor higher combined points-team gd then gf, and Bruno’s top teams Morocco (13), Norway (12), Mexico (12) edge Sara’s Switzerland (13) and Brazil (10). Winner picks show France 0.2667 market, Portugal 0.1053, Spain 0.1333, Netherlands with no stated market. Risk: a late surge by Sara’s teams could flip combined gd if Morocco or No"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-08T03:01:21.899Z",
+    "updatedAt": "2026-07-08T08:18:17.077Z",
     "type": "football_data_scorers",
     "scorers": [
       {
