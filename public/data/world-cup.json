@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-07T09:33:24.523Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-08T03:01:23.560Z",
+  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1662,9 +1662,9 @@
       "kickoff": "2026-07-07T16:00:00Z",
       "homeTeam": "Argentina",
       "awayTeam": "Egypt",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1679,9 +1679,9 @@
       "kickoff": "2026-07-07T20:00:00Z",
       "homeTeam": "Switzerland",
       "awayTeam": "Colombia",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1716,7 +1716,11 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537385",
@@ -1737,89 +1741,89 @@
     }
   ],
   "odds": {
-    "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-07T09:33:21.144Z",
-    "type": "prediction_market",
+    "source": "The Sun World Cup winner odds article",
+    "updatedAt": "2026-07-08T03:01:18.268Z",
+    "type": "bookmaker_article",
     "teams": [
       {
         "team": "France",
-        "decimal": 3.03,
-        "probability": 0.3305,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 3.75,
+        "probability": 0.2667,
+        "bookmaker": "The Sun public odds article",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5.31,
-        "probability": 0.1885,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 5,
+        "probability": 0.2,
+        "bookmaker": "The Sun public odds article",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 5.54,
-        "probability": 0.1805,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 7.5,
+        "probability": 0.1333,
+        "bookmaker": "The Sun public odds article",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 6.97,
-        "probability": 0.1435,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 8,
+        "probability": 0.125,
+        "bookmaker": "The Sun public odds article",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
-        "team": "Norway",
-        "decimal": 17.39,
-        "probability": 0.0575,
-        "bookmaker": "Polymarket market probability",
+        "team": "Portugal",
+        "decimal": 9.5,
+        "probability": 0.1053,
+        "bookmaker": "The Sun public odds article",
         "rank": 5,
-        "startingProbability": 0.024
+        "startingProbability": 0.105
       },
       {
-        "team": "Colombia",
-        "decimal": 29.85,
-        "probability": 0.0335,
-        "bookmaker": "Polymarket market probability",
+        "team": "Brazil",
+        "decimal": 10,
+        "probability": 0.1,
+        "bookmaker": "The Sun public odds article",
         "rank": 6,
-        "startingProbability": 0.024
+        "startingProbability": 0.105
       },
       {
         "team": "Morocco",
-        "decimal": 36.36,
-        "probability": 0.0275,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 23,
+        "probability": 0.0435,
+        "bookmaker": "The Sun public odds article",
         "rank": 7,
         "startingProbability": 0.018
       },
       {
-        "team": "Belgium",
-        "decimal": 44.44,
-        "probability": 0.0225,
-        "bookmaker": "Polymarket market probability",
+        "team": "Colombia",
+        "decimal": 34,
+        "probability": 0.0294,
+        "bookmaker": "The Sun public odds article",
         "rank": 8,
         "startingProbability": 0.024
       },
       {
-        "team": "Switzerland",
-        "decimal": 105.26,
-        "probability": 0.0095,
-        "bookmaker": "Polymarket market probability",
+        "team": "Norway",
+        "decimal": 41,
+        "probability": 0.0244,
+        "bookmaker": "The Sun public odds article",
         "rank": 9,
-        "startingProbability": 0.015
+        "startingProbability": 0.024
       },
       {
-        "team": "Egypt",
-        "decimal": 400,
-        "probability": 0.0025,
-        "bookmaker": "Polymarket market probability",
+        "team": "Mexico",
+        "decimal": 51,
+        "probability": 0.0196,
+        "bookmaker": "The Sun public odds article",
         "rank": 10,
-        "startingProbability": 0.008
+        "startingProbability": 0.012
       }
     ]
   },
@@ -1858,11 +1862,19 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-07T09:33:22.803Z",
+    "updatedAt": "2026-07-08T03:01:21.899Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
+        "player": "Lionel Messi",
+        "team": "Argentina",
+        "goals": 8,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 2,
         "player": "Kylian Mbappé",
         "team": "France",
         "goals": 7,
@@ -1870,17 +1882,9 @@
         "penalties": 1
       },
       {
-        "rank": 2,
+        "rank": 3,
         "player": "Erling Haaland",
         "team": "Norway",
-        "goals": 7,
-        "assists": null,
-        "penalties": null
-      },
-      {
-        "rank": 3,
-        "player": "Lionel Messi",
-        "team": "Argentina",
         "goals": 7,
         "assists": null,
         "penalties": null
