@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-09T06:10:16.316Z",
+  "updatedAt": "2026-07-09T09:34:12.915Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1759,13 +1759,13 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-09T06:10:13.062Z",
+    "updatedAt": "2026-07-09T09:34:09.751Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 3.11,
-        "probability": 0.3215,
+        "decimal": 3.13,
+        "probability": 0.3195,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
@@ -1788,24 +1788,24 @@
       },
       {
         "team": "England",
-        "decimal": 6.31,
-        "probability": 0.1585,
+        "decimal": 6.27,
+        "probability": 0.1595,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Norway",
-        "decimal": 16.81,
-        "probability": 0.0595,
+        "decimal": 16.53,
+        "probability": 0.0605,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.024
       },
       {
         "team": "Morocco",
-        "decimal": 35.09,
-        "probability": 0.0285,
+        "decimal": 36.36,
+        "probability": 0.0275,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
         "startingProbability": 0.018
@@ -1863,7 +1863,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-09T06:10:14.792Z",
+    "updatedAt": "2026-07-09T09:34:11.329Z",
     "type": "football_data_scorers",
     "scorers": [
       {
