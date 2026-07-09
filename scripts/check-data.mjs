@@ -26,6 +26,20 @@ function mayTemporarilyMissVenue(match) {
   return stageKind(match.stage) !== "group";
 }
 
+function requiredRankedFavoriteCount(matches = [], fallbackCount = 10) {
+  const remainingTeams = new Set();
+  for (const match of matches) {
+    if (match.status === "finished" || !match.homeTeam || !match.awayTeam) continue;
+    remainingTeams.add(normalizeTeam(match.homeTeam));
+    remainingTeams.add(normalizeTeam(match.awayTeam));
+  }
+  if (remainingTeams.size) return Math.min(10, remainingTeams.size);
+
+  const fallback = Number(fallbackCount);
+  if (Number.isFinite(fallback) && fallback > 0) return Math.min(10, fallback);
+  return 10;
+}
+
 for (const playerName of requiredPlayers) {
   const player = data.players.find((entry) => entry.name === playerName);
   if (!player) throw new Error(`Missing player ${playerName}`);
@@ -114,8 +128,9 @@ for (const entry of startingChances.teams) {
   startingProbabilityByTeam.set(normalizeTeam(entry.team), probability);
 }
 
-if (data.odds.teams.filter((entry) => Number(entry.rank) <= 10).length < 10) {
-  throw new Error("Odds data must include at least 10 ranked favorites");
+const requiredOddsCount = requiredRankedFavoriteCount(data.matches, data.odds.teams.length);
+if (data.odds.teams.filter((entry) => Number(entry.rank) <= requiredOddsCount).length < requiredOddsCount) {
+  throw new Error(`Odds data must include at least ${requiredOddsCount} ranked favorites at this stage`);
 }
 
 for (const entry of data.odds.teams) {

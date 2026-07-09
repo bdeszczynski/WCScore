@@ -12,6 +12,7 @@ import {
   parsePolymarketMatchMarket,
   parsePolymarketWinnerEvent,
   parseSunWinnerOdds,
+  requiredRankedFavoriteCount,
   syncManualResultSkeleton,
 } from "../scripts/update-data.mjs";
 
@@ -411,6 +412,36 @@ describe("parsePolymarketWinnerEvent", () => {
       rows.map((row) => row.team),
       ["Brazil"],
     );
+  });
+});
+
+describe("requiredRankedFavoriteCount", () => {
+  it("requires 10 ranked favorites while more than 10 teams remain", () => {
+    const matches = [
+      { status: "scheduled", homeTeam: "France", awayTeam: "Spain" },
+      { status: "scheduled", homeTeam: "Brazil", awayTeam: "England" },
+      { status: "scheduled", homeTeam: "Portugal", awayTeam: "Argentina" },
+      { status: "scheduled", homeTeam: "Germany", awayTeam: "Netherlands" },
+      { status: "scheduled", homeTeam: "Morocco", awayTeam: "Belgium" },
+      { status: "scheduled", homeTeam: "Japan", awayTeam: "Norway" },
+    ];
+
+    assert.equal(requiredRankedFavoriteCount(matches), 10);
+  });
+
+  it("drops the requirement to the number of remaining teams in late knockout rounds", () => {
+    const matches = [
+      { status: "scheduled", homeTeam: "France", awayTeam: "Morocco" },
+      { status: "scheduled", homeTeam: "Norway", awayTeam: "England" },
+      { status: "scheduled", homeTeam: "Spain", awayTeam: "Belgium" },
+      { status: "scheduled", homeTeam: "Argentina", awayTeam: "Switzerland" },
+    ];
+
+    assert.equal(requiredRankedFavoriteCount(matches), 8);
+  });
+
+  it("falls back to the current odds row count when no future fixtures are loaded", () => {
+    assert.equal(requiredRankedFavoriteCount([], 8), 8);
   });
 });
 

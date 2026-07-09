@@ -246,6 +246,19 @@ function normalizeProbabilities(values) {
   return probabilities.map((value) => roundDecimal(value / total, 4));
 }
 
+export function requiredRankedFavoriteCount(matches = [], fallbackCount = 10) {
+  const remainingTeams = new Set();
+  for (const match of unfinishedMatches(matches)) {
+    if (match.homeTeam) remainingTeams.add(normalizeTeam(match.homeTeam));
+    if (match.awayTeam) remainingTeams.add(normalizeTeam(match.awayTeam));
+  }
+  if (remainingTeams.size) return Math.min(10, remainingTeams.size);
+
+  const fallback = Number(fallbackCount);
+  if (Number.isFinite(fallback) && fallback > 0) return Math.min(10, fallback);
+  return 10;
+}
+
 function parseJsonArray(value) {
   if (Array.isArray(value)) return value;
   try {
@@ -1111,8 +1124,9 @@ export async function fetchPolymarketOdds(currentData = {}) {
       selectedTeams: selectedTeamNamesFromData(currentData),
       currentRows: currentData.odds?.teams || [],
     });
-    if (rows.filter((row) => row.rank <= 10).length < 10) {
-      throw new Error(`Polymarket returned ${rows.length} usable winner markets`);
+    const requiredCount = requiredRankedFavoriteCount(currentData.matches || [], currentData.odds?.teams?.length);
+    if (rows.filter((row) => row.rank <= requiredCount).length < requiredCount) {
+      throw new Error(`Polymarket returned ${rows.length} usable winner markets; need ${requiredCount} at this stage`);
     }
 
     return {
@@ -1189,6 +1203,7 @@ export function parseSunWinnerOdds(html, { limit = 10, selectedTeams = new Set()
 
 async function fetchSunArticleOdds(currentData = {}) {
   const selectedTeams = selectedTeamNamesFromData(currentData);
+  const requiredCount = requiredRankedFavoriteCount(currentData.matches || [], currentData.odds?.teams?.length);
 
   for (const url of PUBLIC_ODDS_SOURCES) {
     try {
@@ -1201,7 +1216,7 @@ async function fetchSunArticleOdds(currentData = {}) {
         selectedTeams,
         currentRows: currentData.odds?.teams || [],
       });
-      if (rows.length >= 4) {
+      if (rows.filter((row) => row.rank <= requiredCount).length >= requiredCount) {
         return {
           source: "The Sun World Cup winner odds article",
           updatedAt: new Date().toISOString(),
