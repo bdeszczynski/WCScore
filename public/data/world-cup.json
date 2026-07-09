@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-08T08:18:18.911Z",
-  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
+  "updatedAt": "2026-07-09T06:10:16.316Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1750,93 +1750,81 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
-    "source": "The Sun World Cup winner odds article",
-    "updatedAt": "2026-07-08T08:18:15.428Z",
-    "type": "bookmaker_article",
+    "source": "Polymarket World Cup Winner market",
+    "updatedAt": "2026-07-09T06:10:13.062Z",
+    "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 3.75,
-        "probability": 0.2667,
-        "bookmaker": "The Sun public odds article",
+        "decimal": 3.11,
+        "probability": 0.3215,
+        "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 5,
-        "probability": 0.2,
-        "bookmaker": "The Sun public odds article",
+        "decimal": 4.99,
+        "probability": 0.2005,
+        "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 7.5,
-        "probability": 0.1333,
-        "bookmaker": "The Sun public odds article",
+        "decimal": 5.33,
+        "probability": 0.1875,
+        "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
       },
       {
         "team": "England",
-        "decimal": 8,
-        "probability": 0.125,
-        "bookmaker": "The Sun public odds article",
+        "decimal": 6.31,
+        "probability": 0.1585,
+        "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
-        "team": "Portugal",
-        "decimal": 9.5,
-        "probability": 0.1053,
-        "bookmaker": "The Sun public odds article",
+        "team": "Norway",
+        "decimal": 16.81,
+        "probability": 0.0595,
+        "bookmaker": "Polymarket market probability",
         "rank": 5,
-        "startingProbability": 0.105
-      },
-      {
-        "team": "Brazil",
-        "decimal": 10,
-        "probability": 0.1,
-        "bookmaker": "The Sun public odds article",
-        "rank": 6,
-        "startingProbability": 0.105
+        "startingProbability": 0.024
       },
       {
         "team": "Morocco",
-        "decimal": 23,
-        "probability": 0.0435,
-        "bookmaker": "The Sun public odds article",
-        "rank": 7,
+        "decimal": 35.09,
+        "probability": 0.0285,
+        "bookmaker": "Polymarket market probability",
+        "rank": 6,
         "startingProbability": 0.018
       },
       {
-        "team": "Colombia",
-        "decimal": 34,
-        "probability": 0.0294,
-        "bookmaker": "The Sun public odds article",
+        "team": "Belgium",
+        "decimal": 40.82,
+        "probability": 0.0245,
+        "bookmaker": "Polymarket market probability",
+        "rank": 7,
+        "startingProbability": 0.024
+      },
+      {
+        "team": "Switzerland",
+        "decimal": 46.51,
+        "probability": 0.0215,
+        "bookmaker": "Polymarket market probability",
         "rank": 8,
-        "startingProbability": 0.024
-      },
-      {
-        "team": "Norway",
-        "decimal": 41,
-        "probability": 0.0244,
-        "bookmaker": "The Sun public odds article",
-        "rank": 9,
-        "startingProbability": 0.024
-      },
-      {
-        "team": "Mexico",
-        "decimal": 51,
-        "probability": 0.0196,
-        "bookmaker": "The Sun public odds article",
-        "rank": 10,
-        "startingProbability": 0.012
+        "startingProbability": 0.015
       }
     ]
   },
@@ -1870,12 +1858,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-08T08:18:23.360Z",
-    "text": "Prediction: Bruno. Bruno leads 42 to 34, with gd 19 vs 12 and 40 gf vs 29. Tiebreakers favor higher combined points-team gd then gf, and Bruno’s top teams Morocco (13), Norway (12), Mexico (12) edge Sara’s Switzerland (13) and Brazil (10). Winner picks show France 0.2667 market, Portugal 0.1053, Spain 0.1333, Netherlands with no stated market. Risk: a late surge by Sara’s teams could flip combined gd if Morocco or No"
+    "updatedAt": "2026-07-09T06:10:20.531Z",
+    "text": "Prediction: Bruno. Bruno leads 42 to 34 on total points, with a tighter goal-difference (19 vs 12) and bigger goals-for (40 vs 29), so tiebreakers tilt Bruno. Selected teams: Bruno’s Mor/ Japan/ Norway/ Mexico contrast Sara’s Switzerland/ Brazil/ Egypt/ South Korea. Winner-picks show France (market 0.3215) vs Spain (0.1875) as the strongest upside; winner-picks are just tracking, not points. Risk: a late swing from S"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-08T08:18:17.077Z",
+    "updatedAt": "2026-07-09T06:10:14.792Z",
     "type": "football_data_scorers",
     "scorers": [
       {
