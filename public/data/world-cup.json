@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-09T09:34:12.915Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-10T03:01:10.434Z",
+  "source": "football-data.org + Wikipedia venue metadata + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1696,9 +1696,9 @@
       "kickoff": "2026-07-09T20:00:00Z",
       "homeTeam": "France",
       "awayTeam": "Morocco",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 2,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1858,29 +1858,29 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-09T06:10:20.531Z",
-    "text": "Prediction: Bruno. Bruno leads 42 to 34 on total points, with a tighter goal-difference (19 vs 12) and bigger goals-for (40 vs 29), so tiebreakers tilt Bruno. Selected teams: Bruno’s Mor/ Japan/ Norway/ Mexico contrast Sara’s Switzerland/ Brazil/ Egypt/ South Korea. Winner-picks show France (market 0.3215) vs Spain (0.1875) as the strongest upside; winner-picks are just tracking, not points. Risk: a late swing from S"
+    "updatedAt": "2026-07-10T03:01:18.810Z",
+    "text": "Prediction: Bruno. Bruno leads on current points (42 vs 34) and tiebreakers: sum of selected teams' goal difference (Bruno 17 vs Sara 12) and goals for (Bruno 40 vs Sara 29). Bruno’s point-teams sum to 17 GD/40 GF; Sara’s sum to 12 GD/29 GF. Winner-picks tilt Bruno’s way (France 0.3195 market prob; Portugal 0.?), while Sara has Spain 0.1875. Risk: a sudden swing in top listed teams could"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-09T09:34:11.329Z",
+    "updatedAt": "2026-07-10T03:01:09.109Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
+        "player": "Kylian Mbappé",
+        "team": "France",
+        "goals": 8,
+        "assists": 2,
+        "penalties": 1
+      },
+      {
+        "rank": 2,
         "player": "Lionel Messi",
         "team": "Argentina",
         "goals": 8,
         "assists": 1,
         "penalties": null
-      },
-      {
-        "rank": 2,
-        "player": "Kylian Mbappé",
-        "team": "France",
-        "goals": 7,
-        "assists": 2,
-        "penalties": 1
       },
       {
         "rank": 3,
@@ -1902,7 +1902,7 @@
         "rank": 5,
         "player": "Ousmane Dembélé",
         "team": "France",
-        "goals": 4,
+        "goals": 5,
         "assists": 2,
         "penalties": null
       },
