@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-10T03:01:10.434Z",
-  "source": "football-data.org + Wikipedia venue metadata + football-data.org scorers",
+  "updatedAt": "2026-07-10T09:26:19.646Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1759,29 +1759,29 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-09T09:34:09.751Z",
+    "updatedAt": "2026-07-10T09:26:17.276Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 3.13,
-        "probability": 0.3195,
+        "decimal": 2.59,
+        "probability": 0.3855,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Argentina",
-        "decimal": 4.99,
-        "probability": 0.2005,
+        "decimal": 5.33,
+        "probability": 0.1875,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.1
       },
       {
         "team": "Spain",
-        "decimal": 5.33,
-        "probability": 0.1875,
+        "decimal": 5.93,
+        "probability": 0.1685,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
@@ -1803,27 +1803,19 @@
         "startingProbability": 0.024
       },
       {
-        "team": "Morocco",
-        "decimal": 36.36,
-        "probability": 0.0275,
+        "team": "Belgium",
+        "decimal": 46.51,
+        "probability": 0.0215,
         "bookmaker": "Polymarket market probability",
         "rank": 6,
-        "startingProbability": 0.018
-      },
-      {
-        "team": "Belgium",
-        "decimal": 40.82,
-        "probability": 0.0245,
-        "bookmaker": "Polymarket market probability",
-        "rank": 7,
         "startingProbability": 0.024
       },
       {
         "team": "Switzerland",
-        "decimal": 46.51,
-        "probability": 0.0215,
+        "decimal": 51.28,
+        "probability": 0.0195,
         "bookmaker": "Polymarket market probability",
-        "rank": 8,
+        "rank": 7,
         "startingProbability": 0.015
       }
     ]
@@ -1858,12 +1850,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-10T03:01:18.810Z",
-    "text": "Prediction: Bruno. Bruno leads on current points (42 vs 34) and tiebreakers: sum of selected teams' goal difference (Bruno 17 vs Sara 12) and goals for (Bruno 40 vs Sara 29). Bruno’s point-teams sum to 17 GD/40 GF; Sara’s sum to 12 GD/29 GF. Winner-picks tilt Bruno’s way (France 0.3195 market prob; Portugal 0.?), while Sara has Spain 0.1875. Risk: a sudden swing in top listed teams could"
+    "updatedAt": "2026-07-10T09:26:25.561Z",
+    "text": "Prediction: Bruno. Bruno sits on 45 to Sara’s 34; tiebreakers favor Bruno on combined points-team GD (Bruno 17 vs Sara 12) and GF (40 vs 29). Bruno’s point-teams: Morocco 13, Japan 5, Norway 12, Mexico 12. Sara’s point-teams: Switzerland 13, Brazil 10, Egypt 8, South Korea -1. Winner picks upside: France (Bruno) 3 bonus if semis, 7 if Cup; Spain (Sara) 13 tracking, 0 otherwise. Market: France ~38.6% vs Spain ~16.9%. "
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-10T03:01:09.109Z",
+    "updatedAt": "2026-07-10T09:26:17.952Z",
     "type": "football_data_scorers",
     "scorers": [
       {
