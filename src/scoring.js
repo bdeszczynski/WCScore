@@ -105,10 +105,18 @@ export function countRemainingGroupMatches(matches, teamName) {
 }
 
 export function bonusStatus(matches, teamName) {
+  const knockoutAdvancedToSemi = matches.some((match) => {
+    if (stageKind(match.stage) !== "knockout" || !isFinished(match)) return false;
+    const winner =
+      match.winnerAfterPenalties ||
+      (match.homeGoals > match.awayGoals ? match.homeTeam : match.awayGoals > match.homeGoals ? match.awayTeam : "");
+    return Boolean(winner && isSameTeam(winner, teamName) && /quarter/i.test(String(match.stage)));
+  });
+
   const semiReached = matches.some((match) => {
     const kind = stageKind(match.stage);
     return (kind === "semi" || kind === "final") && (isSameTeam(match.homeTeam, teamName) || isSameTeam(match.awayTeam, teamName));
-  });
+  }) || knockoutAdvancedToSemi;
 
   const final = matches.find((match) => stageKind(match.stage) === "final" && isFinished(match));
   const champion =

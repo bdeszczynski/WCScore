@@ -190,6 +190,16 @@ describe("bonusStatus", () => {
     });
   });
 
+  it("gives three points when a team wins a quarter-final before semi-final fixtures are loaded", () => {
+    const matches = [{ stage: "QUARTER_FINALS", status: "finished", homeTeam: "France", awayTeam: "Morocco", homeGoals: 2, awayGoals: 0 }];
+
+    assert.deepEqual(bonusStatus(matches, "France"), {
+      semiReached: true,
+      wonCup: false,
+      points: 3,
+    });
+  });
+
   it("gives semi-final plus champion points for winning the final", () => {
     const matches = [
       { stage: "Semi-finals", status: "finished", homeTeam: "Morocco", awayTeam: "France", homeGoals: 2, awayGoals: 1 },

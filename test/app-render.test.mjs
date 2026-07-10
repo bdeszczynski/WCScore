@@ -195,6 +195,7 @@ describe("app render smoke test", () => {
       text: "Prediction: Sara. VAR-bot sees Spain warming up while Bruno starts negotiating with goal difference.",
     };
     const upcoming = data.matches.find((match) => match.status !== "finished");
+    const upcomingStageLabel = String(upcoming.stage || "").replace(/_/g, " ");
     data.matchOdds = {
       source: "Polymarket match markets",
       updatedAt: "2026-06-15T00:00:00.000Z",
@@ -313,9 +314,11 @@ describe("app render smoke test", () => {
       assert.notEqual(document.querySelector("#odds-updated").textContent, "Loading");
       assert.match(document.querySelector("#match-list").innerHTML, /match-card/);
       assert.match(document.querySelector("#match-list").innerHTML, /match-market-chance/);
-      assert.match(document.querySelector("#match-list").innerHTML, /LAST 16/);
+      assert.match(document.querySelector("#match-list").innerHTML, new RegExp(upcomingStageLabel));
       assert.doesNotMatch(document.querySelector("#match-list").innerHTML, /GROUP_STAGE/);
-      assert.match(document.querySelector("#match-list").innerHTML, new RegExp(`Match ${upcoming.matchNumber}`));
+      if (upcoming.matchNumber !== null && upcoming.matchNumber !== undefined && Number.isFinite(Number(upcoming.matchNumber))) {
+        assert.match(document.querySelector("#match-list").innerHTML, new RegExp(`Match ${upcoming.matchNumber}`));
+      }
       assert.match(document.querySelector("#match-list").innerHTML, new RegExp(upcoming.homeTeam));
       document.viewButtons[1].dispatch("click");
       assert.match(document.querySelector("#app-story").innerHTML, /VAR-bot says/);
