@@ -351,10 +351,43 @@ function matchNumber(match) {
 
 function knockoutMatchesByNumber(matches = state.data.matches || []) {
   const byNumber = new Map();
+  const unresolved = [];
   for (const match of matches) {
     if (stageKind(match.stage) === "group") continue;
     const number = matchNumber(match);
-    if (number) byNumber.set(number, match);
+    if (number) {
+      byNumber.set(number, match);
+    } else {
+      unresolved.push(match);
+    }
+  }
+
+  for (const round of [...QUARTER_FINALS, ...SEMI_FINALS, ...THIRD_PLACE_MATCH, ...FINAL_MATCH]) {
+    if (byNumber.has(round.match)) continue;
+    const stageMatches = unresolved.filter((match) => String(match.stage || "").toUpperCase() === round.stage);
+    if (!stageMatches.length) continue;
+
+    const sourceTeams = round.from
+      .map((matchNo, index) => {
+        const source = byNumber.get(matchNo);
+        if (!source) return null;
+        const sourceTeam = round.sourcePrefix === "L" ? knockoutLoser(source) : knockoutWinner(source);
+        return sourceTeam ? { teamName: sourceTeam, slot: index } : null;
+      })
+      .filter(Boolean);
+
+    if (sourceTeams.length !== round.from.length) continue;
+
+    const inferred = stageMatches.find((match) => {
+      const home = normalizeTeam(match.homeTeam);
+      const away = normalizeTeam(match.awayTeam);
+      const expected = sourceTeams.map((team) => normalizeTeam(team.teamName));
+      return expected.includes(home) && expected.includes(away);
+    });
+
+    if (inferred) {
+      byNumber.set(round.match, inferred);
+    }
   }
   return byNumber;
 }
