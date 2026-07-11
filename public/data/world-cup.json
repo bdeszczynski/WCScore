@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-11T03:01:13.002Z",
+  "updatedAt": "2026-07-11T07:47:24.456Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1755,49 +1755,62 @@
       "venueCity": null,
       "venueCountry": null,
       "venueWikiUrl": null
+    },
+    {
+      "id": "537387",
+      "stage": "SEMI_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-14T19:00:00Z",
+      "homeTeam": "France",
+      "awayTeam": "Spain",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
+      "winnerAfterPenalties": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-11T03:01:10.515Z",
+    "updatedAt": "2026-07-11T07:47:20.913Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.68,
-        "probability": 0.3725,
+        "decimal": 2.64,
+        "probability": 0.3795,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
         "team": "Spain",
-        "decimal": 4.6,
-        "probability": 0.2175,
+        "decimal": 4.73,
+        "probability": 0.2115,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
         "startingProbability": 0.182
       },
       {
         "team": "Argentina",
-        "decimal": 5.48,
-        "probability": 0.1825,
+        "decimal": 5.6,
+        "probability": 0.1785,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.1
       },
       {
         "team": "England",
-        "decimal": 6.83,
-        "probability": 0.1465,
+        "decimal": 6.92,
+        "probability": 0.1445,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Norway",
-        "decimal": 16.81,
-        "probability": 0.0595,
+        "decimal": 17.09,
+        "probability": 0.0585,
         "bookmaker": "Polymarket market probability",
         "rank": 5,
         "startingProbability": 0.024
@@ -1847,7 +1860,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-11T03:01:11.909Z",
+    "updatedAt": "2026-07-11T07:47:22.807Z",
     "type": "football_data_scorers",
     "scorers": [
       {
