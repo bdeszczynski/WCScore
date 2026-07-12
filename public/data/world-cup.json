@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-11T07:47:24.456Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-12T08:08:15.266Z",
+  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1730,9 +1730,9 @@
       "kickoff": "2026-07-11T21:00:00Z",
       "homeTeam": "Norway",
       "awayTeam": "England",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1747,9 +1747,9 @@
       "kickoff": "2026-07-12T01:00:00Z",
       "homeTeam": "Argentina",
       "awayTeam": "Switzerland",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 3,
+      "awayGoals": 1,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1767,61 +1767,78 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
+    },
+    {
+      "id": "537388",
+      "stage": "SEMI_FINALS",
+      "group": null,
+      "matchNumber": null,
+      "kickoff": "2026-07-15T19:00:00Z",
+      "homeTeam": "England",
+      "awayTeam": "Argentina",
+      "status": "scheduled",
+      "homeGoals": null,
+      "awayGoals": null,
       "winnerAfterPenalties": null
     }
   ],
   "odds": {
-    "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-11T07:47:20.913Z",
-    "type": "prediction_market",
+    "source": "The Sun World Cup winner odds article",
+    "updatedAt": "2026-07-12T08:08:11.863Z",
+    "type": "bookmaker_article",
     "teams": [
       {
-        "team": "France",
-        "decimal": 2.64,
-        "probability": 0.3795,
-        "bookmaker": "Polymarket market probability",
-        "rank": 1,
-        "startingProbability": 0.174
-      },
-      {
         "team": "Spain",
-        "decimal": 4.73,
-        "probability": 0.2115,
-        "bookmaker": "Polymarket market probability",
-        "rank": 2,
+        "decimal": 2.75,
+        "probability": 0.3636,
+        "bookmaker": "The Sun public odds article",
+        "rank": 1,
         "startingProbability": 0.182
       },
       {
+        "team": "France",
+        "decimal": 3.75,
+        "probability": 0.2667,
+        "bookmaker": "The Sun public odds article",
+        "rank": 2,
+        "startingProbability": 0.174
+      },
+      {
         "team": "Argentina",
-        "decimal": 5.6,
-        "probability": 0.1785,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 5,
+        "probability": 0.2,
+        "bookmaker": "The Sun public odds article",
         "rank": 3,
         "startingProbability": 0.1
       },
       {
         "team": "England",
-        "decimal": 6.92,
-        "probability": 0.1445,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 5.75,
+        "probability": 0.1739,
+        "bookmaker": "The Sun public odds article",
         "rank": 4,
         "startingProbability": 0.118
       },
       {
         "team": "Norway",
-        "decimal": 17.09,
-        "probability": 0.0585,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 16,
+        "probability": 0.0625,
+        "bookmaker": "The Sun public odds article",
         "rank": 5,
         "startingProbability": 0.024
       },
       {
-        "team": "Switzerland",
-        "decimal": 60.61,
-        "probability": 0.0165,
-        "bookmaker": "Polymarket market probability",
+        "team": "Morocco",
+        "decimal": 29,
+        "probability": 0.0345,
+        "bookmaker": "The Sun public odds article",
         "rank": 6,
-        "startingProbability": 0.015
+        "startingProbability": 0.018
       }
     ]
   },
@@ -1855,12 +1872,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-11T03:01:18.833Z",
-    "text": "Prediction: Bruno. Bruno leads"
+    "updatedAt": "2026-07-12T08:08:21.668Z",
+    "text": "Prediction: Bruno. Bruno leads 45 total vs Sara 37, and combined points-for/against favor Bruno (gd 16 vs 10). Bruno’s selected teams Morocco/Japan/Norway/Mexico boost his cushion, while Sara’s Switzerland/Brazil/Egypt/South Korea lag on tiebreakers. Winner-picks: France (Bruno) vs Spain (Sara) with Spain 0.3636 market; Bruno’s pick upside remains via semi/cup bonuses. Risk: a sharp Swiss/Spain swing could flip the m"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-11T07:47:22.807Z",
+    "updatedAt": "2026-07-12T08:08:13.715Z",
     "type": "football_data_scorers",
     "scorers": [
       {
@@ -1876,7 +1893,7 @@
         "player": "Lionel Messi",
         "team": "Argentina",
         "goals": 8,
-        "assists": 1,
+        "assists": 2,
         "penalties": null
       },
       {
@@ -1897,6 +1914,14 @@
       },
       {
         "rank": 5,
+        "player": "Jude Bellingham",
+        "team": "England",
+        "goals": 6,
+        "assists": 1,
+        "penalties": null
+      },
+      {
+        "rank": 6,
         "player": "Ousmane Dembélé",
         "team": "France",
         "goals": 5,
@@ -1904,17 +1929,9 @@
         "penalties": null
       },
       {
-        "rank": 6,
+        "rank": 7,
         "player": "Ismaïla Sarr",
         "team": "Senegal",
-        "goals": 4,
-        "assists": 1,
-        "penalties": null
-      },
-      {
-        "rank": 7,
-        "player": "Jude Bellingham",
-        "team": "England",
         "goals": 4,
         "assists": 1,
         "penalties": null
