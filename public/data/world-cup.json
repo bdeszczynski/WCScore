@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-12T08:08:15.266Z",
-  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
+  "updatedAt": "2026-07-13T03:01:23.136Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1784,61 +1784,49 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
-    "source": "The Sun World Cup winner odds article",
-    "updatedAt": "2026-07-12T08:08:11.863Z",
-    "type": "bookmaker_article",
+    "source": "Polymarket World Cup Winner market",
+    "updatedAt": "2026-07-13T03:01:17.807Z",
+    "type": "prediction_market",
     "teams": [
       {
-        "team": "Spain",
-        "decimal": 2.75,
-        "probability": 0.3636,
-        "bookmaker": "The Sun public odds article",
-        "rank": 1,
-        "startingProbability": 0.182
-      },
-      {
         "team": "France",
-        "decimal": 3.75,
-        "probability": 0.2667,
-        "bookmaker": "The Sun public odds article",
-        "rank": 2,
+        "decimal": 2.57,
+        "probability": 0.3895,
+        "bookmaker": "Polymarket market probability",
+        "rank": 1,
         "startingProbability": 0.174
       },
       {
-        "team": "Argentina",
-        "decimal": 5,
-        "probability": 0.2,
-        "bookmaker": "The Sun public odds article",
-        "rank": 3,
-        "startingProbability": 0.1
-      },
-      {
         "team": "England",
-        "decimal": 5.75,
-        "probability": 0.1739,
-        "bookmaker": "The Sun public odds article",
-        "rank": 4,
+        "decimal": 4.64,
+        "probability": 0.2155,
+        "bookmaker": "Polymarket market probability",
+        "rank": 2,
         "startingProbability": 0.118
       },
       {
-        "team": "Norway",
-        "decimal": 16,
-        "probability": 0.0625,
-        "bookmaker": "The Sun public odds article",
-        "rank": 5,
-        "startingProbability": 0.024
+        "team": "Spain",
+        "decimal": 4.82,
+        "probability": 0.2075,
+        "bookmaker": "Polymarket market probability",
+        "rank": 3,
+        "startingProbability": 0.182
       },
       {
-        "team": "Morocco",
-        "decimal": 29,
-        "probability": 0.0345,
-        "bookmaker": "The Sun public odds article",
-        "rank": 6,
-        "startingProbability": 0.018
+        "team": "Argentina",
+        "decimal": 5.51,
+        "probability": 0.1815,
+        "bookmaker": "Polymarket market probability",
+        "rank": 4,
+        "startingProbability": 0.1
       }
     ]
   },
@@ -1877,7 +1865,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-12T08:08:13.715Z",
+    "updatedAt": "2026-07-13T03:01:19.548Z",
     "type": "football_data_scorers",
     "scorers": [
       {
