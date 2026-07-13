@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-13T03:01:23.136Z",
+  "updatedAt": "2026-07-13T08:59:17.956Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1793,13 +1793,13 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-13T03:01:17.807Z",
+    "updatedAt": "2026-07-13T08:59:16.305Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "France",
         "decimal": 2.57,
-        "probability": 0.3895,
+        "probability": 0.3885,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.174
@@ -1822,8 +1822,8 @@
       },
       {
         "team": "Argentina",
-        "decimal": 5.51,
-        "probability": 0.1815,
+        "decimal": 5.73,
+        "probability": 0.1745,
         "bookmaker": "Polymarket market probability",
         "rank": 4,
         "startingProbability": 0.1
@@ -1860,12 +1860,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-12T08:08:21.668Z",
-    "text": "Prediction: Bruno. Bruno leads 45 total vs Sara 37, and combined points-for/against favor Bruno (gd 16 vs 10). Bruno’s selected teams Morocco/Japan/Norway/Mexico boost his cushion, while Sara’s Switzerland/Brazil/Egypt/South Korea lag on tiebreakers. Winner-picks: France (Bruno) vs Spain (Sara) with Spain 0.3636 market; Bruno’s pick upside remains via semi/cup bonuses. Risk: a sharp Swiss/Spain swing could flip the m"
+    "updatedAt": "2026-07-13T08:59:21.625Z",
+    "text": "Prediction: Bruno. Bruno leads 45–37 with gd 16 vs 10 and gf 41 vs 30, so tiebreakers lean Bruno. Selected teams favor Bruno’s Morocco/Japan/Norway/Mexico against Sara’s Switzerland/Brazil/Egypt/South Korea; Bruno’s winner pick France market prob 0.3885 (Spain for Sara 0.2075). Winner-picks aren’t match points but help long-term upside. Risk: a slump in Bruno’s margin or a Spain upset reshapes semi/CSW paths. Comebac"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-13T03:01:19.548Z",
+    "updatedAt": "2026-07-13T08:59:16.963Z",
     "type": "football_data_scorers",
     "scorers": [
       {
