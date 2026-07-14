@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-14T03:01:18.272Z",
+  "updatedAt": "2026-07-14T07:54:22.096Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1793,7 +1793,7 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-14T03:01:16.366Z",
+    "updatedAt": "2026-07-14T07:54:18.770Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1814,8 +1814,8 @@
       },
       {
         "team": "Spain",
-        "decimal": 4.73,
-        "probability": 0.2115,
+        "decimal": 4.71,
+        "probability": 0.2125,
         "bookmaker": "Polymarket market probability",
         "rank": 3,
         "startingProbability": 0.182
@@ -1860,12 +1860,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-14T03:01:21.639Z",
-    "text": "Prediction: Bruno. Bruno leads on total points (45 vs 37) and wins the tiebreakers on gd (16 vs 10) and gf (41 vs 30). Selected point teams favor Bruno’s Morocco/Japan/Norway/Mexico mix, and his winner pick France sits at market 0.3895, higher than Sara’s Spain at 0.2115. Comeback path: Sara boosts by overturning tied totals with a bigger GD chase. Trash-talk: keep it classy, but hey, your Switzerland magic ain’t foo"
+    "updatedAt": "2026-07-14T07:54:32.621Z",
+    "text": "Prediction: Bruno. Bruno leads 45 to 37, and in tie-breakers Bruno’s combined gd (16) and gf (41) outrun Sara’s (gd 10, gf 30)."
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-14T03:01:17.094Z",
+    "updatedAt": "2026-07-14T07:54:20.904Z",
     "type": "football_data_scorers",
     "scorers": [
       {
