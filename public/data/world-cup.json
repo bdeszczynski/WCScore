@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-14T07:54:22.096Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-15T03:01:20.879Z",
+  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers + Native Stats match odds",
   "players": [
     {
       "name": "Bruno",
@@ -1764,9 +1764,9 @@
       "kickoff": "2026-07-14T19:00:00Z",
       "homeTeam": "France",
       "awayTeam": "Spain",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 0,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1792,39 +1792,39 @@
     }
   ],
   "odds": {
-    "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-14T07:54:18.770Z",
-    "type": "prediction_market",
+    "source": "The Sun World Cup winner odds article",
+    "updatedAt": "2026-07-15T03:01:19.639Z",
+    "type": "bookmaker_article",
     "teams": [
       {
         "team": "France",
-        "decimal": 2.57,
-        "probability": 0.3895,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 3.75,
+        "probability": 0.2667,
+        "bookmaker": "The Sun public odds article",
         "rank": 1,
         "startingProbability": 0.174
       },
       {
-        "team": "England",
-        "decimal": 4.64,
-        "probability": 0.2155,
-        "bookmaker": "Polymarket market probability",
-        "rank": 2,
-        "startingProbability": 0.118
-      },
-      {
         "team": "Spain",
-        "decimal": 4.71,
-        "probability": 0.2125,
-        "bookmaker": "Polymarket market probability",
-        "rank": 3,
+        "decimal": 4.4,
+        "probability": 0.2273,
+        "bookmaker": "The Sun public odds article",
+        "rank": 2,
         "startingProbability": 0.182
       },
       {
+        "team": "England",
+        "decimal": 4.5,
+        "probability": 0.2222,
+        "bookmaker": "The Sun public odds article",
+        "rank": 3,
+        "startingProbability": 0.118
+      },
+      {
         "team": "Argentina",
-        "decimal": 5.76,
-        "probability": 0.1735,
-        "bookmaker": "Polymarket market probability",
+        "decimal": 5,
+        "probability": 0.2,
+        "bookmaker": "The Sun public odds article",
         "rank": 4,
         "startingProbability": 0.1
       }
@@ -1832,40 +1832,29 @@
   },
   "matchOdds": {
     "source": "Native Stats match odds",
-    "updatedAt": "2026-07-03T18:35:15.433Z",
+    "updatedAt": "2026-07-15T03:01:20.876Z",
     "type": "bookmaker_match",
     "matches": [
       {
-        "matchId": "537427",
-        "homeTeam": "Argentina",
-        "awayTeam": "Cape Verde Islands",
-        "homeProbability": 0.8152,
-        "drawProbability": 0.1292,
-        "awayProbability": 0.0555,
-        "question": "Argentina vs Cape Verde Islands",
-        "url": "https://native-stats.org/competition/WC/",
-        "volume": null
-      },
-      {
-        "matchId": "537430",
-        "homeTeam": "Colombia",
-        "awayTeam": "Ghana",
-        "homeProbability": 0.5345,
-        "drawProbability": 0.2807,
-        "awayProbability": 0.1848,
-        "question": "Colombia vs Ghana",
+        "matchId": "537388",
+        "homeTeam": "England",
+        "awayTeam": "Argentina",
+        "homeProbability": 0.3615,
+        "drawProbability": 0.3224,
+        "awayProbability": 0.316,
+        "question": "England vs Argentina",
         "url": "https://native-stats.org/competition/WC/",
         "volume": null
       }
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-14T07:54:32.621Z",
-    "text": "Prediction: Bruno. Bruno leads 45 to 37, and in tie-breakers Bruno’s combined gd (16) and gf (41) outrun Sara’s (gd 10, gf 30)."
+    "updatedAt": "2026-07-15T03:01:26.172Z",
+    "text": "Prediction: Bruno. Bruno leads 45 vs Sara 37, and the tie-breaker edge favors Bruno on combined point-team GD (16 vs 10) and GF (41"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-14T07:54:20.904Z",
+    "updatedAt": "2026-07-15T03:01:20.293Z",
     "type": "football_data_scorers",
     "scorers": [
       {
@@ -1918,6 +1907,14 @@
       },
       {
         "rank": 7,
+        "player": "Mikel Oyarzabal",
+        "team": "Spain",
+        "goals": 5,
+        "assists": 1,
+        "penalties": 1
+      },
+      {
+        "rank": 8,
         "player": "Ismaïla Sarr",
         "team": "Senegal",
         "goals": 4,
@@ -1925,17 +1922,9 @@
         "penalties": null
       },
       {
-        "rank": 8,
+        "rank": 9,
         "player": "Julián Quiñones",
         "team": "Mexico",
-        "goals": 4,
-        "assists": 1,
-        "penalties": null
-      },
-      {
-        "rank": 9,
-        "player": "Mikel Oyarzabal",
-        "team": "Spain",
         "goals": 4,
         "assists": 1,
         "penalties": null
