@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-15T07:58:09.798Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers + Native Stats match odds",
+  "updatedAt": "2026-07-16T03:01:19.675Z",
+  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1781,9 +1781,9 @@
       "kickoff": "2026-07-15T19:00:00Z",
       "homeTeam": "England",
       "awayTeam": "Argentina",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 2,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1793,31 +1793,23 @@
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-15T07:58:08.826Z",
+    "updatedAt": "2026-07-16T03:01:17.952Z",
     "type": "prediction_market",
     "teams": [
       {
         "team": "Spain",
-        "decimal": 1.72,
-        "probability": 0.5815,
+        "decimal": 1.73,
+        "probability": 0.5795,
         "bookmaker": "Polymarket market probability",
         "rank": 1,
         "startingProbability": 0.182
       },
       {
-        "team": "England",
-        "decimal": 4.42,
-        "probability": 0.2265,
+        "team": "Argentina",
+        "decimal": 2.38,
+        "probability": 0.4205,
         "bookmaker": "Polymarket market probability",
         "rank": 2,
-        "startingProbability": 0.118
-      },
-      {
-        "team": "Argentina",
-        "decimal": 5.14,
-        "probability": 0.1945,
-        "bookmaker": "Polymarket market probability",
-        "rank": 3,
         "startingProbability": 0.1
       }
     ]
@@ -1846,24 +1838,24 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-15T07:58:09.343Z",
+    "updatedAt": "2026-07-16T03:01:19.228Z",
     "type": "football_data_scorers",
     "scorers": [
       {
         "rank": 1,
+        "player": "Lionel Messi",
+        "team": "Argentina",
+        "goals": 8,
+        "assists": 4,
+        "penalties": null
+      },
+      {
+        "rank": 2,
         "player": "Kylian Mbappé",
         "team": "France",
         "goals": 8,
         "assists": 2,
         "penalties": 1
-      },
-      {
-        "rank": 2,
-        "player": "Lionel Messi",
-        "team": "Argentina",
-        "goals": 8,
-        "assists": 2,
-        "penalties": null
       },
       {
         "rank": 3,
