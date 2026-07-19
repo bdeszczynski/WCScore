@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-19T03:01:12.747Z",
+  "updatedAt": "2026-07-19T08:08:12.197Z",
   "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
   "players": [
     {
@@ -1801,7 +1801,11 @@
       "status": "finished",
       "homeGoals": 4,
       "awayGoals": 6,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     },
     {
       "id": "537390",
@@ -1814,12 +1818,16 @@
       "status": "scheduled",
       "homeGoals": null,
       "awayGoals": null,
-      "winnerAfterPenalties": null
+      "winnerAfterPenalties": null,
+      "venue": null,
+      "venueCity": null,
+      "venueCountry": null,
+      "venueWikiUrl": null
     }
   ],
   "odds": {
     "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-19T03:01:10.574Z",
+    "updatedAt": "2026-07-19T08:08:07.284Z",
     "type": "prediction_market",
     "teams": [
       {
@@ -1859,12 +1867,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-15T03:01:26.172Z",
-    "text": "Prediction: Bruno. Bruno leads 45 vs Sara 37, and the tie-breaker edge favors Bruno on combined point-team GD (16 vs 10) and GF (41"
+    "updatedAt": "2026-07-19T08:08:16.808Z",
+    "text": "Prediction: Bruno. Bruno leads 45 vs Sara 37 total, with Bruno's combined team GD 16 vs Sara's 10; tiebreakers favor Bruno. Selected teams: Bruno’s Morocco/Japan/Norway/Mexico vs Sara’s Switzerland/Brazil/Egypt/South Korea. Winner-pick upside: Spain 0.5905 market probability in Sara’s track, while Bruno’s picks show strong semi/WC path. Comeback risk: Sara needs Spain’s semi-reach to lift her score; Bruno can clinch "
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-19T03:01:12.103Z",
+    "updatedAt": "2026-07-19T08:08:09.103Z",
     "type": "football_data_scorers",
     "scorers": [
       {
