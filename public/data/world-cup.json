@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-20T03:44:20.116Z",
+  "updatedAt": "2026-07-20T08:49:20.934Z",
   "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
@@ -1827,7 +1827,7 @@
   ],
   "odds": {
     "source": "The Sun World Cup winner odds article",
-    "updatedAt": "2026-07-20T03:44:19.163Z",
+    "updatedAt": "2026-07-20T08:49:18.988Z",
     "type": "bookmaker_article",
     "teams": [
       {
@@ -1888,7 +1888,7 @@
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-20T03:44:19.731Z",
+    "updatedAt": "2026-07-20T08:49:20.431Z",
     "type": "football_data_scorers",
     "scorers": [
       {
