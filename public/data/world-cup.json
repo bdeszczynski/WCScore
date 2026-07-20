@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-07-19T08:08:12.197Z",
-  "source": "football-data.org + Wikipedia venue metadata + Polymarket World Cup Winner market + football-data.org scorers",
+  "updatedAt": "2026-07-20T03:44:20.116Z",
+  "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
       "name": "Bruno",
@@ -1815,9 +1815,9 @@
       "kickoff": "2026-07-19T19:00:00Z",
       "homeTeam": "Spain",
       "awayTeam": "Argentina",
-      "status": "scheduled",
-      "homeGoals": null,
-      "awayGoals": null,
+      "status": "finished",
+      "homeGoals": 1,
+      "awayGoals": 0,
       "winnerAfterPenalties": null,
       "venue": null,
       "venueCity": null,
@@ -1826,24 +1826,40 @@
     }
   ],
   "odds": {
-    "source": "Polymarket World Cup Winner market",
-    "updatedAt": "2026-07-19T08:08:07.284Z",
-    "type": "prediction_market",
+    "source": "The Sun World Cup winner odds article",
+    "updatedAt": "2026-07-20T03:44:19.163Z",
+    "type": "bookmaker_article",
     "teams": [
       {
-        "team": "Spain",
-        "decimal": 1.69,
-        "probability": 0.5905,
-        "bookmaker": "Polymarket market probability",
+        "team": "France",
+        "decimal": 3.75,
+        "probability": 0.2667,
+        "bookmaker": "The Sun public odds article",
         "rank": 1,
+        "startingProbability": 0.174
+      },
+      {
+        "team": "Spain",
+        "decimal": 4.4,
+        "probability": 0.2273,
+        "bookmaker": "The Sun public odds article",
+        "rank": 2,
         "startingProbability": 0.182
       },
       {
+        "team": "England",
+        "decimal": 4.5,
+        "probability": 0.2222,
+        "bookmaker": "The Sun public odds article",
+        "rank": 3,
+        "startingProbability": 0.118
+      },
+      {
         "team": "Argentina",
-        "decimal": 2.44,
-        "probability": 0.4095,
-        "bookmaker": "Polymarket market probability",
-        "rank": 2,
+        "decimal": 5,
+        "probability": 0.2,
+        "bookmaker": "The Sun public odds article",
+        "rank": 4,
         "startingProbability": 0.1
       }
     ]
@@ -1867,12 +1883,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-19T08:08:16.808Z",
-    "text": "Prediction: Bruno. Bruno leads 45 vs Sara 37 total, with Bruno's combined team GD 16 vs Sara's 10; tiebreakers favor Bruno. Selected teams: Bruno’s Morocco/Japan/Norway/Mexico vs Sara’s Switzerland/Brazil/Egypt/South Korea. Winner-pick upside: Spain 0.5905 market probability in Sara’s track, while Bruno’s picks show strong semi/WC path. Comeback risk: Sara needs Spain’s semi-reach to lift her score; Bruno can clinch "
+    "updatedAt": "2026-07-20T03:44:24.987Z",
+    "text": "Prediction: Bruno. Bruno leads 45 total vs Sara 44, with Bruno’s tie-break edge on combined GD (16 vs 10) and GF (41 vs 30). Bruno’s point-teams include Morocco, Mexico and Norway; Sara’s include Switzerland, Brazil and Egypt. Winner-pick upside favors Bruno’s France (market probability 0.2667) over Sara’s Spain (0.2273). Comeback path: Sara must push Spain deep and convert the Spain win into a semi-run to flip the b"
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-19T08:08:09.103Z",
+    "updatedAt": "2026-07-20T03:44:19.731Z",
     "type": "football_data_scorers",
     "scorers": [
       {
