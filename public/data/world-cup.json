@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-21T03:01:07.674Z",
+  "updatedAt": "2026-07-21T08:17:11.433Z",
   "source": "football-data.org + Wikipedia venue metadata + The Sun World Cup winner odds article + football-data.org scorers",
   "players": [
     {
@@ -1827,7 +1827,7 @@
   ],
   "odds": {
     "source": "The Sun World Cup winner odds article",
-    "updatedAt": "2026-07-21T03:01:06.574Z",
+    "updatedAt": "2026-07-21T08:17:09.200Z",
     "type": "bookmaker_article",
     "teams": [
       {
@@ -1883,12 +1883,12 @@
     ]
   },
   "commentary": {
-    "updatedAt": "2026-07-21T03:01:12.753Z",
-    "text": "Prediction: Bruno. Bruno leads 45 to 44 total, with a bigger combined goal-difference (Bruno +16 vs Sara +10) and higher goals-for (Bruno 41 vs Sara 30). Bruno’s top point teams Morocco/Mexico/Norway (and Norway's 13 points) edge Sara’s Switzerland/Brazil as tiebreak fuel, while Bruno’s winner-pick France carries 0.2667 market probability and Sara’s Spain 0.2273. Risk: a late surge from Sara’s Spain-Spain-like pressu"
+    "updatedAt": "2026-07-21T08:17:15.900Z",
+    "text": "Prediction: Bruno. Bruno leads 45 vs 44 total, but tie-breakers favor Bruno on combined points-team GD (16 vs 10) and GF (41 vs 30). Bruno’s best point-teams include Morocco (13), Norway (12), Mexico (12); Sara’s top are Switzerland (13) and Brazil (10). Bruno’s winner-picks France (0.2667 market) and Portugal; Sara’s Spain (0.2273) and Netherlands. Upside: Spain Cup win would boost Sara via winner-pick bonus. Risk: "
   },
   "topScorers": {
     "source": "football-data.org scorers",
-    "updatedAt": "2026-07-21T03:01:07.175Z",
+    "updatedAt": "2026-07-21T08:17:10.858Z",
     "type": "football_data_scorers",
     "scorers": [
       {
