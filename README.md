@@ -7,7 +7,7 @@ Static score tracker for Bruno vs Sara. It uses no database and no authenticatio
 - `manifest.webmanifest`, `sw.js`, and `public/icons/` make it installable as a PWA.
 - `public/data/world-cup.json` is the generated runtime data file.
 - `public/data/manual-results.json` is a ready-made match list for manual result overrides, applied after API refreshes only when `manualOverride` is `true`.
-- `.github/workflows/update-world-cup-data.yml` refreshes that JSON from GitHub's native schedule at 10:00 Dubai time, or on manual/external dispatch, then deploys GitHub Pages.
+- `.github/workflows/update-world-cup-data.yml` refreshed that JSON from GitHub's native schedule at 10:00 Dubai time, or on manual/external dispatch, then deployed GitHub Pages.
 - `.github/workflows/deploy-pages.yml` can republish the current repo to GitHub Pages without refreshing data.
 - Optional LLM feature: VAR-bot writes a short standings recap and Bruno vs Sara prediction during data refresh when `OPENAI_API_KEY` is configured.
 
@@ -51,9 +51,24 @@ Balance update: in the running app, Sara keeps Brazil as a points team and Spain
 
 Runtime dashboard data lives in `public/data/world-cup.json`. Manual result corrections live separately in `public/data/manual-results.json` and are folded into `world-cup.json` by the updater. The site is static, so visitors only read local JSON files; no browser-side API tokens, database, or server are involved.
 
-The scheduled updater runs in GitHub Actions from the native GitHub schedule at 10:00 Dubai time. It also runs when triggered manually or by an external cron service. It writes a refreshed `world-cup.json`, validates it, auto-commits the file when anything changed, and deploys the static site to GitHub Pages.
+The scheduled updater used to run in GitHub Actions from the native GitHub schedule at 10:00 Dubai time. It also ran when triggered manually or by an external cron service. It wrote a refreshed `world-cup.json`, validated it, auto-committed the file when anything changed, and deployed the static site to GitHub Pages.
 
-GitHub's native `schedule` trigger is best-effort and can be delayed or dropped under load. For a more reliable daily trigger, an external cron service calls the same GitHub Actions workflow through GitHub's workflow-dispatch API. The external cron handles the timing, while GitHub Actions still performs the data refresh, validation, commit, and Pages deployment. GitHub's native 10:00 Dubai schedule remains as a later fallback.
+GitHub's native `schedule` trigger is best-effort and can be delayed or dropped under load. For a more reliable daily trigger, an external cron service called the same GitHub Actions workflow through the workflow-dispatch API. The external cron handled the timing, while GitHub Actions still performed the data refresh, validation, commit, and Pages deployment. GitHub's native 10:00 Dubai schedule remained as a later fallback.
+
+Historical note:
+
+- External scheduler used: `cron-job.org`
+- Purpose: trigger `.github/workflows/update-world-cup-data.yml` through GitHub's workflow-dispatch API when the tournament was active
+- Shutdown requirement: disable the `cron-job.org` job and remove or disable `.github/workflows/update-world-cup-data.yml`
+- Current status after the 2026 tournament: the external `cron-job.org` trigger was disabled on July 21, 2026, and the updater workflow is intended to be removed from `master`
+
+End-of-tournament shutdown checklist:
+
+- Disable the external scheduler job in `cron-job.org`
+- Remove or disable `.github/workflows/update-world-cup-data.yml`
+- Confirm no GitHub `schedule` trigger remains on the default branch
+- Keep `.github/workflows/deploy-pages.yml` only if manual republishing is still wanted
+- Update this README so the shutdown state is explicit
 
 Match schedule and results:
 
@@ -61,7 +76,7 @@ Match schedule and results:
 - Usage: fixture IDs, teams, kickoff times, match status, scores, groups, and match numbers.
 - Fallback: public Wikipedia fixture tables if the football-data token is unavailable locally.
 - Manual corrections: `public/data/manual-results.json` mirrors the match list. API results win by default; a match row overrides API data only when `manualOverride` is `true`.
-- The app is not live-second scoring. Results update only after the source updates, the scheduled workflow runs, and Pages deploys.
+- The app was not live-second scoring. Results updated only after the source updated, the scheduled workflow ran, and Pages deployed.
 
 Venue metadata:
 
